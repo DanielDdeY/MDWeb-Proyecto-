@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>LMLL - Productos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <!-- ENCABEZADO -->
+    <header class="site-header">
+        <div class="logo">
+            <a href="index.html" class="brand">La Moda te LLama</a>
+        </div>
+
+        <nav class="site-nav" aria-label="Navegación principal">
+            <a href="index.html">Inicio</a>
+            <a href="carrito.html">Carrito</a>
+        </nav>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="container">
+        <section>
+            <h2 style="text-align: center; color: var(--neon-green); margin-bottom: 10px;">Catálogo de Temporada</h2>
+            <p style="text-align: center; color: #ccc; margin-bottom: 40px;">Descubre las últimas tendencias para renovar tu outfit</p>
+
+            <div class="products-grid">
+                <article class="card">
+                    <img src="assets/images/producto_1.png" alt="CASACA BOMBER PREMIUM">
+                    <h4>CASACA BOMBER PREMIUM</h4>
+                    <div class="price-tag">S/ 249.90</div>
+                    <div class="stock-badge in-stock">STOCK: 5 UNIDADES</div>
+                    <p><strong>MATERIAL:</strong> Cuero sintético y Algodón</p>
+                    <p><strong>CORTE:</strong> Oversize / Unisex</p>
+                    <p><strong>TALLAS:</strong> S, M, L, XL</p>
+                    <button class="btn-comprar" data-name="CASACA BOMBER PREMIUM" data-price="249.90"
+                        data-image="assets/images/producto_1.png">
+                        COMPRAR AHORA
+                    </button>
+                </article>
+
+                <article class="card">
+                    <img src="assets/images/producto_2.png" alt="POLERA ESSENTIAL HOODIE">
+                    <h4>POLERA ESSENTIAL HOODIE</h4>
+                    <div class="price-tag">S/ 129.90</div>
+                    <div class="stock-badge in-stock">STOCK: 12 UNIDADES</div>
+                    <p><strong>MATERIAL:</strong> Algodón Reactivo 100%</p>
+                    <p><strong>ESTILO:</strong> Minimalista Urbano</p>
+                    <p><strong>COLOR:</strong> Negro Mate / Gris Perla</p>
+                    <button class="btn-comprar" data-name="POLERA ESSENTIAL HOODIE" data-price="129.90"
+                        data-image="assets/images/producto_2.png">
+                        COMPRAR AHORA
+                    </button>
+                </article>
+
+                <article class="card">
+                    <img src="assets/images/producto_3.png" alt="PANTALÓN CARGO STREET">
+                    <h4>PANTALÓN CARGO STREET</h4>
+                    <div class="price-tag">S/ 159.90</div>
+                    <div class="stock-badge in-stock">STOCK: 8 UNIDADES</div>
+                    <p><strong>TIPO:</strong> Cargo con 6 bolsillos</p>
+                    <p><strong>TELA:</strong> Dril pesado resistente</p>
+                    <p><strong>AJUSTE:</strong> Jogger con elástico</p>
+                    <button class="btn-comprar" data-name="PANTALÓN CARGO STREET" data-price="159.90"
+                        data-image="assets/images/producto_3.png">
+                        COMPRAR AHORA
+                    </button>
+                </article>
+
+                <article class="card">
+                    <img src="assets/images/producto_4.png" alt="ZAPATILLAS URBAN PRO">
+                    <h4>ZAPATILLAS URBAN PRO</h4>
+                    <div class="price-tag">S/ 289.90</div>
+                    <div class="stock-badge in-stock">STOCK: 4 UNIDADES</div>
+                    <p><strong>SUELA:</strong> Caucho antideslizante</p>
+                    <p><strong>INTERIOR:</strong> Acolchado ergonómico</p>
+                    <button class="btn-comprar" data-name="ZAPATILLAS URBAN PRO" data-price="289.90"
+                        data-image="assets/images/producto_4.png">
+                        COMPRAR AHORA
+                    </button>
+                </article>
+
+                <article class="card">
+                    <img src="assets/images/producto_5.png" alt="CAMISA LINO SLIM FIT">
+                    <h4>CAMISA LINO SLIM FIT</h4>
+                    <div class="price-tag">S/ 110.00</div>
+                    <div class="stock-badge in-stock">STOCK: 10 UNIDADES</div>
+                    <p><strong>TIPO:</strong> Casual / Formal</p>
+                    <p><strong>TEXTURA:</strong> Lino transpirable</p>
+                    <button class="btn-comprar" data-name="CAMISA LINO SLIM FIT" data-price="110.00"
+                        data-image="assets/images/producto_5.png">
+                        COMPRAR AHORA
+                    </button>
+                </article>
+
+                <article class="card">
+                    <img src="assets/images/producto_6.png" alt="PACK X3 POLOS BÁSICOS">
+                    <h4>PACK X3 POLOS BÁSICOS</h4>
+                    <div class="price-tag">S/ 85.00</div>
+                    <div class="stock-badge in-stock">STOCK: 20 UNIDADES</div>
+                    <p><strong>CANTIDAD:</strong> 3 unidades por pack</p>
+                    <p><strong>CUELLO:</strong> Redondo reforzado</p>
+                    <button class="btn-comprar" data-name="PACK X3 POLOS BÁSICOS" data-price="85.00"
+                        data-image="assets/images/producto_6.png">
+                        COMPRAR AHORA
+                    </button>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- Carrito lateral-->
+    <div id="carrito-panel"
+        style="position:fixed; top:0; right:-320px; width:320px; height:100vh; background:#ffffff; border-left:1px solid #ccc; box-shadow:-2px 0 8px rgba(0,0,0,0.15); padding:12px; display:flex; flex-direction:column; z-index:2000; transition:right 0.3s ease;">
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <h3 style="margin:0; font-size:1.1rem;">Carrito</h3>
+            <button id="cerrar-carrito"
+                style="border:1px solid #ccc; background:#f5f5f5; padding:2px 6px; cursor:pointer;">X</button>
+        </div>
+
+        <div id="carrito-items" style="flex:1; overflow-y:auto; font-size:0.9rem;">
+            <!-- Aquí se agregarán los productos con JS -->
+        </div>
+
+        <div style="border-top:1px solid #ddd; padding-top:8px; margin-top:8px; font-size:0.95rem;">
+            <p style="margin:4px 0;">Total: S/ <span id="carrito-total">0.00</span></p>
+            <button id="carrito-ver"
+                style="width:100%; padding:8px; margin-top:6px; border:1px solid #ccc; background:#f5f5f5; cursor:pointer;">
+                Ir a Carrito
+            </button>
+        </div>
+    </div>
+
+    <!-- Botón flotante para abrir el carrito -->
+    <button id="carrito-toggle" style="position:fixed; bottom:20px; right:20px; width:50px; height:50px; border-radius:50%; 
+        border:1px solid #ccc; background:#ffffff; box-shadow:0 2px 8px rgba(0,0,0,0.2); 
+        cursor:pointer; z-index:2100;">
+    </button>
+
+
+    <!-- PIE DE PAGINA -->
+    <footer class="footer">
+        <p>&copy; 2025 LMLL. Todos los derechos reservados.</p>
+        <p class="socials">
+            <a href="#">www.lmll.com.pe</a> &nbsp;|&nbsp;
+            <a href="#">@LmLL_</a> &nbsp;|&nbsp;
+        </p>
+    </footer>
+    <script src="/src/main/resources/static/js/script.js"></script>
+</body>
+
+</html>
