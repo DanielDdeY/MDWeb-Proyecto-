@@ -1,148 +1,238 @@
 <!doctype html>
 <html lang="es">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>LMLL - Productos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-</head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LMLL — La Moda te LLama</title>
+  <meta name="description" content="Colecciones de moda peruana. Prendas premium, cortes limpios y estilo auténtico.">
 
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <!-- Estilos propios -->
+  <link rel="stylesheet" href="/src/main/resources/static/css/styles.css">
+</head>
 <body>
 
-    <!-- ENCABEZADO -->
-    <header class="site-header">
-        <div class="logo">
-            <a href="index.html" class="brand">La Moda te LLama</a>
-        </div>
+<!-- ══════════════════════════════════════
+     NAVBAR — Bootstrap responsive
+══════════════════════════════════════ -->
+<header class="site-header">
+  <nav class="navbar navbar-expand-md w-100 px-3 py-2" aria-label="Navegación principal">
 
-        <nav class="site-nav" aria-label="Navegación principal">
-            <a href="index.html">Inicio</a>
-            <a href="carrito.html">Carrito</a>
-        </nav>
-    </header>
+    <!-- Marca -->
+    <a class="navbar-brand" href="index.html" aria-label="LMLL Inicio">
+      La Moda te LLama
+    </a>
 
-    <!-- CONTENIDO PRINCIPAL -->
-    <main class="container">
-        <section>
-            <h2 style="text-align: center; color: var(--neon-green); margin-bottom: 10px;">Catálogo de Temporada</h2>
-            <p style="text-align: center; color: #ccc; margin-bottom: 40px;">Descubre las últimas tendencias para renovar tu outfit</p>
-
-            <div class="products-grid">
-                <article class="card">
-                    <img src="assets/images/producto_1.png" alt="CASACA BOMBER PREMIUM">
-                    <h4>CASACA BOMBER PREMIUM</h4>
-                    <div class="price-tag">S/ 249.90</div>
-                    <div class="stock-badge in-stock">STOCK: 5 UNIDADES</div>
-                    <p><strong>MATERIAL:</strong> Cuero sintético y Algodón</p>
-                    <p><strong>CORTE:</strong> Oversize / Unisex</p>
-                    <p><strong>TALLAS:</strong> S, M, L, XL</p>
-                    <button class="btn-comprar" data-name="CASACA BOMBER PREMIUM" data-price="249.90"
-                        data-image="assets/images/producto_1.png">
-                        COMPRAR AHORA
-                    </button>
-                </article>
-
-                <article class="card">
-                    <img src="assets/images/producto_2.png" alt="POLERA ESSENTIAL HOODIE">
-                    <h4>POLERA ESSENTIAL HOODIE</h4>
-                    <div class="price-tag">S/ 129.90</div>
-                    <div class="stock-badge in-stock">STOCK: 12 UNIDADES</div>
-                    <p><strong>MATERIAL:</strong> Algodón Reactivo 100%</p>
-                    <p><strong>ESTILO:</strong> Minimalista Urbano</p>
-                    <p><strong>COLOR:</strong> Negro Mate / Gris Perla</p>
-                    <button class="btn-comprar" data-name="POLERA ESSENTIAL HOODIE" data-price="129.90"
-                        data-image="assets/images/producto_2.png">
-                        COMPRAR AHORA
-                    </button>
-                </article>
-
-                <article class="card">
-                    <img src="assets/images/producto_3.png" alt="PANTALÓN CARGO STREET">
-                    <h4>PANTALÓN CARGO STREET</h4>
-                    <div class="price-tag">S/ 159.90</div>
-                    <div class="stock-badge in-stock">STOCK: 8 UNIDADES</div>
-                    <p><strong>TIPO:</strong> Cargo con 6 bolsillos</p>
-                    <p><strong>TELA:</strong> Dril pesado resistente</p>
-                    <p><strong>AJUSTE:</strong> Jogger con elástico</p>
-                    <button class="btn-comprar" data-name="PANTALÓN CARGO STREET" data-price="159.90"
-                        data-image="assets/images/producto_3.png">
-                        COMPRAR AHORA
-                    </button>
-                </article>
-
-                <article class="card">
-                    <img src="assets/images/producto_4.png" alt="ZAPATILLAS URBAN PRO">
-                    <h4>ZAPATILLAS URBAN PRO</h4>
-                    <div class="price-tag">S/ 289.90</div>
-                    <div class="stock-badge in-stock">STOCK: 4 UNIDADES</div>
-                    <p><strong>SUELA:</strong> Caucho antideslizante</p>
-                    <p><strong>INTERIOR:</strong> Acolchado ergonómico</p>
-                    <button class="btn-comprar" data-name="ZAPATILLAS URBAN PRO" data-price="289.90"
-                        data-image="assets/images/producto_4.png">
-                        COMPRAR AHORA
-                    </button>
-                </article>
-
-                <article class="card">
-                    <img src="assets/images/producto_5.png" alt="CAMISA LINO SLIM FIT">
-                    <h4>CAMISA LINO SLIM FIT</h4>
-                    <div class="price-tag">S/ 110.00</div>
-                    <div class="stock-badge in-stock">STOCK: 10 UNIDADES</div>
-                    <p><strong>TIPO:</strong> Casual / Formal</p>
-                    <p><strong>TEXTURA:</strong> Lino transpirable</p>
-                    <button class="btn-comprar" data-name="CAMISA LINO SLIM FIT" data-price="110.00"
-                        data-image="assets/images/producto_5.png">
-                        COMPRAR AHORA
-                    </button>
-                </article>
-
-                <article class="card">
-                    <img src="assets/images/producto_6.png" alt="PACK X3 POLOS BÁSICOS">
-                    <h4>PACK X3 POLOS BÁSICOS</h4>
-                    <div class="price-tag">S/ 85.00</div>
-                    <div class="stock-badge in-stock">STOCK: 20 UNIDADES</div>
-                    <p><strong>CANTIDAD:</strong> 3 unidades por pack</p>
-                    <p><strong>CUELLO:</strong> Redondo reforzado</p>
-                    <button class="btn-comprar" data-name="PACK X3 POLOS BÁSICOS" data-price="85.00"
-                        data-image="assets/images/producto_6.png">
-                        COMPRAR AHORA
-                    </button>
-                </article>
-            </div>
-        </section>
-    </main>
-
-    <!-- Carrito lateral-->
-    <div id="carrito-panel"
-        style="position:fixed; top:0; right:-320px; width:320px; height:100vh; background:#ffffff; border-left:1px solid #ccc; box-shadow:-2px 0 8px rgba(0,0,0,0.15); padding:12px; display:flex; flex-direction:column; z-index:2000; transition:right 0.3s ease;">
-
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <h3 style="margin:0; font-size:1.1rem;">Carrito</h3>
-            <button id="cerrar-carrito"
-                style="border:1px solid #ccc; background:#f5f5f5; padding:2px 6px; cursor:pointer;">X</button>
-        </div>
-
-        <div id="carrito-items" style="flex:1; overflow-y:auto; font-size:0.9rem;">
-            <!-- Aquí se agregarán los productos con JS -->
-        </div>
-
-        <div style="border-top:1px solid #ddd; padding-top:8px; margin-top:8px; font-size:0.95rem;">
-            <p style="margin:4px 0;">Total: S/ <span id="carrito-total">0.00</span></p>
-            <button id="carrito-ver"
-                style="width:100%; padding:8px; margin-top:6px; border:1px solid #ccc; background:#f5f5f5; cursor:pointer;">
-                Ir a Carrito
-            </button>
-        </div>
-    </div>
-
-    <!-- Botón flotante para abrir el carrito -->
-    <button id="carrito-toggle" style="position:fixed; bottom:20px; right:20px; width:50px; height:50px; border-radius:50%; 
-        border:1px solid #ccc; background:#ffffff; box-shadow:0 2px 8px rgba(0,0,0,0.2); 
-        cursor:pointer; z-index:2100;">
+    <!-- Botón hamburguesa (mobile) -->
+    <button class="navbar-toggler ms-auto me-2" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navMenu"
+            aria-controls="navMenu" aria-expanded="false" aria-label="Abrir menú">
+      <span class="navbar-toggler-icon"></span>
     </button>
 
+    <!-- Links + acciones -->
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="site-nav navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link active" href="index.html">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
+        <li class="nav-item"><a class="nav-link" href="carrito.html">Carrito</a></li>
+      </ul>
+
+      <!-- Botón carrito -->
+      <div class="d-flex align-items-center mt-2 mt-md-0">
+        <button id="carrito-toggle" class="cart-btn" aria-label="Abrir carrito lateral">
+          <i class="bi bi-bag" style="font-size:.95rem;"></i>
+          <span>Bolsa</span>
+          <span class="cart-badge" id="cart-count" style="display:none;">0</span>
+        </button>
+      </div>
+    </div>
+
+  </nav>
+</header>
+
+<main class="py-5">
+  <div class="container">
+    
+    <div class="d-flex justify-content-between align-items-end mb-4 anim-1">
+      <div>
+        <h1 class="display-font glow-text-subtle" style="font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 600;">
+          Nuestra <em style="color:var(--brand);">Colección</em>
+        </h1>
+        <p class="text-muted-1 mb-0" style="font-size: .9rem;">Mostrando 6 productos exclusivos</p>
+      </div>
+      <div class="d-none d-md-block">
+        <select class="form-select form-input-lmll" style="width: 200px; padding-top: .5rem; padding-bottom: .5rem;">
+          <option value="recientes">Más recientes</option>
+          <option value="precio-asc">Precio: Menor a Mayor</option>
+          <option value="precio-desc">Precio: Mayor a Menor</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      
+      <aside class="col-lg-3 anim-2">
+        <div class="card-lmll sticky-filters">
+          <h2 class="sidebar-title mb-3">Categorías</h2>
+          <ul class="lista-filtros mb-4">
+            <li><a href="#" class="active">Todos los productos</a></li>
+            <li><a href="#">Poleras & Hoodies</a></li>
+            <li><a href="#">Abrigos & Casacas</a></li>
+            <li><a href="#">Pantalones</a></li>
+            <li><a href="#">Accesorios</a></li>
+          </ul>
+
+          <h2 class="sidebar-title mb-3">Tallas</h2>
+          <div class="d-flex flex-wrap gap-2 mb-4">
+            <button class="btn-talla">S</button>
+            <button class="btn-talla active">M</button>
+            <button class="btn-talla">L</button>
+            <button class="btn-talla">XL</button>
+          </div>
+        </div>
+      </aside>
+
+      <div class="col-lg-9 anim-3">
+        <div class="row g-4">
+
+          <div class="col-md-6 col-xl-4">
+            <div class="product-card-lmll">
+              <div class="product-img-wrap">
+                <span class="pill-tag pill-nuevo position-absolute top-0 start-0 m-3 z-2">Nuevo</span>
+                <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&q=80&w=600" alt="Polera Selección con Bordado Premium">
+                <div class="product-overlay">
+                  <button class="btn-lmll btn-primary-lmll btn-glow w-100 justify-content-center">Añadir a bolsa <i class="bi bi-bag-plus"></i></button>
+                </div>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">Polera Selección con Bordado Premium</h3>
+                <p class="product-price">S/ 189.00</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-xl-4">
+            <div class="product-card-lmll">
+              <div class="product-img-wrap">
+                <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&q=80&w=600" alt="Abrigo Los Andes">
+                <div class="product-overlay">
+                  <button class="btn-lmll btn-primary-lmll btn-glow w-100 justify-content-center">Añadir a bolsa <i class="bi bi-bag-plus"></i></button>
+                </div>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">Abrigo "Los Andes"</h3>
+                <p class="product-price">S/ 259.00</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-xl-4">
+            <div class="product-card-lmll">
+              <div class="product-img-wrap">
+                <span class="pill-tag pill-limitado position-absolute top-0 start-0 m-3 z-2">Agotándose</span>
+                <img src="https://thumbs.dreamstime.com/b/sudadera-negra-con-capucha-vista-plana-rodeada-de-rocas-oscuras-presentaci%C3%B3n-ropa-408719254.jpg" alt="Sudadera Essential">
+                <div class="product-overlay">
+                  <button class="btn-lmll btn-primary-lmll btn-glow w-100 justify-content-center">Añadir a bolsa <i class="bi bi-bag-plus"></i></button>
+                </div>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">Sudadera Essential Oscura</h3>
+                <p class="product-price">S/ 160.00 <span class="text-muted-1 text-decoration-line-through ms-2" style="font-size:.75rem;">S/ 190.00</span></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-xl-4">
+            <div class="product-card-lmll">
+              <div class="product-img-wrap">
+                <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&q=80&w=600" alt="Pantalón Cargo">
+                <div class="product-overlay">
+                  <button class="btn-lmll btn-primary-lmll btn-glow w-100 justify-content-center">Añadir a bolsa <i class="bi bi-bag-plus"></i></button>
+                </div>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">Pantalón Cargo Urbano</h3>
+                <p class="product-price">S/ 145.00</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-xl-4">
+            <div class="product-card-lmll">
+              <div class="product-img-wrap">
+                <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&q=80&w=600" alt="Camiseta Básica">
+                <div class="product-overlay">
+                  <button class="btn-lmll btn-primary-lmll btn-glow w-100 justify-content-center">Añadir a bolsa <i class="bi bi-bag-plus"></i></button>
+                </div>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">Camiseta Corte Limpio</h3>
+                <p class="product-price">S/ 79.00</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-xl-4">
+            <div class="product-card-lmll">
+              <div class="product-img-wrap">
+                <img src="https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?auto=format&fit=crop&q=80&w=600" alt="Casaca Cortavientos">
+                <div class="product-overlay">
+                  <button class="btn-lmll btn-primary-lmll btn-glow w-100 justify-content-center">Añadir a bolsa <i class="bi bi-bag-plus"></i></button>
+                </div>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">Casaca Cortavientos Reflex</h3>
+                <p class="product-price">S/ 210.00</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+<!-- ══════════════════════════════════════
+     CARRITO LATERAL
+══════════════════════════════════════ -->
+<div class="carrito-overlay" id="carrito-overlay" aria-hidden="true"></div>
+
+<aside id="carrito-panel" class="carrito-panel" aria-label="Carrito de compras" role="complementary">
+  <div class="carrito-header">
+    <h4><i class="bi bi-bag me-2"></i>Tu bolsa</h4>
+    <button id="cerrar-carrito" class="close-btn" aria-label="Cerrar carrito">
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
+
+  <div class="carrito-items" id="carrito-items">
+    <p style="font-size:.82rem; color:var(--txt-3); text-align:center; padding:1.5rem 0;">
+      Tu bolsa está vacía.<br>¡Añade algo especial!
+    </p>
+  </div>
+
+  <div class="carrito-footer">
+    <div class="total-line">
+      <span>Total</span>
+      <strong>S/ <span id="carrito-total">0.00</span></strong>
+    </div>
+    <a href="carrito.html" class="btn-lmll btn-primary-lmll w-100 justify-content-center">
+      Ver carrito completo &nbsp;<i class="bi bi-arrow-right"></i>
+    </a>
+  </div>
+</aside>
 
     <!-- PIE DE PAGINA -->
     <footer class="footer">
