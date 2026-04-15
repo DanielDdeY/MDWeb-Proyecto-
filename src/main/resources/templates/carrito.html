@@ -30,7 +30,7 @@
 
         <!-- Marca -->
         <a class="navbar-brand" href="index.html" aria-label="LMLL Inicio">
-        La Moda te LLama
+        <img src="/src/main/resources/static/img/logo.png" alt="La Moda te LLama" style="height: 63px; width: auto;">
         </a>
 
         <!-- Botón hamburguesa (mobile) -->
@@ -43,20 +43,22 @@
         <!-- Links + acciones -->
         <div class="collapse navbar-collapse" id="navMenu">
         <ul class="site-nav navbar-nav mx-auto gap-1">
-            <li class="nav-item"><a class="nav-link active" href="index.html">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
             <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
-            <li class="nav-item"><a class="nav-link" href="carrito.html">Carrito</a></li>
+            <li class="nav-item"><a class="nav-link active" href="carrito.html">Carrito</a></li>
         </ul>
 
+    <!-- ══════════════════════════════════════
+        aqui modificar el boton del carrito debe estar desactivado, lo intente arreglar pero igual interactua con el mouse 
+    ══════════════════════════════════════ -->
+
         <!-- Botón carrito -->
-        <div class="d-flex align-items-center mt-2 mt-md-0">
-            <button id="carrito-toggle" class="cart-btn" aria-label="Abrir carrito lateral">
+        <button id="carrito-toggle" class="cart-btn btn-static-1" aria-label="Abrir carrito lateral">
             <i class="bi bi-bag" style="font-size:.95rem;"></i>
             <span>Bolsa</span>
             <span class="cart-badge" id="cart-count" style="display:none;">0</span>
-            </button>
-        </div>
-        </div>
+        </button>
+
 
     </nav>
     </header>

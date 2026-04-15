@@ -1,34 +1,45 @@
 /* ============================================================
    LMLL — La Moda te LLama
-   Design System · v2.0
-   Tema: Luxury Editorial Oscuro · Acento Esmeralda-Oro
+   Design System · v3.0
+   Tema: Luxury Oscuro rojo · Oro · Crema
    ============================================================ */
 
 /* ── 1. VARIABLES ──────────────────────────────────────────── */
 :root {
-  /* Paleta principal */
-  --bg:          #0a0b0d;
-  --bg-2:        #0f1014;
-  --panel:       #14151a;
-  --panel-2:     #1a1b21;
-  --panel-hover: #1e1f26;
+  /* Fondos (oscuro cálido, matiz rojo-tierra) */
+  --bg:          #0d0909;
+  --bg-2:        #110c0c;
+  --panel:       #1a1010;
+  --panel-2:     #201414;
+  --panel-hover: #261818;
 
   /* Texto */
-  --txt:         #e8e6e0;
-  --txt-2:       #9a9891;
-  --txt-3:       #5a5955;
+  --txt:         #F5EDD8;
+  --txt-2:       #b8a98a;
+  --txt-3:       #6b5a48;
 
-  /* Marca / acentos */
-  --brand:       #a8ffd8;          
-  --accent:      #a8ffd8;
-  --accent-2:    #d4c87a;
-  --accent-rgb:  168, 255, 216;
+  /* Marca — Rojo Perú */
+  --brand:       #C8102E;
+  --brand-light: #e8213f;
+  --brand-rgb:   200, 16, 46;
 
-  /* Bordes y sombras */
-  --border:      rgba(255, 255, 255, 0.07);
-  --border-2:    rgba(255,255,255,.12);
+  /* Acento 1 — Crema/Blanco */
+  --accent:      #F5EDD8;
+  --accent-rgb:  245, 237, 216;
+
+  /* Acento 2 — Oro Inca */
+  --accent-2:    #D4AF37;
+  --accent-2-rgb: 212, 175, 55;
+
+  /* Bordes */
+  --border:      rgba(200,16,46,.12);
+  --border-2:    rgba(200,16,46,.22);
+  --border-neu:  rgba(245,237,216,.07);
+
+  /* Sombras */
   --shadow:      0 4px 24px rgba(0,0,0,.55);
-  --shadow-lg:   0 12px 40px rgba(0,0,0,.7);
+  --shadow-lg:   0 12px 40px rgba(0,0,0,.72);
+  --shadow-red:  0 8px 28px rgba(200,16,46,.22);
 
   /* Forma */
   --radius:      14px;
@@ -39,6 +50,7 @@
   --ease:        cubic-bezier(.25,.46,.45,.94);
   --dur:         .22s;
 }
+
 
 /* ── 2. RESET & BASE ───────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -151,6 +163,13 @@ a   { color: inherit; text-decoration: none; }
   background: rgba(var(--accent-rgb),.1);
   border-color: var(--brand);
   color: var(--brand) !important;
+}
+.btn-static-1:hover {
+    background: transparent !important;
+    color: inherit !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    transform: none !important;
 }
 .cart-badge {
   position: absolute;
