@@ -223,8 +223,6 @@ a   { color: inherit; text-decoration: none; }
   border-radius: var(--radius);
 }
 .banner-image.active { opacity: 1; }
-
-
 /* Contenido sobre el banner */
 .hero-body {
   position: relative;
@@ -248,13 +246,6 @@ a   { color: inherit; text-decoration: none; }
   font-style: italic;
   color: var(--brand);
 }
-.hero-sub {
-  font-size: .9rem;
-  color: rgba(255,255,255,.72);
-  max-width: 380px;
-  margin-bottom: 1.4rem;
-}
-
 /* Indicadores de slides */
 .banner-dots {
   position: absolute;
@@ -262,19 +253,6 @@ a   { color: inherit; text-decoration: none; }
   z-index: 3;
   display: flex; gap: 6px;
 }
-.banner-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: rgba(255,255,255,.3);
-  transition: background .3s, transform .3s;
-  cursor: pointer;
-  border: none;
-}
-.banner-dot.active {
-  background: var(--brand);
-  transform: scale(1.4);
-}
-
 /* ── 7. CARDS GENERALES ────────────────────────────────────── */
 .card-lmll {
   background: linear-gradient(160deg, var(--panel) 0%, var(--panel-2) 100%);
