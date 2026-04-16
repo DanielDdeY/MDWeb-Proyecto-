@@ -1,323 +1,88 @@
-// Carga incial del documento
 document.addEventListener("DOMContentLoaded", () => {
-
-    /* POPUP PROMO */
-
-const popupmodal = document.getElementById("promo-modal");
-    const closeModal = document.getElementById("close-modal");
-
-    // Mostrar el modal
+    /* --- POPUP PROMO --- */
+    const popupmodal = document.getElementById("promo-modal");
     if (popupmodal) {
-        setTimeout(() => {
-            popupmodal.style.display = "flex";
-        }, 1000);
+        setTimeout(() => { popupmodal.style.display = "flex"; }, 1000);
+        document.getElementById("close-modal")?.addEventListener("click", () => popupmodal.style.display = "none");
     }
 
-    function cerrarModal() {
-        if (popupmodal) {
-            popupmodal.style.display = "none";
-        }
-    }
-    // 2. Cerrar al hacer clic en la "X"
-    if (closeModal) {
-        closeModal.addEventListener("click", cerrarModal);
-    }
-    // 3. Cerrar si el usuario hace clic fuera del contenido (en el fondo)
-    window.addEventListener("click", (event) => {
-        // Si el clic fue exactamente en el fondo oscuro y no en lo que hay dentro
-        if (event.target === popupmodal) {
-            cerrarModal();
-        }
-    });
-
-    /* MOVIMIENTO DEL BANNER (CADA 7s) */
-
+    /* --- BANNER DINÁMICO --- */
     let currentImageIndex = 0;
     const images = document.querySelectorAll('.banner-image');
-    function changeImage() {
-
-        images[currentImageIndex].style.opacity = '0';
-        currentImageIndex = (currentImageIndex + 1) % images.length;
-        images[currentImageIndex].style.opacity = '1';
-    }
-    // Cambiar la imagen cada 7 segundos
-    setInterval(changeImage, 7000);
-    // Mostrar la primera imagen al cargar la página
-    window.onload = function () {
-        images[currentImageIndex].style.opacity = '1';
-    };
-
-    /* TEXTO CAMBIANTE */
-
-    const textoDinamico     = document.getElementById("texto-dinamico");
-    // Contar cuántos productos (para usar en las frases de oferta)
-    const cantidadProductos = parseInt(localStorage.getItem("cantidadProductos")) || 0;;
-    const precioOferta = 499;
-
-    // Array de frases dinámicas
-    let frases = [
-        // 1) Oferta usando operadores aritméticos
-        " Actualmente contamos con: " + cantidadProductos + " Productos. !Aprovecha en comprar ahora!",
-        // 2) Frase personalizada 
-        " “La moda no es un hobby, es un estilo de vida.”",
-        // 3) Segunda oferta usando operador 
-        " Promoción limitada: compra dos productos y llévate el segundo a solo S/." + (precioOferta - 50),
-        // 4) Llamado a contacto con enlace clickeable
-        ' ¿Tienes dudas? <a href="carrito.html" style="text-decoration: underline; font-weight: bold;">Contáctanos aquí</a>'
-    ];
-    let fraseIndex = 0;
-
-    if (textoDinamico) {
-        // Mostrar primera frase
-        textoDinamico.innerHTML = frases[fraseIndex];
-        // Cambiar cada 7 segundos
-        setInterval(function () {
-            fraseIndex = (fraseIndex + 1) % frases.length;
-            textoDinamico.innerHTML = frases[fraseIndex];
+    if (images.length > 0) {
+        setInterval(() => {
+            images[currentImageIndex].style.opacity = '0';
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            images[currentImageIndex].style.opacity = '1';
         }, 7000);
     }
 
-    /* CARRITO LATERAL (productos.html) */
-
-    const botonesComprar  = document.getElementsByClassName("btn-comprar");
-    const carritoPanel    = document.getElementById("carrito-panel");
-    const carritoToggle   = document.getElementById("carrito-toggle");
-    const cerrarCarrito   = document.getElementById("cerrar-carrito");
-    const contenedorItems = document.getElementById("carrito-items");
-    const totalSpan       = document.getElementById("carrito-total");
-    const btnVerCarrito   = document.getElementById("carrito-ver");
-
-    let carrito = [];
-
-    function cargarCarrito() {
-        const data = localStorage.getItem("carritoLlama");
-        if (data) {
-            try {
-                carrito = JSON.parse(data) || [];
-            } catch (e) {
-                carrito = [];
-            }
-        }
+    /* --- TEXTO DINÁMICO --- */
+    const textoDinamico = document.getElementById("texto-dinamico");
+    if (textoDinamico) {
+        let frases = [
+            "Descubre la próxima generación de moda peruana.",
+            "“La moda no es un hobby, es un estilo de vida.”",
+            "Promoción limitada: S/ 50 de descuento hoy."
+        ];
+        let idx = 0;
+        setInterval(() => {
+            idx = (idx + 1) % frases.length;
+            textoDinamico.innerHTML = frases[idx];
+        }, 7000);
     }
 
-    function guardarCarrito() {
-        localStorage.setItem("carritoLlama", JSON.stringify(carrito));
-    }
-
-    cargarCarrito();
-
-    function abrirCarrito() {
-        if (carritoPanel) {
-            carritoPanel.style.right = "0";
-        }
-    }
-
-    function cerrarCarritoPanel() {
-        if (carritoPanel) {
-            carritoPanel.style.right = "-320px";
-        }
-    }
-
-    function actualizarCarrito() {
-        if (!contenedorItems || !totalSpan) {
-            guardarCarrito();
-            return;
+    /* --- LÓGICA DEL CARRITO (CANTIDADES Y ELIMINAR) --- */
+    document.addEventListener("click", (e) => {
+        // SUMAR (+)
+        if (e.target.classList.contains("btn-sumar-pagina") || e.target.innerText === '+') {
+            const input = e.target.closest('.qty-control').querySelector('input');
+            input.value = parseInt(input.value) + 1;
         }
 
-        contenedorItems.innerHTML = "";
-        let total = 0;
-
-        carrito.forEach(function (item, index) {
-            const subtotal = item.precio * item.cantidad;
-            total += subtotal;
-
-            const div = document.createElement("div");
-            div.style.borderBottom = "1px solid #eee";
-            div.style.padding = "6px 0";
-            div.style.display = "flex";
-            div.style.flexDirection = "column";
-            div.dataset.index = index;
-
-            div.innerHTML = `
-                <strong>${item.nombre}</strong>
-                <span>Cant: 
-                <button class="btn-restar" style="margin:0 4px; padding:0 4px;">-</button>
-                <span class="cantidad">${item.cantidad}</span>
-                <button class="btn-sumar" style="margin:0 4px; padding:0 4px;">+</button>
-                </span>
-                <span>Precio: S/ ${item.precio.toFixed(2)}</span>
-                <span>Subtotal: S/ ${subtotal.toFixed(2)}</span>
-                <button class="btn-eliminar" style="margin-top:4px; align-self:flex-end; border:1px solid #ccc; background:#f5f5f5; padding:2px 6px;">Eliminar</button>
-                `;
-
-            contenedorItems.appendChild(div);
-        });
-
-        totalSpan.textContent = total.toFixed(2);
-        guardarCarrito();
-    }
-
-    function agregarProducto(nombre, precio, imagen) {
-        let encontrado = null;
-
-        for (let i = 0; i < carrito.length; i++) {
-            if (carrito[i].nombre === nombre) {
-                encontrado = carrito[i];
-                break;
+        // RESTAR (-)
+        if (e.target.classList.contains("btn-restar-pagina") || e.target.innerText === '-') {
+            const input = e.target.closest('.qty-control').querySelector('input');
+            if (parseInt(input.value) > 1) {
+                input.value = parseInt(input.value) - 1;
             }
         }
 
-        if (encontrado) {
-            encontrado.cantidad += 1;
-        } else {
-            carrito.push({
-                nombre: nombre,
-                precio: precio,
-                cantidad: 1,
-                imagen: imagen || ""
-            });
+        // ELIMINAR CON MODAL
+        const btnEliminar = e.target.closest(".btn-remove-item");
+        if (btnEliminar) {
+            const fila = btnEliminar.closest(".carrito-full-item");
+            const modalEl = document.getElementById('deleteModal');
+            
+            if (modalEl) {
+                const modalConfirm = new bootstrap.Modal(modalEl);
+                modalConfirm.show();
+
+                document.getElementById('confirmDelete').onclick = function() {
+                    fila.style.opacity = '0';
+                    fila.style.transform = 'scale(0.8)';
+                    fila.style.transition = '0.3s';
+                    
+                    setTimeout(() => {
+                        fila.remove();
+                        modalConfirm.hide();
+                    }, 300);
+                };
+            }
         }
+    });
 
-        actualizarCarrito();
-        abrirCarrito();
-    }
-
-    // Eventos para los botones "COMPRAR AHORA"
-    for (let i = 0; i < botonesComprar.length; i++) {
-        botonesComprar[i].addEventListener("click", function (e) {
+    /* --- FORMULARIO DE PAGO --- */
+    const checkoutForm = document.getElementById('checkout-form');
+    if (checkoutForm) {
+        checkoutForm.addEventListener('submit', (e) => {
             e.preventDefault();
-
-            const boton = e.currentTarget;
-            const nombre = boton.getAttribute("data-name");
-            const precioStr = boton.getAttribute("data-price");
-            const imagen = boton.getAttribute("data-image");
-            const precio = parseFloat(precioStr) || 0;
-            agregarProducto(nombre, precio, imagen);
-        });
-    }
-
-    if (carritoToggle) {
-        carritoToggle.addEventListener("click", function () {
-            if (carritoPanel.style.right === "0px" || carritoPanel.style.right === "0") {
-                cerrarCarritoPanel();
+            const paymentModal = document.getElementById('paymentModal');
+            if (paymentModal) {
+                new bootstrap.Modal(paymentModal).show();
             } else {
-                abrirCarrito();
+                alert("¡Pedido realizado con éxito!");
             }
         });
     }
-
-    if (cerrarCarrito) {
-        cerrarCarrito.addEventListener("click", cerrarCarritoPanel);
-    }
-
-    if (btnVerCarrito) {
-        btnVerCarrito.addEventListener("click", function () {
-            window.location.href = "carrito.html";
-        });
-    }
-
-    if (contenedorItems) {
-        contenedorItems.addEventListener("click", function (e) {
-            const target  = e.target;
-            const itemDiv = target.closest("div[data-index]");
-            if (!itemDiv) return;
-
-            const index   = parseInt(itemDiv.dataset.index);
-
-            if (target.classList.contains("btn-sumar")) {
-                carrito[index].cantidad += 1;
-                actualizarCarrito();
-            } else if (target.classList.contains("btn-restar")) {
-                carrito[index].cantidad -= 1;
-                if (carrito[index].cantidad <= 0) {
-                    carrito.splice(index, 1);
-                }
-                actualizarCarrito();
-            } else if (target.classList.contains("btn-eliminar")) {
-                carrito.splice(index, 1);
-                actualizarCarrito();
-            }
-        });
-        // Al entrar a productos.html, pintamos lo que ya estaba en el carrito (si hay)
-        actualizarCarrito();
-    }
-
-    /* ==========================
-       CARRITO EN carrito.html
-    ========================== */
-    const listaPagina      = document.getElementById("carrito-lista");
-    const totalPagina      = document.getElementById("carrito-total-page");
-    const carritoVacio     = document.getElementById("carrito-vacio");
-    const carritoContenido = document.getElementById("carrito-contenido");
-    const btnIrPago        = document.getElementById("btn-ir-pago");
-
-    if (listaPagina && totalPagina && carritoVacio && carritoContenido) {
-        cargarCarrito();
-
-        if (carrito.length === 0) {
-            carritoVacio.style.display = "block";
-            carritoContenido.style.display = "none";
-        } else {
-            carritoVacio.style.display = "none";
-            carritoContenido.style.display = "grid";
-
-            let total = 0;
-            listaPagina.innerHTML = "";
-
-            carrito.forEach(function (item, index) {
-                const subtotal = item.precio * item.cantidad;
-                total += subtotal;
-
-                const div = document.createElement("article");
-                div.className = "carrito-item";
-                div.dataset.index = index;
-
-                div.innerHTML = `
-                    <img src="${item.imagen || "assets/images/producto_1.png"}" alt="${item.nombre}">
-                    <div class="carrito-item-info">
-                    <h4>${item.nombre}</h4>
-                    <p>Precio: S/ ${item.precio.toFixed(2)}</p>
-                    <div class="carrito-item-controles">
-                    <button class="btn-restar-pagina">-</button>
-                    <span>Cantidad: <span class="cantidad">${item.cantidad}</span></span>
-                    <button class="btn-sumar-pagina">+</button>
-                    <span>Subtotal: S/ ${subtotal.toFixed(2)}</span>
-                    <button class="btn-eliminar-pagina">Eliminar</button>
-                    </div>
-                    </div>
-                    `;
-                listaPagina.appendChild(div);
-            });
-
-            totalPagina.textContent = total.toFixed(2);
-
-            listaPagina.addEventListener("click", function (e) {
-                const target  = e.target;
-                const itemDiv = target.closest(".carrito-item");
-                if (!itemDiv) return;
-                const index = parseInt(itemDiv.dataset.index);
-
-                if (target.classList.contains("btn-sumar-pagina")) {
-                    carrito[index].cantidad += 1;
-                } else if (target.classList.contains("btn-restar-pagina")) {
-                    carrito[index].cantidad -= 1;
-                    if (carrito[index].cantidad <= 0) {
-                        carrito.splice(index, 1);
-                    }
-                } else if (target.classList.contains("btn-eliminar-pagina")) {
-                    carrito.splice(index, 1);
-                }
-
-                guardarCarrito();
-                window.location.reload(); // recargar para simplificar actualización
-            });
-        }
-
-        if (btnIrPago) {
-            btnIrPago.addEventListener("click", function () {
-                window.location.href = "pago.html";
-            });
-        }
-    }
-
 });
