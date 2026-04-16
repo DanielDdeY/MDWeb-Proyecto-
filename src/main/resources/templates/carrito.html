@@ -49,63 +49,30 @@
                         <div class="col-2 text-end">Total</div>
                     </div>
 
-                    <div class="carrito-full-item" data-index="0">
-                        <div class="col-12 col-md-6 d-flex align-items-center gap-3">
-                            <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&q=80&w=200" class="cart-item-img" alt="Abrigo">
-                            <div>
-                                <h4 class="cart-item-title">Abrigo "Los Andes"</h4>
-                                <p class="cart-item-variant">Talla: M | Color: Negro</p>
-                                <button class="btn-remove-item btn-link text-danger p-0 border-0" style="font-size: 0.85rem;">
-                                    <i class="bi bi-trash3"></i> Eliminar
-                                </button>
-                            </div>
+                    <div id="cart-items-list">
                         </div>
-                        <div class="col-4 col-md-2 text-md-center fw-600">S/ 259.00</div>
-                        <div class="col-4 col-md-2 d-flex justify-content-center">
-                            <div class="qty-control">
-                                <button class="btn-restar-pagina">-</button>
-                                <input type="text" value="1" readonly>
-                                <button class="btn-sumar-pagina">+</button>
-                            </div>
-                        </div>
-                        <div class="col-4 col-md-2 text-end text-brand fw-600">S/ 259.00</div>
-                    </div>
-
-                    <div class="carrito-full-item" data-index="1">
-                        <div class="col-12 col-md-6 d-flex align-items-center gap-3">
-                            <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&q=80&w=200" class="cart-item-img" alt="Polera">
-                            <div>
-                                <h4 class="cart-item-title">Polera Selección</h4>
-                                <p class="cart-item-variant">Talla: L | Color: Esmeralda</p>
-                                <button class="btn-remove-item btn-link text-danger p-0 border-0" style="font-size: 0.85rem;">
-                                    <i class="bi bi-trash3"></i> Eliminar
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-4 col-md-2 text-md-center fw-600">S/ 190.00</div>
-                        <div class="col-4 col-md-2 d-flex justify-content-center">
-                            <div class="qty-control">
-                                <button class="btn-restar-pagina">-</button>
-                                <input type="text" value="1" readonly>
-                                <button class="btn-sumar-pagina">+</button>
-                            </div>
-                        </div>
-                        <div class="col-4 col-md-2 text-end text-brand fw-600">S/ 190.00</div>
-                    </div>
                 </div>
             </div>
 
             <div class="col-lg-4">
                 <div class="card-oferta">
                     <h3 class="mb-4">Resumen del pedido</h3>
-                    <div class="d-flex justify-content-between mb-3"><span>Subtotal</span><span>S/ 449.00</span></div>
-                    <div class="d-flex justify-content-between mb-4"><span>Descuentos</span><span class="text-brand">- S/ 0.00</span></div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Subtotal</span>
+                        <span id="resumen-subtotal">S/ 0.00</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-4">
+                        <span>Descuentos</span>
+                        <span class="text-brand">- S/ 0.00</span>
+                    </div>
                     <hr class="divider">
                     <div class="d-flex justify-content-between align-items-end mt-2 mb-4">
                         <span style="font-size: 1.2rem;">Total</span>
-                        <span class="display-font text-white" style="font-size: 2.2rem; font-weight: 600;">S/ 449.00</span>
+                        <span class="display-font text-white" style="font-size: 2.2rem; font-weight: 600;">
+                            S/ <span id="resumen-total">0.00</span>
+                        </span>
                     </div>
-                    <a href="pago.html" class="btn-lmll btn-primary-lmll w-100 justify-content-center">Proceder al Pago</a>
+                    <a href="pago.html" id="btn-proceder-pago" class="btn-lmll btn-primary-lmll w-100 justify-content-center">Proceder al Pago</a>
                 </div>
             </div>
         </div>
@@ -135,6 +102,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/src/main/resources/static/js/script.js"></script>
+<script src="/src/main/resources/static/js/carrito.js"></script>
 </body>
 </html>
