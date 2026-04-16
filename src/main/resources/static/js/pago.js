@@ -1,5 +1,5 @@
 /* ==========================
-   LÓGICA DE PAGO (pago.js)
+   LÓGICA DE PAGO 
    ========================== */
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
             e.preventDefault();
             alert("¡Compra procesada con éxito! Gracias por confiar en La Moda te LLama.");
             localStorage.removeItem("carritoLlama"); // Limpiar carrito tras pagar
-            window.location.href = "index.html"; // O una página de éxito
+            window.location.href = "index.html"; 
         }
         checkoutForm.classList.add("was-validated");
     });

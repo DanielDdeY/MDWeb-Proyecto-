@@ -1,5 +1,5 @@
 /* ==========================================
-   LÓGICA DE LA PÁGINA DE CARRITO (carrito-pagina.js)
+   LÓGICA DE LA PÁGINA DE CARRITO 
    ========================================== */
 
 document.addEventListener("DOMContentLoaded", () => {

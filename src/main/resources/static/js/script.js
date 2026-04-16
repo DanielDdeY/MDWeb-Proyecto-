@@ -66,9 +66,8 @@ document.addEventListener("DOMContentLoaded", () => {
     })();
 
     /* ==========================
-    CARRITO LATERAL (products.html)
+    CARRITO LATERAL 
  ========================== */
-    // 1. Cambiamos el selector para que busque los botones dentro de tus overlays de Bootstrap
     const botonesComprar  = document.querySelectorAll(".product-overlay button");
     const carritoPanel    = document.getElementById("carrito-panel");
     const carritoToggle   = document.getElementById("carrito-toggle");
@@ -125,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
             total += subtotal;
 
             const div = document.createElement("div");
-            div.className          = "carrito-item-row"; // Puedes darle estilo en CSS
+            div.className          = "carrito-item-row"; 
             div.style.borderBottom = "1px solid #eee";
             div.style.padding      = "10px 0";
             div.dataset.index      = index;
@@ -159,7 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
         boton.addEventListener("click", function (e) {
             e.preventDefault();
 
-            // Buscamos la tarjeta contenedora para extraer info
+            // Buscar la tarjeta contenedora para extraer info
             const   card = e.currentTarget.closest(".product-card-lmll");
             const nombre = card.querySelector(".product-title").textContent.trim();
 
@@ -219,90 +218,5 @@ document.addEventListener("DOMContentLoaded", () => {
     // Inicialización
     cargarCarrito();
     actualizarCarrito();
-
-    /* --- LÓGICA DEL CARRITO (CANTIDADES Y ELIMINAR) --- */
-    const contenedorResumen = document.getElementById("pago-productos-lista");
-    const totalPagar        = document.getElementById("pago-total");
-    const checkoutForm      = document.getElementById("checkout-form");
-    const cardDetails       = document.getElementById("card-details");
-    const walletDetails     = document.getElementById("wallet-details");
-    const radioMetodos      = document.querySelectorAll('input[name="payment_method"]');
-
-    let carritohtml = [];
-
-    // 1. Cargar datos del localStorage
-    function cargarResumen() {
-        const data = localStorage.getItem("carritoLlama");
-        if (data) {
-            carritohtml = JSON.parse(data);
-        }
-
-        if (carritohtml.length === 0) {
-            contenedorResumen.innerHTML = "<p>No hay productos en tu bolsa.</p>";
-            // Redirigir si intentan entrar a pagar con carrito vacío
-            setTimeout(() => { window.location.href = "productos.html"; }, 2000);
-            return;
-        }
-
-        renderizarItems();
-    }
-
-    // 2. Mostrar productos en el lateral
-    function renderizarItems() {
-        contenedorResumen.innerHTML = "";
-        let total = 0;
-
-        carritohtml.forEach(item => {
-            const subtotal = item.precio * item.cantidad;
-            total += subtotal;
-
-            const div = document.createElement("div");
-            div.className = "d-flex justify-content-between align-items-center mb-3";
-            div.innerHTML = `
-                <div class="d-flex align-items-center">
-                    <img src="${item.imagen}" alt="${item.nombre}" style="width: 45px; height: 45px; 
-                        object-fit: cover; border-radius: 5px;" class="me-2">
-                    <div>
-                        <h6 class="mb-0" style="font-size: 0.9rem;">${item.nombre}</h6>
-                        <small class="text-muted">Cant: ${item.cantidad}</small>
-                    </div>
-                </div>
-                <span class="fw-bold">S/ ${subtotal.toFixed(2)}</span>
-            `;
-            contenedorResumen.appendChild(div);
-        });
-
-        totalPagar.textContent = total.toFixed(2);
-    }
-
-    // 3. Alternar visibilidad de métodos de pago
-    radioMetodos.forEach(radio => {
-        radio.addEventListener("change", function () {
-            if (this.value === "wallet") {
-                  cardDetails.classList.add("d-none");
-                walletDetails.classList.remove("d-none");
-                // Quitar 'required' de los inputs de tarjeta para que el form sea válido
-                  cardDetails.querySelectorAll('input').forEach(i => i.required = false);
-            } else {
-                  cardDetails.classList.remove("d-none");
-                walletDetails.classList.add("d-none");
-                  cardDetails.querySelectorAll('input').forEach(i => i.required = true);
-            }
-        });
-    });
-
-    // 4. Manejo del Envío del Formulario
-    checkoutForm.addEventListener("submit", function (e) {
-        if (!checkoutForm.checkValidity()) {
-            e.preventDefault();
-            e.stopPropagation();
-        } else {
-            e.preventDefault();
-            alert("¡Compra procesada con éxito! Gracias por confiar en La Moda te LLama.");
-            localStorage.removeItem("carritoLlama"); // Limpiar carrito tras pagar
-            window.location.href = "index.html"; // O una página de éxito
-        }
-        checkoutForm.classList.add("was-validated");
-    });
 
 });
