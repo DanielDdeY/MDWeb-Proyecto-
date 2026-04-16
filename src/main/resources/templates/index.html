@@ -304,50 +304,8 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 <!-- Script propio -->
 <script src="/src/main/resources/static/js/script.js"></script>
-
-<!-- ══════════════════════════════════════
-     MICRO-SCRIPT: lógica de index.html
-     (Se puede mover a script.js)
-══════════════════════════════════════ -->
-<script>
-
-/* ─── CARRITO LATERAL (abrir/cerrar) ─────────────── */
-(function () {
-  const panel   = document.getElementById('carrito-panel');
-  const overlay = document.getElementById('carrito-overlay');
-  const toggle  = document.getElementById('carrito-toggle');
-  const cerrar  = document.getElementById('cerrar-carrito');
-  const badge   = document.getElementById('cart-count');
-
-  function open() {
-    panel.classList.add('open');
-    overlay.classList.add('visible');
-    document.body.style.overflow = 'hidden';
-  }
-  function close() {
-    panel.classList.remove('open');
-    overlay.classList.remove('visible');
-    document.body.style.overflow = '';
-  }
-
-  if (toggle)  toggle.addEventListener('click', () => panel.classList.contains('open') ? close() : open());
-  if (cerrar)  cerrar.addEventListener('click', close);
-  if (overlay) overlay.addEventListener('click', close);
-
-  // Badge count desde localStorage
-  try {
-    const carrito = JSON.parse(localStorage.getItem('carritoLlama')) || [];
-    const total   = carrito.reduce((s, i) => s + (i.cantidad || 1), 0);
-    if (badge && total > 0) {
-      badge.textContent = total;
-      badge.style.display = 'flex';
-    }
-  } catch (_) {}
-})();
-</script>
 
 </body>
 </html>

@@ -253,6 +253,19 @@ a   { color: inherit; text-decoration: none; }
   z-index: 3;
   display: flex; gap: 6px;
 }
+.banner-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.3);
+  transition: background .3s, transform .3s;
+  cursor: pointer;
+  border: none;
+}
+.banner-dot.active {
+  background: var(--brand);
+  transform: scale(1.4);
+}
+
 /* ── 7. CARDS GENERALES ────────────────────────────────────── */
 .card-lmll {
   background: linear-gradient(160deg, var(--panel) 0%, var(--panel-2) 100%);
@@ -342,8 +355,6 @@ a   { color: inherit; text-decoration: none; }
     transform var(--dur) var(--ease),
     box-shadow var(--dur) var(--ease);
 }
-.btn-lmll:active { transform: scale(.97); }
-
 /* Variante primaria */
 .btn-primary-lmll {
   background: var(--brand);
