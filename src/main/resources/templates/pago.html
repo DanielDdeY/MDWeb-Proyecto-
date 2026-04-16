@@ -4,111 +4,64 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>LMLL — La Moda te LLama</title>
-  <meta name="description" content="Colecciones de moda peruana. Prendas premium, cortes limpios y estilo auténtico.">
-
-  <!-- Google Fonts -->
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <!-- Bootstrap 5.3 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-
-  <!-- Estilos propios -->
   <link rel="stylesheet" href="/src/main/resources/static/css/styles.css">
 </head>
 <body>
 
-<!-- ══════════════════════════════════════
-     NAVBAR — Bootstrap responsive
-══════════════════════════════════════ -->
 <header class="site-header">
-  <nav class="navbar navbar-expand-md w-100 px-3 py-2" aria-label="Navegación principal">
-
-    <a class="navbar-brand" href="index.html" aria-label="LMLL Inicio">
-    <img src="/src/main/resources/static/img/logo.png" alt="La Moda te LLama" style="height: 63px; width: auto;">
+  <nav class="navbar navbar-expand-md w-100 px-3 py-2">
+    <a class="navbar-brand" href="index.html">
+      <img src="/src/main/resources/static/img/logo.png" alt="La Moda te LLama" style="height: 63px; width: auto;">
     </a>
-
-    <!-- Botón hamburguesa (mobile) -->
-    <button class="navbar-toggler ms-auto me-2" type="button"
-            data-bs-toggle="collapse" data-bs-target="#navMenu"
-            aria-controls="navMenu" aria-expanded="false" aria-label="Abrir menú">
+    <button class="navbar-toggler ms-auto me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
       <span class="navbar-toggler-icon"></span>
     </button>
-
-    <!-- Links + acciones -->
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="site-nav navbar-nav mx-auto gap-1">
         <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
         <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
         <li class="nav-item"><a class="nav-link" href="carrito.html">Carrito</a></li>
       </ul>
-
-      <!-- Botón carrito -->
-      <div class="d-flex align-items-center mt-2 mt-md-0">
-        <button id="carrito-toggle" class="cart-btn" aria-label="Abrir carrito lateral">
-          <i class="bi bi-bag" style="font-size:.95rem;"></i>
-          <span>Bolsa</span>
-          <span class="cart-badge" id="cart-count" style="display:none;">0</span>
-        </button>
-      </div>
     </div>
-
   </nav>
 </header>
+
 <main class="py-5">
   <div class="container">
-    
     <div class="anim-1 mb-4">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb" style="font-size: .85rem;">
-          <li class="breadcrumb-item"><a href="carrito.html" class="text-muted-1">Carrito</a></li>
-          <li class="breadcrumb-item active text-brand" aria-current="page">Pago</li>
-        </ol>
-      </nav>
       <h1 class="display-font" style="font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 600;">
         Finalizar <em style="color:var(--brand);">Compra</em>
       </h1>
     </div>
 
     <div class="row g-5 align-items-start">
-      
       <div class="col-lg-7 anim-2">
-        
-        <form id="checkout-form">
+        <form id="checkout-form" class="needs-validation" novalidate>
+          
           <div class="card-lmll mb-4 form-section">
             <h2 class="sidebar-title mb-3" style="font-size: .85rem;"><i class="bi bi-geo-alt me-2"></i>Datos de Envío</h2>
-            
             <div class="row g-3">
               <div class="col-md-6">
                 <label class="form-label-lmll">Nombre completo</label>
                 <input type="text" class="form-control form-input-lmll" placeholder="Ej: Joseph Arnold..." required>
+                <div class="invalid-feedback">El nombre es obligatorio.</div>
               </div>
               <div class="col-md-6">
-                <label class="form-label-lmll">Teléfono</label>
-                <input type="tel" class="form-control form-input-lmll" placeholder="+51 999 999 999" required>
+                <label class="form-label-lmll">Teléfono (9 dígitos)</label>
+                <input type="tel" class="form-control form-input-lmll" placeholder="999888777" maxlength="9" required pattern="[0-9]{9}" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                <div class="invalid-feedback">Ingresa un número válido de 9 dígitos.</div>
               </div>
               <div class="col-12">
                 <label class="form-label-lmll">Dirección exacta</label>
                 <input type="text" class="form-control form-input-lmll" placeholder="Ej: Av. Los Frutales 123, Ate" required>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label-lmll">Distrito</label>
-                <select class="form-select form-input-lmll" required>
-                  <option value="" selected disabled>Selecciona tu distrito...</option>
-                  <option value="ate">Ate</option>
-                  <option value="barranco">Barranco</option>
-                  <option value="miraflores">Miraflores</option>
-                  <option value="surco">Santiago de Surco</option>
-                  <option value="otros">Otros (Lima Metropolitana)</option>
-                </select>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label-lmll">Referencia (Opcional)</label>
-                <input type="text" class="form-control form-input-lmll" placeholder="Frente al parque...">
+                <div class="invalid-feedback">La dirección es obligatoria.</div>
               </div>
             </div>
           </div>
@@ -121,7 +74,7 @@
                 <input type="radio" name="payment_method" value="card" checked>
                 <div class="payment-card-content">
                   <i class="bi bi-credit-card-2-front display-6 mb-2 d-block text-brand"></i>
-                  <span>Tarjeta (Débito/Crédito)</span>
+                  <span>Tarjeta</span>
                 </div>
               </label>
               <label class="payment-card">
@@ -133,86 +86,60 @@
               </label>
             </div>
 
-            <div id="card-details" class="row g-3 anim-fade-in">
+            <div id="card-details" class="row g-3">
               <div class="col-12">
                 <label class="form-label-lmll">Número de Tarjeta</label>
                 <div class="position-relative">
-                  <input type="text" class="form-control form-input-lmll pe-5" placeholder="0000 0000 0000 0000" maxlength="19">
+                  <input type="text" class="form-control form-input-lmll pe-5" placeholder="0000000000000000" maxlength="16" required pattern="[0-9]{16}" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                   <i class="bi bi-credit-card position-absolute top-50 end-0 translate-middle-y me-3 text-muted-1"></i>
+                  <div class="invalid-feedback">Ingresa los 16 números de la tarjeta.</div>
                 </div>
               </div>
+              
               <div class="col-6">
-                <label class="form-label-lmll">Vencimiento</label>
-                <input type="text" class="form-control form-input-lmll" placeholder="MM/YY" maxlength="5">
+                <label class="form-label-lmll">Vencimiento (MM/YY)</label>
+                <input type="text" 
+                       class="form-control form-input-lmll" 
+                       placeholder="MM/YY" 
+                       maxlength="5" 
+                       required 
+                       pattern="(0[1-9]|1[0-2])\/[0-9]{2}" 
+                       oninput="
+                         let v = this.value.replace(/\D/g, ''); 
+                         if (v.length > 2) v = v.substring(0,2) + '/' + v.substring(2,4); 
+                         this.value = v;
+                       ">
+                <div class="invalid-feedback">Formato MM/YY requerido.</div>
               </div>
+
               <div class="col-6">
                 <label class="form-label-lmll">CVV</label>
-                <input type="password" class="form-control form-input-lmll" placeholder="123" maxlength="3">
+                <input type="password" class="form-control form-input-lmll" placeholder="123" maxlength="3" required pattern="[0-9]{3}" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                <div class="invalid-feedback">Código de 3 dígitos.</div>
               </div>
             </div>
           </div>
         </form>
-
       </div>
 
       <div class="col-lg-5 anim-3">
         <div class="card-oferta sticky-summary">
           <h3 class="mb-4" style="font-size: 1.4rem;">Resumen de tu bolsa</h3>
-          
-          <div class="checkout-items-list mb-4">
-            <div class="d-flex align-items-center justify-content-between mb-3">
-              <div class="d-flex align-items-center gap-3">
-                <div class="item-img-mock">
-                  <i class="bi bi-image text-muted-1"></i>
-                </div>
-                <div>
-                  <p class="mb-0 fw-600" style="color: var(--txt); font-size: .9rem;">Abrigo "Los Andes"</p>
-                  <p class="mb-0 text-muted-1" style="font-size: .75rem;">Talla: M | Color: Negro</p>
-                </div>
-              </div>
-              <span class="fw-600" style="color: var(--txt);">S/ 259.00</span>
-            </div>
-            
-            <div class="d-flex align-items-center justify-content-between mb-3">
-              <div class="d-flex align-items-center gap-3">
-                <div class="item-img-mock">
-                  <i class="bi bi-image text-muted-1"></i>
-                </div>
-                <div>
-                  <p class="mb-0 fw-600" style="color: var(--txt); font-size: .9rem;">Polera Esencial</p>
-                  <p class="mb-0 text-muted-1" style="font-size: .75rem;">Talla: L | Color: Esmeralda</p>
-                </div>
-              </div>
-              <span class="fw-600" style="color: var(--txt);">S/ 190.00</span>
-            </div>
-          </div>
-
-          <hr class="divider my-3" style="border-color: var(--border-2);">
-
-          <div class="d-flex justify-content-between mb-2" style="font-size: .9rem; color: var(--txt-2);">
-            <span>Subtotal</span>
-            <span>S/ 449.00</span>
-          </div>
-          <div class="d-flex justify-content-between mb-3" style="font-size: .9rem; color: var(--txt-2);">
-            <span>Envío (Promo > S/ 199)</span>
-            <span class="text-brand">GRATIS</span>
-          </div>
-          
           <div class="d-flex justify-content-between align-items-end mt-4 mb-4">
-            <span style="font-size: 1.1rem; color: var(--txt);">Total a pagar</span>
-            <span class="display-font text-gold" style="font-size: 2rem; font-weight: 600; line-height: 1; color: var(--accent-2);">S/ 449.00</span>
+            <span style="font-size: 1.1rem;">Total a pagar</span>
+            <span class="display-font" style="font-size: 2rem; font-weight: 600; color: var(--accent-2);">S/ 449.00</span>
           </div>
 
-          <button type="submit" form="checkout-form" class="btn-lmll btn-primary-lmll w-100 justify-content-center btn-pay-pulse" style="padding: 1rem; font-size: .95rem;">
+          <button type="submit" form="checkout-form" class="btn-lmll btn-primary-lmll w-100 justify-content-center">
             <i class="bi bi-lock-fill me-2"></i> Pagar Pedido Seguro
           </button>
-          
-          <div class="text-center mt-3" style="font-size: .7rem; color: var(--txt-3);">
-            <i class="bi bi-shield-check me-1"></i> Tus datos están encriptados y seguros.
-          </div>
         </div>
       </div>
-
     </div>
   </div>
 </main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/src/main/resources/static/js/script.js"></script>
+</body>
+</html>

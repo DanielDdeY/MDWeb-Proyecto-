@@ -72,17 +72,26 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    /* --- FORMULARIO DE PAGO --- */
+    /* --- FORMULARIO DE PAGO CON VALIDACIÓN --- */
     const checkoutForm = document.getElementById('checkout-form');
     if (checkoutForm) {
         checkoutForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const paymentModal = document.getElementById('paymentModal');
-            if (paymentModal) {
-                new bootstrap.Modal(paymentModal).show();
+            // Si el formulario NO es válido según las reglas de Bootstrap
+            if (!checkoutForm.checkValidity()) {
+                e.preventDefault();
+                e.stopPropagation();
             } else {
-                alert("¡Pedido realizado con éxito!");
+                // Si todo está correcto, mostramos el éxito
+                e.preventDefault();
+                const paymentModal = document.getElementById('paymentModal');
+                if (paymentModal) {
+                    new bootstrap.Modal(paymentModal).show();
+                } else {
+                    alert("¡Pedido realizado con éxito!");
+                }
             }
+            // Añadimos la clase para que Bootstrap muestre los errores en rojo
+            checkoutForm.classList.add('was-validated');
         });
     }
 });
