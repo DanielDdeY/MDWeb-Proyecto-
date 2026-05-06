@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,7 +18,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
   <!-- Estilos propios -->
-  <link rel="stylesheet" href="/src/main/resources/static/css/styles.css">
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 
@@ -30,7 +30,7 @@
 
     <!-- Marca -->
     <a class="navbar-brand" href="index.html" aria-label="LMLL Inicio">
-    <img src="/src/main/resources/static/img/logo.png" alt="La Moda te LLama" style="height: 63px; width: auto;">
+    <img th:src="@{/img/logo.png}" alt="La Moda te LLama" style="height: 63px; width: auto;">
     </a>
 
     <!-- Botón hamburguesa (mobile) -->
@@ -40,12 +40,12 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- Links + acciones -->
+     <!-- Links + acciones -->
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="site-nav navbar-nav mx-auto gap-1">
-        <li class="nav-item"><a class="nav-link active" href="index.html">Inicio</a></li>
-        <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
-        <li class="nav-item"><a class="nav-link" href="carrito.html">Carrito</a></li>
+        <li class="nav-item"><a class="nav-link active" th:href="@{/}">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/productos}">Productos</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/carrito}">Carrito</a></li>
       </ul>
 
       <!-- Botón carrito -->
@@ -93,18 +93,9 @@
         <div class="hero anim-2" role="img" aria-label="Banner de colección LMLL">
 
           <!-- Imágenes del carrusel -->
-          <img class="banner-image active"
-               src="/src/main/resources/static/img/Imagen-mov-1.jpg"
-               alt="Colección LMLL — Look 1"
-               loading="eager">
-          <img class="banner-image"
-               src="/src/main/resources/static/img/Imagen-mov-2.PNG"
-               alt="Colección LMLL — Look 2"
-               loading="eager">
-          <img class="banner-image"
-               src="/src/main/resources/static/img/llama-a-la-moda.PNG"
-               alt="La llama a la moda — Colección especial"
-               loading="lazy">
+          <img class="banner-image active" th:src="@{/img/Imagen-mov-1.jpg}" alt="Colección LMLL — Look 1" loading="eager">
+          <img class="banner-image"        th:src="@{/img/Imagen-mov-2.PNG}" alt="Colección LMLL — Look 2" loading="eager">
+          <img class="banner-image"        th:src="@{/img/llama-a-la-moda.PNG}" alt="La llama a la moda — Colección especial" loading="lazy">
 
           <!-- Overlay -->
           <div class="hero-overlay" aria-hidden="true"></div>
@@ -114,7 +105,7 @@
             <p class="hero-eyebrow">Nueva temporada</p>
             <h2 class="hero-title">Estilo que <em>nace</em><br>en el Perú</h2>
             <p class="hero-sub">Prendas con historia, cortes del presente.</p>
-            <a href="productos.html" class="btn-lmll btn-primary-lmll">
+            <a th:href="@{/productos}" class="btn-lmll btn-primary-lmll">
               Ver colección &nbsp;<i class="bi bi-arrow-right"></i>
             </a>
           </div>
@@ -140,46 +131,6 @@
           <a href="productos.html" class="btn-lmll btn-outline-lmll flex-shrink-0">
             Ver productos &nbsp;<i class="bi bi-chevron-right"></i>
           </a>
-        </div>
-
-        <!-- ── TABLA INFO ──────────────────────── -->
-        <div class="anim-4 mt-4">
-          <h2 class="display-font mb-3" style="font-size:1.25rem; font-weight:600;">
-            ¿Por qué <span class="text-brand">LMLL</span>?
-          </h2>
-          <div class="table-responsive">
-            <table class="table" style="--bs-table-bg: transparent; --bs-table-color: var(--txt); --bs-table-border-color: var(--border); font-size:.85rem;">
-              <thead>
-                <tr style="border-bottom: 1px solid rgba(168,255,216,.25);">
-                  <th style="color:var(--txt-3); font-weight:600; font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; padding:.75rem;">Característica</th>
-                  <th style="color:var(--txt-3); font-weight:600; font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; padding:.75rem;">LMLL</th>
-                  <th style="color:var(--txt-3); font-weight:600; font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; padding:.75rem;">Competencia</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="padding:.7rem .75rem; color:var(--txt-2);">Origen</td>
-                  <td style="padding:.7rem .75rem;"><span class="text-brand fw-600">100% Peruano</span></td>
-                  <td style="padding:.7rem .75rem; color:var(--txt-3);">Importado</td>
-                </tr>
-                <tr>
-                  <td style="padding:.7rem .75rem; color:var(--txt-2);">Envío gratis</td>
-                  <td style="padding:.7rem .75rem;"><i class="bi bi-check-circle-fill text-brand"></i> Desde S/ 199</td>
-                  <td style="padding:.7rem .75rem; color:var(--txt-3);"><i class="bi bi-x-circle" style="color:var(--txt-3);"></i> No incluido</td>
-                </tr>
-                <tr>
-                  <td style="padding:.7rem .75rem; color:var(--txt-2);">Garantía</td>
-                  <td style="padding:.7rem .75rem;"><i class="bi bi-shield-check text-brand"></i> 30 días</td>
-                  <td style="padding:.7rem .75rem; color:var(--txt-3);">Variable</td>
-                </tr>
-                <tr>
-                  <td style="padding:.7rem .75rem; color:var(--txt-2);">Ediciones limitadas</td>
-                  <td style="padding:.7rem .75rem;"><i class="bi bi-stars text-brand"></i> Sí, cada temporada</td>
-                  <td style="padding:.7rem .75rem; color:var(--txt-3);">Rara vez</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
         </div>
 
       </section><!-- /columna principal -->
@@ -305,7 +256,7 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Script propio -->
-<script src="/src/main/resources/static/js/script.js"></script>
+<script th:src="@{/js/script.js}"></script>
 
 </body>
 </html>
