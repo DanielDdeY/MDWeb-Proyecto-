@@ -39,19 +39,18 @@ public class SecurityConfig {
 
         return http.build();
     }
-    //*Quitar los comentarios para Validar el login *//
-    //@Bean
-    //public UserDetailsService userDetailsService() {
-        // Se creo un usuario administrador temporal para pruebas
+    @Bean
+    public UserDetailsService userDetailsService() {
+        //Se creo un usuario administrador temporal para pruebas
         //! En una fase posterior, esto se validará con la base de datos MySQL //
-      //  UserDetails admin = User.builder()
-        //    .username("admin")
-          //  .password(passwordEncoder().encode("admin123"))
-            //.roles("ADMIN")
-            //.build();
+        UserDetails admin = User.builder()
+            .username("admin")
+            .password(passwordEncoder().encode("admin123"))
+            .roles("ADMIN")
+            .build();
 
-       // return new InMemoryUserDetailsManager(admin);
-    // }
+             return new InMemoryUserDetailsManager(admin);
+     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
