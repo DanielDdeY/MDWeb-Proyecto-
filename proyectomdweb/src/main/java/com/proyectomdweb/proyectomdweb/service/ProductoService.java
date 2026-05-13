@@ -48,4 +48,12 @@ public class ProductoService {
     public List<Producto> buscarPorNombre(String nombre) {
         return productoRepository.findByNombreContainingIgnoreCase(nombre);
     }
+
+    @Transactional(readOnly = true)
+    public List<Producto> filtrar(String genero, Long categoriaId) {
+        // Si el id de categoría es 0 o null, se trata como nulo para que el Repo traiga todas
+        Long idBusqueda = (categoriaId == null || categoriaId == 0) ? null : categoriaId;
+        
+        return productoRepository.filtrarPorGeneroYCategoria(genero, idBusqueda);
+    }
 }

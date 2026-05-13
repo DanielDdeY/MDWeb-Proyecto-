@@ -21,7 +21,7 @@ CREATE TABLE productos (
     categoria_id    INT,
     nombre          VARCHAR(40) NOT NULL,
     genero          VARCHAR(10) NOT NULL,
-    imagen_url       VARCHAR(255) NOT NULL, 
+    imagen_url      VARCHAR(255) NOT NULL, 
     precio_base     DECIMAL(8, 2) NOT NULL, 
     disponibilidad  BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE SET NULL
@@ -68,14 +68,14 @@ CREATE TABLE pedido_detalles (
 -- 7. Tabla de Ventas (Cabecera del comprobante)
 CREATE TABLE ventas (
     id                  INT AUTO_INCREMENT PRIMARY KEY,
-    pedido_id           INT NOT NULL UNIQUE, 
+    pedido_id           INT NOT NULL UNIQUE,
     tipo_comprobante    ENUM('BOLETA', 'FACTURA') NOT NULL,
     serie_correlativo   VARCHAR(20) NOT NULL, -- Ej: B001-000145
     metodo_pago         ENUM('EFECTIVO', 'TARJETA_DEBITO', 'TARJETA_CREDITO', 'YAPE', 'PAYPAL') NOT NULL,
     fecha_emision       DATETIME DEFAULT CURRENT_TIMESTAMP,
-    subtotal            DECIMAL(8, 2) NOT NULL, 
-    igv                 DECIMAL(8, 2) NOT NULL,      
-    total               DECIMAL(8, 2) NOT NULL,   
+    subtotal            DECIMAL(8, 2) NOT NULL,
+    igv                 DECIMAL(8, 2) NOT NULL,     
+    total               DECIMAL(8, 2) NOT NULL,  
     FOREIGN KEY (pedido_id) REFERENCES pedidos(id) ON DELETE RESTRICT
 );
 

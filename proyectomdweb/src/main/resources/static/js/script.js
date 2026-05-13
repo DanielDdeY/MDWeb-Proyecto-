@@ -9,15 +9,15 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ─── BANNER CARRUSEL ─────────────────────────────── */
     (function () {
         const images = document.querySelectorAll('.banner-image');
-        const dots   = document.querySelectorAll('.banner-dot');
+        const dots = document.querySelectorAll('.banner-dot');
         let current = 0;
 
         function goTo(index) {
             images[current].classList.remove('active');
-              dots[current].classList.remove('active');
+            dots[current].classList.remove('active');
             current = (index + images.length) % images.length;
             images[current].classList.add('active');
-              dots[current].classList.add('active');
+            dots[current].classList.add('active');
         }
 
         let timer = setInterval(() => goTo(current + 1), 7000);
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* ─── STAT PRODUCTOS ─────────────────────────────── */
     (function () {
-        const el  = document.getElementById('stat-productos');
+        const el = document.getElementById('stat-productos');
         const cnt = parseInt(localStorage.getItem('cantidadProductos')) || 0;
         if (el) el.textContent = cnt > 0 ? cnt : '24';
     })();
@@ -68,13 +68,13 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ==========================
     CARRITO LATERAL 
  ========================== */
-    const botonesComprar  = document.querySelectorAll(".product-overlay button");
-    const carritoPanel    = document.getElementById("carrito-panel");
-    const carritoToggle   = document.getElementById("carrito-toggle");
-    const cerrarCarrito   = document.getElementById("cerrar-carrito");
+    const botonesComprar = document.querySelectorAll(".product-overlay button");
+    const carritoPanel = document.getElementById("carrito-panel");
+    const carritoToggle = document.getElementById("carrito-toggle");
+    const cerrarCarrito = document.getElementById("cerrar-carrito");
     const contenedorItems = document.getElementById("carrito-items");
-    const totalSpan       = document.getElementById("carrito-total");
-    const btnVerCarrito   = document.getElementById("carrito-ver");
+    const totalSpan = document.getElementById("carrito-total");
+    const btnVerCarrito = document.getElementById("carrito-ver");
 
     let carrito = [];
 
@@ -124,10 +124,10 @@ document.addEventListener("DOMContentLoaded", () => {
             total += subtotal;
 
             const div = document.createElement("div");
-            div.className          = "carrito-item-row"; 
+            div.className = "carrito-item-row";
             div.style.borderBottom = "1px solid #eee";
-            div.style.padding      = "10px 0";
-            div.dataset.index      = index;
+            div.style.padding = "10px 0";
+            div.dataset.index = index;
 
             div.innerHTML = `
       <div style="display:flex; gap:10px; align-items:center;">
@@ -153,18 +153,21 @@ document.addEventListener("DOMContentLoaded", () => {
         guardarCarrito();
     }
 
-    // --- AGREGAR PRODUCTOS (EXTRACCIÓN DEL DOM) ---
-    botonesComprar.forEach(boton => {
-        boton.addEventListener("click", function (e) {
+    // --- AGREGAR PRODUCTOS (COMPATIBLE CON AJAX) ---
+    document.addEventListener("click", function (e) {
+        // Verificamos si el clic provino de un botón de "Añadir a bolsa" o su icono interno
+        const botonComprar = e.target.closest(".product-overlay button");
+
+        if (botonComprar) {
             e.preventDefault();
 
             // Buscar la tarjeta contenedora para extraer info
-            const   card = e.currentTarget.closest(".product-card-lmll");
+            const card = botonComprar.closest(".product-card-lmll");
             const nombre = card.querySelector(".product-title").textContent.trim();
 
-            let precioTexto  = card.querySelector(".product-price").textContent;
+            let precioTexto = card.querySelector(".product-price").textContent;
             let precioLimpio = precioTexto.replace("S/", "").trim().split(" ")[0];
-            
+
             const precio = parseFloat(precioLimpio) || 0;
             const imagen = card.querySelector("img").src;
 
@@ -179,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             actualizarCarrito();
             abrirCarrito();
-        });
+        }
     });
 
     // --- EVENTOS DE BOTONES DEL PANEL ---
@@ -193,12 +196,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (cerrarCarrito) cerrarCarrito.addEventListener("click", cerrarCarritoPanel);
 
     if (btnVerCarrito) {
-                       btnVerCarrito.addEventListener("click", () => window.location.href = "carrito.html");
+        btnVerCarrito.addEventListener("click", () => window.location.href = "/carrito");
     }
 
     if (contenedorItems) {
         contenedorItems.addEventListener("click", function (e) {
-            const target  = e.target;
+            const target = e.target;
             const itemDiv = target.closest("div[data-index]");
             if (!itemDiv) return;
             const index = parseInt(itemDiv.dataset.index);

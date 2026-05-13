@@ -3,6 +3,7 @@ package com.proyectomdweb.proyectomdweb.repository;
 import com.proyectomdweb.proyectomdweb.model.Producto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,5 +25,13 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     List<Producto> findByCategoriaId(Long categoriaId); 
     
     List<Producto> findByNombreContainingIgnoreCase(String nombre);
+
+    @Query("SELECT p FROM Producto p WHERE " +
+           "(p.genero = :genero OR p.genero = 'Unisex') AND " +
+           "(:categoriaId IS NULL OR p.categoria.id = :categoriaId) AND " +
+           "p.disponibilidad = true")
+    List<Producto> filtrarPorGeneroYCategoria(
+            @Param("genero") String genero, 
+            @Param("categoriaId") Long categoriaId);
 }
 

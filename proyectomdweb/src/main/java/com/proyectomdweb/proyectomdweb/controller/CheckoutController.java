@@ -1,0 +1,15 @@
+package com.proyectomdweb.proyectomdweb.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class CheckoutController {
+
+    // Este método "escucha" cuando el usuario hace clic en el botón del carrito
+    @GetMapping("/pago")
+    public String mostrarPaginaPago() {
+        // Le dice a Spring que devuelva el archivo "pago.html" ubicado en templates
+        return "pago"; 
+    }
+}

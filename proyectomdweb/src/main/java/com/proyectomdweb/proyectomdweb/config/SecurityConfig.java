@@ -19,11 +19,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 // 1. Las rutas de administración son estrictamente para el rol ADMIN
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 // 2. Rutas públicas: Cualquiera puede entrar a ver la tienda y los recursos (CSS, JS, Imágenes)
-                .requestMatchers("/", "/productos", "/carrito","/pago", "/css/**", "/img/**", "/js/**").permitAll()
+                .requestMatchers("/","/productos**", "/carrito","/pago","/pedidos**" ,"/css/**", "/img/**", "/js/**").permitAll()
                 
                 // 3. Todo lo demás (ej. todo lo que se va a agregar y testar) permitida
                 .anyRequest().permitAll()
@@ -50,7 +52,7 @@ public class SecurityConfig {
             .build();
 
              return new InMemoryUserDetailsManager(admin);
-     }
+        }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

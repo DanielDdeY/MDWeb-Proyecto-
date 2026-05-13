@@ -16,72 +16,70 @@
 <body>
 
   <!------HEADER -----> 
-<header class="site-header">
+<header class="site-header border-bottom">
   <nav class="navbar navbar-expand-md w-100 px-3 py-2">
-    <a class="navbar-brand" href="index.html">
-      <img src="/src/main/resources/static/img/logo.png" alt="La Moda te LLama" style="height: 63px; width: auto;">
+    <a class="navbar-brand" th:href="@{/}">
+      <img th:src="@{/img/logo.png}" alt="La Moda te LLama" style="height: 63px; width: auto;">
     </a>
     <button class="navbar-toggler ms-auto me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <!-- Links + acciones -->
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="site-nav navbar-nav mx-auto gap-1">
         <li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a></li>
-        <li class="nav-item"><a class="nav-link active" th:href="@{/productos}">Productos</a></li>
-        <li class="nav-item"><a class="nav-link" th:href="@{/carrito}">Carrito</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/productos}">Productos</a></li>
+        <li class="nav-item"><a class="nav-link active" th:href="@{/carrito}">Carrito</a></li>
       </ul>
+    </div>
   </nav>
 </header>
 
-  <!------BODY -----> 
+<!-- BODY -->
 <main class="py-5">
   <div class="container">
     <div class="anim-1 mb-4">
       <h1 class="display-font" style="font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 600;">
-        Finalizar <em style="color:var(--brand);">Compra</em>
+        Finalizar <em style="color: #666; font-style: normal;">Compra</em>
       </h1>
     </div>
 
     <div class="row g-5 align-items-start">
+      <!-- Formulario de Datos -->
       <div class="col-lg-7 anim-2">
         <form id="checkout-form" class="needs-validation" novalidate>
           
-          <div class="card-lmll mb-4 form-section">
-            <h2 class="sidebar-title mb-3" style="font-size: .85rem;"><i class="bi bi-geo-alt me-2"></i>Datos de Envío</h2>
+          <div class="card-lmll mb-4 p-4 border form-section">
+            <h2 class="sidebar-title mb-3" style="font-size: 1.1rem;"><i class="bi bi-geo-alt me-2"></i>Datos de Envío</h2>
             <div class="row g-3">
               <div class="col-md-6">
                 <label class="form-label-lmll">Nombre completo</label>
                 <input type="text" class="form-control form-input-lmll" placeholder="Ej: Joseph Arnold..." required>
-                <div class="invalid-feedback">El nombre es obligatorio.</div>
               </div>
               <div class="col-md-6">
                 <label class="form-label-lmll">Teléfono (9 dígitos)</label>
                 <input type="tel" class="form-control form-input-lmll" placeholder="999888777" maxlength="9" required pattern="[0-9]{9}" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                <div class="invalid-feedback">Ingresa un número válido de 9 dígitos.</div>
               </div>
               <div class="col-12">
                 <label class="form-label-lmll">Dirección exacta</label>
                 <input type="text" class="form-control form-input-lmll" placeholder="Ej: Av. Los Frutales 123, Ate" required>
-                <div class="invalid-feedback">La dirección es obligatoria.</div>
               </div>
             </div>
           </div>
 
-          <div class="card-lmll mb-4 form-section">
-            <h2 class="sidebar-title mb-3" style="font-size: .85rem;"><i class="bi bi-credit-card me-2"></i>Método de Pago</h2>
+          <div class="card-lmll mb-4 p-4 border form-section">
+            <h2 class="sidebar-title mb-3" style="font-size: 1.1rem;"><i class="bi bi-credit-card me-2"></i>Método de Pago</h2>
             
             <div class="payment-methods-grid mb-4" style="display: flex; gap: 15px;">
-              <label class="payment-card flex-fill">
+              <label class="payment-card flex-fill cursor-pointer">
                 <input type="radio" name="payment_method" value="card" checked>
-                <div class="payment-card-content p-3 border rounded text-center">
+                <div class="payment-card-content p-3 border text-center" style="cursor: pointer;">
                   <i class="bi bi-credit-card-2-front display-6 mb-2 d-block"></i>
                   <span>Tarjeta</span>
                 </div>
               </label>
-              <label class="payment-card flex-fill">
+              <label class="payment-card flex-fill cursor-pointer">
                 <input type="radio" name="payment_method" value="wallet">
-                <div class="payment-card-content p-3 border rounded text-center">
+                <div class="payment-card-content p-3 border text-center" style="cursor: pointer;">
                   <i class="bi bi-phone-vibrate display-6 mb-2 d-block"></i>
                   <span>Yape / Plin</span>
                 </div>
@@ -92,13 +90,13 @@
               <div class="col-12">
                 <label class="form-label-lmll">Número de Tarjeta</label>
                 <div class="position-relative">
-                  <input type="text" class="form-control form-input-lmll pe-5" placeholder="0000000000000000" maxlength="16" required pattern="[0-9]{16}">
+                  <input type="text" class="form-control form-input-lmll pe-5" placeholder="0000 0000 0000 0000" maxlength="16" required pattern="[0-9]{16}">
                   <i class="bi bi-credit-card position-absolute top-50 end-0 translate-middle-y me-3 text-muted"></i>
                 </div>
               </div>
               <div class="col-6">
                 <label class="form-label-lmll">Vencimiento (MM/YY)</label>
-                <input type="text" class="form-control form-input-lmll" id="input-venc" placeholder="MM/YY" maxlength="5" required>
+                <input type="text" class="form-control form-input-lmll" placeholder="MM/YY" maxlength="5" required>
               </div>
               <div class="col-6">
                 <label class="form-label-lmll">CVV</label>
@@ -107,29 +105,32 @@
             </div>
 
             <div id="wallet-details" class="mt-3 d-none">
-                <div class="alert alert-info">
-                    Al finalizar, se mostrará un código QR para completar tu pago con Yape o Plin.
+                <div class="alert alert-light border text-center py-4">
+                    <i class="bi bi-qr-code-scan display-4 mb-3 d-block text-muted"></i>
+                    Al finalizar, se mostrará un código QR para completar tu pago.
                 </div>
             </div>
           </div>
         </form>
       </div>
 
+      <!-- Resumen de Compra -->
       <div class="col-lg-5 anim-3">
-        <div class="card-oferta sticky-summary p-4 shadow-sm rounded">
-          <h3 class="mb-4" style="font-size: 1.4rem;">Resumen de tu bolsa</h3>
+        <div class="card-oferta sticky-summary p-4 border" style="background-color: #fafafa;">
+          <h3 class="mb-4" style="font-size: 1.4rem; border-bottom: 2px solid #000; padding-bottom: 10px;">Resumen de tu bolsa</h3>
           
           <div id="pago-productos-lista" class="mb-4" style="max-height: 300px; overflow-y: auto;">
-            </div>
+             <!-- Inyectado por JS -->
+          </div>
 
           <hr>
 
           <div class="d-flex justify-content-between align-items-end mt-4 mb-4">
-            <span style="font-size: 1.1rem;">Total a pagar</span>
-            <span class="display-font" style="font-size: 2rem; font-weight: 600; color: var(--accent-2);">S/ <span id="pago-total">0.00</span></span>
+            <span style="font-size: 1.1rem; font-weight: bold;">Total a pagar</span>
+            <span class="display-font" style="font-size: 2rem; font-weight: 600;">S/ <span id="pago-total">0.00</span></span>
           </div>
 
-          <button type="submit" form="checkout-form" class="btn-lmll btn-primary-lmll w-100 justify-content-center py-3">
+          <button type="submit" form="checkout-form" class="btn-lmll w-100 justify-content-center py-3">
             <i class="bi bi-lock-fill me-2"></i> Pagar Pedido Seguro
           </button>
         </div>
@@ -139,6 +140,7 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/src/main/resources/static/js/pago.js"></script>
+<!-- Script conectado vía Thymeleaf -->
+<script th:src="@{/js/pago.js}"></script>
 </body>
 </html>

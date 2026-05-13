@@ -18,4 +18,10 @@ public class CategoriaService {
     public List<Categoria> listarTodas() {
         return categoriaRepository.findAll();
     }
+
+    @Transactional(readOnly = true)
+    public Categoria buscarPorId(Long id) {
+        return categoriaRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Error: La categoría con ID " + id + " no existe."));
+}
 }

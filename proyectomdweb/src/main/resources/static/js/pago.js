@@ -73,16 +73,76 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // 4. Manejo del Envío del Formulario
-    checkoutForm.addEventListener("submit", function(e) {
+  checkoutForm.addEventListener("submit", function(e) {
+        e.preventDefault(); // Evitamos que la página se recargue
+
         if (!checkoutForm.checkValidity()) {
-            e.preventDefault();
             e.stopPropagation();
-        } else {
-            e.preventDefault();
-            alert("¡Compra procesada con éxito! Gracias por confiar en La Moda te LLama.");
-            localStorage.removeItem("carritoLlama"); // Limpiar carrito tras pagar
-            window.location.href = "index.html"; 
-        }
+            checkoutForm.classList.add("was-validated");
+            return; // Si faltan datos (como el nombre), detenemos todo aquí
+        } 
+        
+        // --- 1. RECOLECTAR DATOS DEL FORMULARIO ---
+        // Buscamos los inputs de la sección de "Datos de Envío"
+        const inputsEnvio = document.querySelectorAll('.form-section:first-of-type input');
+        const nombre = inputsEnvio[0].value;
+        const telefono = inputsEnvio[1].value;
+        const direccion = inputsEnvio[2].value;
+
+        const metodoPago = document.querySelector('input[name="payment_method"]:checked').value;
+
+        // Calculamos el total usando el carrito actual
+        const totalPagar = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+
+        // --- 2. ARMAR EL PAQUETE JSON ---
+        // Los nombres de la izquierda deben coincidir EXACTAMENTE con tu CheckoutRequestDTO en Java
+        const payload = {
+            clienteNombre: nombre,
+            clienteTelefono: telefono,
+            clienteDireccion: direccion,
+            metodoPago: metodoPago,
+            total: parseFloat(totalPagar.toFixed(2)),
+            items: carrito.map(item => ({
+                nombre: item.nombre,
+                precio: parseFloat(item.precio),
+                cantidad: parseInt(item.cantidad)
+            }))
+        };
+
+        // --- 3. EFECTOS VISUALES (Desactivar botón para evitar doble clic) ---
+        const btnSubmit = document.querySelector("button[type='submit']");
+        const textoOriginal = btnSubmit.innerHTML;
+        btnSubmit.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Procesando...`;
+        btnSubmit.disabled = true;
+
+        // --- 4. ENVIAR A SPRING BOOT VÍA AJAX ---
+        fetch('/pedidos/procesar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(response => {
+            if (response.ok) {
+                // El servidor de Java respondió "OK", la venta se guardó en MySQL
+                localStorage.removeItem("carritoLlama");
+                window.location.href = "/"; // Te lleva al inicio de la tienda
+            } else {
+                // Si Java detecta un error (ej. falta un dato), lanzamos error
+                throw new Error('El servidor rechazó la operación');
+            }
+        })
+        .catch(error => {
+            // Si el servidor está apagado o hubo un error en Java
+            console.error("Detalle del error:", error);
+            // ESTO TE MOSTRARÁ EL MOTIVO REAL EN PANTALLA
+            alert("Error del servidor: \n" + error.message);
+            // Restauramos el botón a su estado normal
+            btnSubmit.innerHTML = textoOriginal;
+            btnSubmit.disabled = false;
+        });
+
         checkoutForm.classList.add("was-validated");
     });
 

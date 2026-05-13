@@ -96,7 +96,7 @@
                     <div th:text="${prod.nombre}" style="font-weight: 500;">Nombre</div>
                     <small class="text-muted" th:text="${prod.genero}">Unisex</small>
                 </td>
-                <td th:text="${prod.categoria != null ? prod.categoria.nombre : 'Sin categoría'}">Categoría</td>
+                <td th:text="${prod.categoriaNombre}">Categoría</td>
                 <td th:text="'S/ ' + ${#numbers.formatDecimal(prod.precioBase, 1, 2)}">S/ 0.00</td>
                 <td class="text-end">
                     <a th:href="@{/admin/productos/editar/{id}(id=${prod.id})}" 
