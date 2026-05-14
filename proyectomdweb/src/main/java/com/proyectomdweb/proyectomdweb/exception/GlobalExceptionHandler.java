@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
         return "error";
     }
 
-    // Puedes manejar tus propias excepciones (ej. CategoriaNotFound)
+    // Para manejar excepciones especificas (ej: CategoriaNotFound)
     @ExceptionHandler(RuntimeException.class)
     public String manejarRuntime(RuntimeException ex, Model model) {
         model.addAttribute("errorTitulo", "Error de Proceso");

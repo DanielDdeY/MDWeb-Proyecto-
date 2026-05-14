@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductoMapper {
 
-    // Convertir de Entidad a DTO (Para enviar a la Vista)
+    //* Convertir de Entidad a DTO (Para enviar a la Vista) *//
     public ProductoDTO toDto(Producto producto) {
         return new ProductoDTO(
             producto.getId(),
@@ -22,7 +22,7 @@ public class ProductoMapper {
         );
     }
 
-    // Convertir de DTO a Entidad (Para guardar en BD)
+    //* Convertir de DTO a Entidad (Para guardar en BD) *//
     public Producto toEntity(ProductoDTO dto, Categoria categoria) {
         Producto producto = new Producto();
         producto.setId(dto.id());

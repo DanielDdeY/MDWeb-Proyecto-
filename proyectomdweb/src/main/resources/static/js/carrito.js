@@ -1,6 +1,6 @@
-/* ==========================================
+/* ==============================
    LÓGICA DE LA PÁGINA DE CARRITO 
-   ========================================== */
+   ============================== */
 
 document.addEventListener("DOMContentLoaded", () => {
     const contenedor = document.getElementById("cart-items-list");

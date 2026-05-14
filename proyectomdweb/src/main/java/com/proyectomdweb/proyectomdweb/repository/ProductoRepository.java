@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Long> {
     
-    // Al usar JOIN FETCH, traemos el producto y su categoría en un solo viaje a la BD
+    //* Al usar JOIN FETCH, traemos el producto y su categoría en un solo viaje a la BD *//
     @Query("SELECT p FROM Producto p JOIN FETCH p.categoria")
     List<Producto> findAllConCategoria();
     
@@ -20,8 +20,8 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     @Query("SELECT p FROM Producto p JOIN FETCH p.categoria WHERE p.id = :id")
     Optional<Producto> findByIdConCategoria(Long id);
 
-    // Spring Data JPA es lo suficientemente inteligente para entender esto:
-    // Busca dentro de la propiedad "categoria" y matchea su "id"
+    /*-- Le dice a Spring Data JPA esto:
+     //*Busca dentro de la propiedad "categoria" y matchea su "id"*/
     List<Producto> findByCategoriaId(Long categoriaId); 
     
     List<Producto> findByNombreContainingIgnoreCase(String nombre);

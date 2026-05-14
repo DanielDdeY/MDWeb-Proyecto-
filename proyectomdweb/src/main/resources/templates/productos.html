@@ -1,197 +1,289 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>LMLL — La Moda te LLama</title>
-  <meta name="description" content="Colecciones de moda peruana. Prendas premium, cortes limpios y estilo auténtico.">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LMLL — La Moda te LLama</title>
+    <meta name="description" content="Colecciones de moda peruana. Prendas premium, cortes limpios y estilo auténtico."/>
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap"
-    rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"/>
 
-  <!-- Bootstrap 5.3 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap 5.3 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"/>
 
-  <!-- Bootstrap Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"/>
 
-  <!-- Estilos propios (Corregido para Spring Boot) -->
-  <link rel="stylesheet" th:href="@{/css/styles.css}">
-</head>
+    <!-- Estilos propios -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  </head>
 
-<body>
+  <body>
+    <!-- =============================
+         NAVBAR — Bootstrap responsive
+         ============================= -->
+    <header class="site-header">
+      <nav
+        class="navbar navbar-expand-md w-100 px-3 py-2"
+        aria-label="Navegación principal"
+      >
+        <!-- Marca -->
+        <a class="navbar-brand" th:href="@{/}" aria-label="LMLL Inicio">
+          <img
+            th:src="@{/img/logo.png}"
+            alt="La Moda te LLama"
+            style="height: 63px; width: auto"
+          />
+        </a>
 
-  <!-- ══════════════════════════════════════
-     NAVBAR — Bootstrap responsive
-══════════════════════════════════════ -->
-  <header class="site-header">
-    <nav class="navbar navbar-expand-md w-100 px-3 py-2" aria-label="Navegación principal">
+        <!-- Botón hamburguesa (Celular) -->
+        <button
+          class="navbar-toggler ms-auto me-2"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navMenu"
+          aria-controls="navMenu"
+          aria-expanded="false"
+          aria-label="Abrir menú"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-      <!-- Marca -->
-      <a class="navbar-brand" th:href="@{/}" aria-label="LMLL Inicio">
-        <img th:src="@{/img/logo.png}" alt="La Moda te LLama" style="height: 63px; width: auto;">
-      </a>
+        <!-- Links + acciones -->
+        <div class="collapse navbar-collapse" id="navMenu">
+          <ul class="site-nav navbar-nav mx-auto gap-1">
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/}">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" th:href="@{/productos}">Productos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/carrito}">Carrito</a>
+            </li>
+          </ul>
 
-      <!-- Botón hamburguesa (mobile) -->
-      <button class="navbar-toggler ms-auto me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
-        aria-controls="navMenu" aria-expanded="false" aria-label="Abrir menú">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <!-- Links + acciones -->
-      <div class="collapse navbar-collapse" id="navMenu">
-        <ul class="site-nav navbar-nav mx-auto gap-1">
-          <li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a></li>
-          <li class="nav-item"><a class="nav-link active" th:href="@{/productos}">Productos</a></li>
-          <li class="nav-item"><a class="nav-link" th:href="@{/carrito}">Carrito</a></li>
-        </ul>
-
-        <!-- Botón carrito -->
-        <div class="d-flex align-items-center mt-2 mt-md-0">
-          <button id="carrito-toggle" class="cart-btn" aria-label="Abrir carrito lateral">
-            <i class="bi bi-bag" style="font-size:.95rem;"></i>
-            <span>Bolsa</span>
-            <span class="cart-badge" id="cart-count" style="display:none;">0</span>
-          </button>
+          <!-- Botón carrito -->
+          <div class="d-flex align-items-center mt-2 mt-md-0">
+            <button
+              id="carrito-toggle"
+              class="cart-btn"
+              aria-label="Abrir carrito lateral"
+            >
+              <i class="bi bi-bag" style="font-size: 0.95rem"></i>
+              <span>Bolsa</span>
+              <span class="cart-badge" id="cart-count" style="display: none"
+                >0</span
+              >
+            </button>
+          </div>
         </div>
-      </div>
+      </nav>
+    </header>
 
-    </nav>
-  </header>
-
-  <main class="py-5">
-    <div class="container">
-
-      <div class="d-flex justify-content-between align-items-end mb-4 anim-1">
-        <div>
-          <h1 class="display-font glow-text-subtle" style="font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 600;">
-            Nuestra <em style="color:var(--brand);">Colección</em>
-          </h1>
-          <!-- Contador dinámico de productos -->
-          <p class="text-muted-1 mb-0" style="font-size: .9rem;"
-            th:text="'Mostrando ' + ${#lists.size(productos)} + ' productos exclusivos'"></p>
-        </div>
-        <div class="d-none d-md-block">
-          <select id="filtro-genero" class="form-select form-input-lmll" style="width: 200px; padding-top: .5rem; padding-bottom: .5rem;">
-
+    <!-- ===================
+         CONTENIDO PRINCIPAL
+         =================== -->    
+    <main class="py-5">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-end mb-4 anim-1">
+          <div>
+            <h1
+              class="display-font glow-text-subtle"
+              style="font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 600"
+            >
+              Nuestra <em style="color: var(--brand)">Colección</em>
+            </h1>
+            <!-- Contador dinámico de productos -->
+            <p
+              class="text-muted-1 mb-0"
+              style="font-size: 0.9rem"
+              th:text="'Mostrando ' + ${#lists.size(productos)} + ' productos exclusivos'"
+            ></p>
+          </div>
+          <div class="d-none d-md-block">
+            <select
+              id="filtro-genero"
+              class="form-select form-input-lmll"
+              style="width: 200px; padding-top: 0.5rem; padding-bottom: 0.5rem"
+            >
               <option value="Unisex" selected>Unisex</option>
               <option value="Hombre">Hombre</option>
               <option value="Mujer">Mujer</option>
-          </select>
+            </select>
+          </div>
         </div>
-      </div>
 
-<div class="row g-4">
-  <!-- 2. SIDEBAR DE CATEGORÍAS DINÁMICAS -->
-  <aside class="col-lg-3 anim-2">
-    <div class="card-lmll sticky-filters">
-      <h2 class="sidebar-title mb-3">Categorías</h2>
-      <ul class="lista-filtros mb-4">
-        <!-- El data-id="" indica "todas" las categorías -->
-        <li><a href="#" class="filtro-cat active" data-id="">Todos los productos</a></li>
-        
-        <!-- Bucle para mostrar categorías reales de la BD -->
-        <li th:each="cat : ${categorias}">
-          <a href="#" 
-             class="filtro-cat" 
-             th:data-id="${cat.id}" 
-             th:text="${cat.nombre}">Categoría</a>
-        </li>
-      </ul>
-    </div>
-  </aside>
+        <div class="row g-4">
+          <!-- ===============================
+               SIDEBAR DE CATEGORÍAS DINÁMICAS 
+               =============================== -->
+          <aside class="col-lg-3 anim-2">
+            <div class="card-lmll sticky-filters">
+              <h2 class="sidebar-title mb-3">Categorías</h2>
+              <ul class="lista-filtros mb-4">
+                <!-- El data-id="" indica "todas" las categorías -->
+                <li>
+                  <a href="#" class="filtro-cat active" data-id=""
+                    >Todos los productos</a
+                  >
+                </li>
 
-  <!-- 3. CONTENEDOR DINÁMICO (FRAGMENTO) -->
-  <div class="col-lg-9 anim-3">
-    <!-- El id 'contenedor-productos' es para JS, el th:fragment es para Spring Boot -->
-    <div id="contenedor-productos" th:fragment="lista-productos">
-      
-      <!-- Contador dinámico (ahora se actualizará por AJAX al estar dentro del fragmento) -->
-      <div class="mb-3">
-        <p class="text-muted-1 mb-0" style="font-size: .9rem;"
-           th:text="'Mostrando ' + ${#lists.size(productos)} + ' productos encontrados'"></p>
-      </div>
+                <!-- Bucle para mostrar las categorías de la BD -->
+                <li th:each="cat : ${categorias}">
+                  <a
+                    href="#"
+                    class="filtro-cat"
+                    th:data-id="${cat.id}"
+                    th:text="${cat.nombre}"
+                    >Categoría</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </aside>
 
-      <div class="row g-4">
-        <!-- BUCLE DE PRODUCTOS (Usando DTOs) -->
-        <div class="col-md-6 col-xl-4" th:each="producto : ${productos}">
-          <div class="product-card-lmll">
-            <div class="product-img-wrap">
-              <img th:src="${producto.imagenUrl}" th:alt="${producto.nombre}">
-              <div class="product-overlay">
-                <button class="btn-lmll btn-primary-lmll btn-glow w-100 justify-content-center">
-                  Añadir a bolsa <i class="bi bi-bag-plus"></i>
-                </button>
+          <!-- ===============================
+               CONTENEDOR DINÁMICO (FRAGMENTO) 
+               =============================== -->
+          <div class="col-lg-9 anim-3">
+            <!-- El id 'contenedor-productos' es para JS, el th:fragment es para Spring Boot -->
+            <div id="contenedor-productos" th:fragment="lista-productos">
+              <!-- Contador dinámico (Se actualizará por AJAX al estar dentro del fragmento) -->
+              <div class="mb-3">
+                <p
+                  class="text-muted-1 mb-0"
+                  style="font-size: 0.9rem"
+                  th:text="'Mostrando ' + ${#lists.size(productos)} + ' productos encontrados'"
+                ></p>
+              </div>
+
+              <div class="row g-4">
+                <!-- ================================
+                     BUCLE DE PRODUCTOS (Usando DTOs) 
+                     ================================ -->
+                <div
+                  class="col-md-6 col-xl-4"
+                  th:each="producto : ${productos}"
+                >
+                  <div class="product-card-lmll">
+                    <div class="product-img-wrap">
+                      <img
+                        th:src="${producto.imagenUrl}"
+                        th:alt="${producto.nombre}"
+                      />
+                      <div class="product-overlay">
+                        <button
+                          class="btn-lmll btn-primary-lmll btn-glow w-100 justify-content-center"
+                        >
+                          Añadir a bolsa <i class="bi bi-bag-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="product-info">
+                      <h3 class="product-title" th:text="${producto.nombre}">
+                        Nombre Producto
+                      </h3>
+                      <p
+                        class="product-price"
+                        th:text="'S/ ' + ${#numbers.formatDecimal(producto.precioBase, 1, 2)}"
+                      >
+                        S/ 0.00
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Mensaje si la lista viene vacía tras filtrar -->
+                <div class="col-12" th:if="${#lists.isEmpty(productos)}">
+                  <div class="alert alert-light text-center py-5" role="alert">
+                    <i
+                      class="bi bi-search mb-2"
+                      style="font-size: 2rem; display: block"
+                    ></i>
+                    No hay prendas disponibles para esta combinación de filtros.
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="product-info">
-              <h3 class="product-title" th:text="${producto.nombre}">Nombre Producto</h3>
-              <p class="product-price" th:text="'S/ ' + ${#numbers.formatDecimal(producto.precioBase, 1, 2)}">S/ 0.00</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Mensaje si la lista viene vacía tras filtrar -->
-        <div class="col-12" th:if="${#lists.isEmpty(productos)}">
-          <div class="alert alert-light text-center py-5" role="alert">
-            <i class="bi bi-search mb-2" style="font-size: 2rem; display: block;"></i>
-            No hay prendas disponibles para esta combinación de filtros.
-          </div>
+          </div> <!-- /Fin FRAGMENTO-->
         </div>
       </div>
-    </div> <!-- /fin fragmento -->
-  </div>
-    </div>
-  </main>
+    </main>
 
-  <!-- ══════════════════════════════════════
-     CARRITO LATERAL
-══════════════════════════════════════ -->
-  <div class="carrito-overlay" id="carrito-overlay" aria-hidden="true"></div>
+    <!-- ===============
+         CARRITO LATERAL
+         =============== -->
+    <div class="carrito-overlay" id="carrito-overlay" aria-hidden="true"></div>
 
-  <aside id="carrito-panel" class="carrito-panel" aria-label="Carrito de compras" role="complementary">
-    <div class="carrito-header">
-      <h4><i class="bi bi-bag me-2"></i>Tu bolsa</h4>
-      <button id="cerrar-carrito" class="close-btn" aria-label="Cerrar carrito">
-        <i class="bi bi-x-lg"></i>
-      </button>
-    </div>
+    <aside
+      id="carrito-panel"
+      class="carrito-panel"
+      aria-label="Carrito de compras"
+      role="complementary"
+    >
+      <div class="carrito-header">
+        <h4><i class="bi bi-bag me-2"></i>Tu bolsa</h4>
+        <button
+          id="cerrar-carrito"
+          class="close-btn"
+          aria-label="Cerrar carrito"
+        >
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
 
-    <div class="carrito-items" id="carrito-items">
-      <p style="font-size:.82rem; color:var(--txt-3); text-align:center; padding:1.5rem 0;">
-        Tu bolsa está vacía.<br>¡Añade algo especial!
+      <div class="carrito-items" id="carrito-items">
+        <p
+          style="
+            font-size: 0.82rem;
+            color: var(--txt-3);
+            text-align: center;
+            padding: 1.5rem 0;
+          "
+        >
+          Tu bolsa está vacía.<br />¡Añade algo especial!
+        </p>
+      </div>
+
+      <div class="carrito-footer">
+        <div class="total-line">
+          <span>Total</span>
+          <strong>S/ <span id="carrito-total">0.00</span></strong>
+        </div>
+        <a
+          th:href="@{/carrito}"
+          class="btn-lmll btn-primary-lmll w-100 justify-content-center"
+        >
+          Ver carrito completo &nbsp;<i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </aside>
+
+    <!-- =============
+         PIE DE PAGINA
+         ============= -->
+    <footer class="footer">
+      <p>&copy; 2026 LMLL. Todos los derechos reservados.</p>
+      <p class="socials">
+        <a href="#">www.lmll.com.pe</a> &nbsp;|&nbsp;
+        <a href="#">@LmLL_</a> &nbsp;|&nbsp;
       </p>
-    </div>
+    </footer>
 
-    <div class="carrito-footer">
-      <div class="total-line">
-        <span>Total</span>
-        <strong>S/ <span id="carrito-total">0.00</span></strong>
-      </div>
-      <a th:href="@{/carrito}" class="btn-lmll btn-primary-lmll w-100 justify-content-center">
-        Ver carrito completo &nbsp;<i class="bi bi-arrow-right"></i>
-      </a>
-    </div>
-  </aside>
-
-  <!-- PIE DE PAGINA -->
-  <footer class="footer">
-    <p>&copy; 2026 LMLL. Todos los derechos reservados.</p>
-    <p class="socials">
-      <a href="#">www.lmll.com.pe</a> &nbsp;|&nbsp;
-      <a href="#">@LmLL_</a> &nbsp;|&nbsp;
-    </p>
-  </footer>
-
-  <!-- Rutas de scripts corregidas para Spring Boot -->
-  <script th:src="@{/js/script.js}"></script>
-
-  <script th:src="@{/js/productos.js}"></script>
-</body>
-
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Script propio -->
+    <script th:src="@{/js/script.js}"></script>
+    <script th:src="@{/js/productos.js}"></script>
+  </body>
 </html>

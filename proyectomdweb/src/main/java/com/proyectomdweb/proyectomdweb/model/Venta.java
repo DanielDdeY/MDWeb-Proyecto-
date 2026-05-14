@@ -14,7 +14,7 @@ public class Venta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Relación OneToOne porque pedido_id es UNIQUE 
+    //* Relación OneToOne porque pedido_id es UNIQUE *//
     @OneToOne
     @JoinColumn(name = "pedido_id", nullable = false)
     private Pedido pedido;

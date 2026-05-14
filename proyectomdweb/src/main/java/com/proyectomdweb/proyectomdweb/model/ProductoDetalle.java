@@ -17,7 +17,7 @@ public class ProductoDetalle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Relación: MUCHOS detalles pertenecen a UN producto general
+    //* Relación: MUCHOS detalles pertenecen a UN producto general *//
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;

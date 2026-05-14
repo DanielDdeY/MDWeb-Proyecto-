@@ -18,16 +18,16 @@ import java.util.Random;
 public class VentaPresentacionService {
 
     private final PedidoRepository pedidoRepository;
-    private final VentaRepository ventaRepository;
+    private final VentaRepository  ventaRepository;
 
     @Transactional
     public Venta registrarVentaRapida(CheckoutRequestDTO request) {
         
-        // 1. Crear un Pedido "Simulado" para satisfacer la llave foránea
+        // 1. Crea un Pedido "Simulado" para satisfacer la llave foránea
         Pedido pedidoNuevo = new Pedido();
-        pedidoNuevo.setUsuarioId(1L);            // <--- Hardcodeamos el ID 1
-        pedidoNuevo.setTotal(request.total());   // <--- El total es obligatorio en tu SQL
-        pedidoNuevo.setEstado(EstadoPedido.PAGADO); // Lo marcamos como pagado directamente
+        pedidoNuevo.setUsuarioId(1L);        
+        pedidoNuevo.setTotal(request.total());   
+        pedidoNuevo.setEstado(EstadoPedido.PAGADO); // SE marca como pagado directamente
         pedidoNuevo = pedidoRepository.save(pedidoNuevo);
 
         // 2. Cálculos Matemáticos (IGV 18% Perú)
@@ -37,7 +37,7 @@ public class VentaPresentacionService {
         // IGV = Total - Subtotal
         BigDecimal igv = total.subtract(subtotal);
 
-        // 3. Generar número de boleta aleatorio (Ej: B001-001234)
+        // 3. Genera número de boleta aleatorio (Ej: B001-001234)
         Random random = new Random();
         int correlativo = random.nextInt(999999);
         String numeroBoleta = String.format("B001-%06d", correlativo);
@@ -46,7 +46,7 @@ public class VentaPresentacionService {
         MetodoPago metodoElegido = request.metodoPago().equals("wallet") ? 
                                    MetodoPago.YAPE : MetodoPago.TARJETA_CREDITO;
 
-        // 5. Ensamblar y guardar la Venta
+        // 5. Ensambla y guarda la Venta
         Venta venta = new Venta();
         venta.setPedido(pedidoNuevo);
         venta.setTipoComprobante(TipoComprobante.BOLETA);

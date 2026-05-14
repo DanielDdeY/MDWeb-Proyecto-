@@ -21,7 +21,7 @@ public class Categoria {
     private String nombre;
 
     // Relación Bidireccional: Una categoría tiene MUCHOS productos
-    @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY) // mappedBy = "categoria" significa que la clase Producto es dueña de la relación
+    @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY) 
     @ToString.Exclude // Evita el bucle infinito al imprimir la clase
     private List<Producto> productos;
 }

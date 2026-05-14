@@ -1,7 +1,11 @@
+/* ===================================
+   LÓGICA DE PRESENTACION DE PRODUCTOS
+   =================================== */
+
 document.addEventListener('DOMContentLoaded', () => {
-    const generoSelect = document.getElementById('filtro-genero');
+    const generoSelect   = document.getElementById('filtro-genero');
     const categoriaLinks = document.querySelectorAll('.filtro-cat');
-    const contenedor = document.getElementById('contenedor-productos');
+    const contenedor     = document.getElementById('contenedor-productos');
 
     let categoriaActual = "";
 
@@ -16,15 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
-    // Escuchar cambio de Género
+    // Escucha cambio de Género
     generoSelect.addEventListener('change', actualizarProductos);
 
-    // Escuchar clics en Categorías
+    // Escucha los clicks en Categorías
     categoriaLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             
-            // Estética: quitar 'active' de todos y ponerlo al actual
             categoriaLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
 

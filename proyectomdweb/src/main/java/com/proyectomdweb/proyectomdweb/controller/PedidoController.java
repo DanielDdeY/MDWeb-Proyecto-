@@ -16,7 +16,7 @@ public class PedidoController {
     @PostMapping("/procesar")
     public ResponseEntity<String> procesarPago(@RequestBody CheckoutRequestDTO request) {
         try {
-            // Llamamos a nuestro método rápido para la presentación
+            // Llamamos a al método para la presentación
             ventaService.registrarVentaRapida(request);
             
             return ResponseEntity.ok("Venta registrada exitosamente en BD");

@@ -18,7 +18,7 @@ public class Producto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Relación: MUCHOS productos pertenecen a UNA categoría
+    //* Relación: MUCHOS productos pertenecen a UNA categoría *//
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoria_id") // Esta es la llave foránea
     private Categoria categoria;
@@ -38,7 +38,7 @@ public class Producto {
     @Column(columnDefinition = "boolean default true")
     private Boolean disponibilidad;
 
-    // Relación: UN producto tiene MUCHOS detalles (variantes)
+    //* Relación: UN producto tiene MUCHOS detalles (variantes) *//
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<ProductoDetalle> variantes;

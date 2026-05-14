@@ -21,4 +21,5 @@ public class Pedido {
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "ENUM('PENDIENTE', 'PAGADO', 'ENVIADO', 'CANCELADO')")
     private EstadoPedido estado;
+    //todo: Luego usar los estados con la API de pago//
 }

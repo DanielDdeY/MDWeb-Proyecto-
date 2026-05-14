@@ -15,22 +15,23 @@ public class ProductoService {
     
     private final ProductoRepository productoRepository;
     
-    // Usamos readOnly = true para optimizar consultas de solo lectura
+    //* Se usa "readOnly = true" para optimizar consultas de solo lectura *//
     @Transactional(readOnly = true)
     public List<Producto> listarTodos() {
-        // Usamos nuestro nuevo método optimizado
+        
         return productoRepository.findAllConCategoria();
     }
     
     @Transactional(readOnly = true)
     public Optional<Producto> buscarPorId(Long id) {
-        // Usamos el método optimizado para tener la categoría disponible
+        
         return productoRepository.findByIdConCategoria(id);
     }
     
-    // Este NO lleva readOnly = true porque SÍ modifica la base de datos (escribe)
+    //! Este NO lleva "readOnly = true" porque SÍ modifica la base de datos (escribe) !//
     @Transactional
     public Producto guardar(Producto producto) {
+
         return productoRepository.save(producto);
     }
     
@@ -41,11 +42,13 @@ public class ProductoService {
     
     @Transactional(readOnly = true)
     public List<Producto> buscarPorCategoriaId(Long categoriaId) {
+
         return productoRepository.findByCategoriaId(categoriaId);
     }
     
     @Transactional(readOnly = true)
     public List<Producto> buscarPorNombre(String nombre) {
+        
         return productoRepository.findByNombreContainingIgnoreCase(nombre);
     }
 

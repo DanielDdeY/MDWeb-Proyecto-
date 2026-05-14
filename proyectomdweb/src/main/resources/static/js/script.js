@@ -1,15 +1,18 @@
+/* ==================================
+   LÓGICA DE GENERAL DE LA PAGINA WEB
+   ================================== */
 document.addEventListener("DOMContentLoaded", () => {
-    /* --- POPUP PROMO --- */
+    // -- POPUP PROMO --//
     const popupmodal = document.getElementById("promo-modal");
     if (popupmodal) {
         setTimeout(() => { popupmodal.style.display = "flex"; }, 1000);
         document.getElementById("close-modal")?.addEventListener("click", () => popupmodal.style.display = "none");
     }
 
-    /* ─── BANNER CARRUSEL ─────────────────────────────── */
+    //-- BANNER CARRUSEL  --//
     (function () {
         const images = document.querySelectorAll('.banner-image');
-        const dots = document.querySelectorAll('.banner-dot');
+        const dots   = document.querySelectorAll('.banner-dot');
         let current = 0;
 
         function goTo(index) {
@@ -31,13 +34,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     })();
 
-    /* ─── STAT PRODUCTOS ─────────────────────────────── */
+    // -- STAT PRODUCTOS --//
     (function () {
         const el = document.getElementById('stat-productos');
         const cnt = parseInt(localStorage.getItem('cantidadProductos')) || 0;
         if (el) el.textContent = cnt > 0 ? cnt : '24';
     })();
-    /* ─── TICKER DINÁMICO ─────────────────────────────── */
+    //-- FRASE DINÁMICA --//
     (function () {
         const el = document.getElementById('texto-dinamico');
         if (!el) return;
@@ -65,20 +68,20 @@ document.addEventListener("DOMContentLoaded", () => {
         setInterval(siguiente, 7000);
     })();
 
-    /* ==========================
-    CARRITO LATERAL 
- ========================== */
-    const botonesComprar = document.querySelectorAll(".product-overlay button");
-    const carritoPanel = document.getElementById("carrito-panel");
-    const carritoToggle = document.getElementById("carrito-toggle");
-    const cerrarCarrito = document.getElementById("cerrar-carrito");
-    const contenedorItems = document.getElementById("carrito-items");
-    const totalSpan = document.getElementById("carrito-total");
-    const btnVerCarrito = document.getElementById("carrito-ver");
+    /* ===============
+       CARRITO LATERAL 
+       =============== */
+    const botonesComprar    = document.querySelectorAll(".product-overlay button");
+    const carritoPanel      = document.getElementById("carrito-panel");
+    const carritoToggle     = document.getElementById("carrito-toggle");
+    const cerrarCarrito     = document.getElementById("cerrar-carrito");
+    const contenedorItems   = document.getElementById("carrito-items");
+    const totalSpan         = document.getElementById("carrito-total");
+    const btnVerCarrito     = document.getElementById("carrito-ver");
 
     let carrito = [];
 
-    // --- PERSISTENCIA ---
+    //-- PERSISTENCIA --//
     function cargarCarrito() {
         const data = localStorage.getItem("carritoLlama");
         if (data) {
@@ -94,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("carritoLlama", JSON.stringify(carrito));
     }
 
-    // --- LÓGICA DE INTERFAZ ---
+    //-- LÓGICA DE INTERFAZ --//
     function abrirCarrito() {
         if (carritoPanel) carritoPanel.style.right = "0";
     }
@@ -153,25 +156,25 @@ document.addEventListener("DOMContentLoaded", () => {
         guardarCarrito();
     }
 
-    // --- AGREGAR PRODUCTOS (COMPATIBLE CON AJAX) ---
+    //-- AGREGAR PRODUCTOS (COMPATIBLE CON AJAX) --//
     document.addEventListener("click", function (e) {
-        // Verificamos si el clic provino de un botón de "Añadir a bolsa" o su icono interno
+        // Verifica si el click provino de un botón de "Añadir a bolsa" o su icono interno
         const botonComprar = e.target.closest(".product-overlay button");
 
         if (botonComprar) {
             e.preventDefault();
 
-            // Buscar la tarjeta contenedora para extraer info
-            const card = botonComprar.closest(".product-card-lmll");
+            // Busca la tarjeta contenedora para extraer info
+            const card   = botonComprar.closest(".product-card-lmll");
             const nombre = card.querySelector(".product-title").textContent.trim();
 
-            let precioTexto = card.querySelector(".product-price").textContent;
+            let precioTexto  = card.querySelector(".product-price").textContent;
             let precioLimpio = precioTexto.replace("S/", "").trim().split(" ")[0];
 
             const precio = parseFloat(precioLimpio) || 0;
             const imagen = card.querySelector("img").src;
 
-            // Lógica de agregar al array
+            // Logica para agregar al array
             let encontrado = carrito.find(item => item.nombre === nombre);
 
             if (encontrado) {
@@ -185,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // --- EVENTOS DE BOTONES DEL PANEL ---
+    //-- EVENTOS DE BOTONES DEL PANEL --//
     if (carritoToggle) {
         carritoToggle.addEventListener("click", () => {
             const isClosed = carritoPanel.style.right === "-320px" || carritoPanel.style.right === "";
@@ -218,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Inicialización
+    //-- Inicialización --//
     cargarCarrito();
     actualizarCarrito();
 

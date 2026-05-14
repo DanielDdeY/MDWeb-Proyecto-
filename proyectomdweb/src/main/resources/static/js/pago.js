@@ -1,18 +1,19 @@
-/* ==========================
+/* ==============
    LÓGICA DE PAGO 
-   ========================== */
+   ============== */
 
 document.addEventListener("DOMContentLoaded", function() {
     const contenedorResumen = document.getElementById("pago-productos-lista");
-    const totalSpan = document.getElementById("pago-total");
-    const checkoutForm = document.getElementById("checkout-form");
-    const cardDetails = document.getElementById("card-details");
-    const walletDetails = document.getElementById("wallet-details");
-    const radioMetodos = document.querySelectorAll('input[name="payment_method"]');
+    const totalSpan         = document.getElementById("pago-total");
+    const checkoutForm      = document.getElementById("checkout-form");
+    const cardDetails       = document.getElementById("card-details");
+    const walletDetails     = document.getElementById("wallet-details");
+    const radioMetodos      = document.querySelectorAll('input[name="payment_method"]');
 
     let carrito = [];
 
-    // 1. Cargar datos del localStorage
+    //-- 1. CARGA DATOS DEL LOCAL STORAGE --//
+
     function cargarResumen() {
         const data = localStorage.getItem("carritoLlama");
         if (data) {
@@ -29,7 +30,8 @@ document.addEventListener("DOMContentLoaded", function() {
         renderizarItems();
     }
 
-    // 2. Mostrar productos en el lateral
+    //-- 2. MUESTRA PRODUCTOS EN EL LATERAL --//
+
     function renderizarItems() {
         contenedorResumen.innerHTML = "";
         let total = 0;
@@ -56,7 +58,8 @@ document.addEventListener("DOMContentLoaded", function() {
         totalSpan.textContent = total.toFixed(2);
     }
 
-    // 3. Alternar visibilidad de métodos de pago
+    //-- 3. ALTERNA LA VISIBILIDAD DE LOS METODOS DE PAGO --//
+
     radioMetodos.forEach(radio => {
         radio.addEventListener("change", function() {
             if (this.value === "wallet") {
@@ -72,30 +75,33 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // 4. Manejo del Envío del Formulario
-  checkoutForm.addEventListener("submit", function(e) {
-        e.preventDefault(); // Evitamos que la página se recargue
+    //-- 4. MANEJO DEL ENVIO DEL FORMULARIO --//
+
+    checkoutForm.addEventListener("submit", function(e) {
+        e.preventDefault(); // Evita que la página se recargue
 
         if (!checkoutForm.checkValidity()) {
             e.stopPropagation();
             checkoutForm.classList.add("was-validated");
-            return; // Si faltan datos (como el nombre), detenemos todo aquí
+            return; //! Si faltan datos (como el nombre), detiene todo aquí
         } 
         
-        // --- 1. RECOLECTAR DATOS DEL FORMULARIO ---
-        // Buscamos los inputs de la sección de "Datos de Envío"
+        //-- 5. RECOLECTAR DATOS DEL FORMULARIO --//
+
+        // Se buscan los inputs de la sección de "Datos de Envío"
         const inputsEnvio = document.querySelectorAll('.form-section:first-of-type input');
-        const nombre = inputsEnvio[0].value;
-        const telefono = inputsEnvio[1].value;
+        const nombre    = inputsEnvio[0].value;
+        const telefono  = inputsEnvio[1].value;
         const direccion = inputsEnvio[2].value;
 
-        const metodoPago = document.querySelector('input[name="payment_method"]:checked').value;
+        const metodoPago  = document.querySelector('input[name="payment_method"]:checked').value;
 
-        // Calculamos el total usando el carrito actual
+        // Calcula el total usando el carrito actual
         const totalPagar = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
 
-        // --- 2. ARMAR EL PAQUETE JSON ---
-        // Los nombres de la izquierda deben coincidir EXACTAMENTE con tu CheckoutRequestDTO en Java
+        // -- 6. ARMAR EL PAQUETE JSON --//
+
+        // Los nombres coincidir EXACTAMENTE con el CheckoutRequestDTO en Java
         const payload = {
             clienteNombre: nombre,
             clienteTelefono: telefono,
@@ -109,13 +115,15 @@ document.addEventListener("DOMContentLoaded", function() {
             }))
         };
 
-        // --- 3. EFECTOS VISUALES (Desactivar botón para evitar doble clic) ---
-        const btnSubmit = document.querySelector("button[type='submit']");
+        // -- 7. EFECTOS VISUALES (Desactiva el botón para evitar doble click) --//
+
+        const btnSubmit     = document.querySelector("button[type='submit']");
         const textoOriginal = btnSubmit.innerHTML;
         btnSubmit.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Procesando...`;
         btnSubmit.disabled = true;
 
-        // --- 4. ENVIAR A SPRING BOOT VÍA AJAX ---
+        // -- 8. ENVIAR A SPRING BOOT VÍA AJAX --//
+
         fetch('/pedidos/procesar', {
             method: 'POST',
             headers: {
@@ -125,20 +133,20 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .then(response => {
             if (response.ok) {
-                // El servidor de Java respondió "OK", la venta se guardó en MySQL
+                //* Si el servidor de Java respondió "OK", la venta se guarda en MySQL
                 localStorage.removeItem("carritoLlama");
-                window.location.href = "/"; // Te lleva al inicio de la tienda
+                window.location.href = "/"; // Lleva al inicio de la tienda
             } else {
-                // Si Java detecta un error (ej. falta un dato), lanzamos error
+                //! Si Java detecta un error (ej: falta un dato), lanza error
                 throw new Error('El servidor rechazó la operación');
             }
         })
         .catch(error => {
             // Si el servidor está apagado o hubo un error en Java
             console.error("Detalle del error:", error);
-            // ESTO TE MOSTRARÁ EL MOTIVO REAL EN PANTALLA
+            // Muestra el motivo en pantalla
             alert("Error del servidor: \n" + error.message);
-            // Restauramos el botón a su estado normal
+            // Restaura el botón a su estado normal
             btnSubmit.innerHTML = textoOriginal;
             btnSubmit.disabled = false;
         });

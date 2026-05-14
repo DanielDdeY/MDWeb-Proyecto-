@@ -32,7 +32,7 @@ public class ProductoController {
             .map(productoMapper::toDto) 
             .toList();
 
-        // Traemos todas las categorías para llenar el sidebar de productos.html
+        // Se traen todas las categorías para llenar el sidebar de productos.html
         model.addAttribute("categorias", categoriaService.listarTodas());
         // Se listan los productos segun categoria
         model.addAttribute("productos", listaProductos);

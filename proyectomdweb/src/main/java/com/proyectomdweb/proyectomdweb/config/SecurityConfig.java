@@ -27,7 +27,7 @@ public class SecurityConfig {
                 // 2. Rutas públicas: Cualquiera puede entrar a ver la tienda y los recursos (CSS, JS, Imágenes)
                 .requestMatchers("/","/productos**", "/carrito","/pago","/pedidos**" ,"/css/**", "/img/**", "/js/**").permitAll()
                 
-                // 3. Todo lo demás (ej. todo lo que se va a agregar y testar) permitida
+                // 3. Todo lo demás (ej: todo lo que se va a agregar y testar) permitida
                 .anyRequest().permitAll()
             )
             .formLogin(form -> form

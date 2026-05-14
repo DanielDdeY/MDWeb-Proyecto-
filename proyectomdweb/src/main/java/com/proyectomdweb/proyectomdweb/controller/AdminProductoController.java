@@ -12,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/admin/productos") // Todas las rutas de gestión empezarán por aquí
+@RequestMapping("/admin/productos") // Todas las rutas de gestión empezarán por /admin 
 @RequiredArgsConstructor
 public class AdminProductoController {
 
@@ -23,7 +23,7 @@ public class AdminProductoController {
     // --- (R) LEER: Muestra una tabla estilo Excel para el administrador --- //
     @GetMapping
     public String listarProductosAdmin(Model model) {
-        // Convertimos la lista de entidades a lista de DTOs
+        // Convertir la lista de entidades a lista de DTOs
         var listaDtos = productoService.listarTodos()
                 .stream()
                 .map(productoMapper::toDto)
@@ -38,7 +38,7 @@ public class AdminProductoController {
     public String mostrarFormularioDeCrear(Model model) {
         // Se envia un DTO vacio
         model.addAttribute("producto", new ProductoDTO(null, "", "Unisex", "", null, true, null, ""));
-        // Enviamos la lista de categorías para el dropdown
+        // Enviar la lista de categorías
         model.addAttribute("categorias", categoriaService.listarTodas());
         return "admin/formulario-producto";
     }
@@ -46,15 +46,15 @@ public class AdminProductoController {
     // --- (C) CREAR --> (U) ACTUALIZAR: Guarda los datos en la BD --- //
     @PostMapping("/guardar")
     public String guardarProducto(@ModelAttribute ProductoDTO productoDto) {
-        // Thymeleaf llena este 'producto' con lo que escribiste en la web y lo guarda
+        // Thymeleaf llena este 'producto' con lo que se escribio en la web y lo guarda
         Categoria categoria = null;
         if (productoDto.categoriaId() != null) {
             categoria = categoriaService.buscarPorId(productoDto.categoriaId());
         }
-        // Convertimos DTO a Entidad y guardamos
+        // Convertir DTO a Entidad y guardar
         Producto producto = productoMapper.toEntity(productoDto, categoria);
         productoService.guardar(producto);
-        return "redirect:/admin/productos"; // Te regresa a la tabla al terminar
+        return "redirect:/admin/productos"; // Regresa al usuario a la tabla
     }
 
     // --- (U) ACTUALIZAR: Muestra el formulario con los datos llenos --- //
@@ -63,7 +63,7 @@ public class AdminProductoController {
         Producto productoExistente = productoService.buscarPorId(id).orElse(null);
         model.addAttribute("producto", productoMapper.toDto(productoExistente));
         model.addAttribute("categorias", categoriaService.listarTodas());
-        return "admin/formulario-producto"; // Usamos el mismo HTML que para crear
+        return "admin/formulario-producto"; // Se usa el mismo HTML que para crear
     }
 
     // --- (D) ELIMINAR: Borra la prenda de la BD --- //

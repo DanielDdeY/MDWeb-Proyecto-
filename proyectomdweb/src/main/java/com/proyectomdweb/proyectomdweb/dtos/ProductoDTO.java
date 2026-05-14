@@ -9,6 +9,6 @@ public record ProductoDTO(
     String      imagenUrl,
     BigDecimal  precioBase,
     Boolean     disponibilidad,
-    Long        categoriaId,      // Solo el ID para el formulario
-    String      categoriaNombre   // Solo el nombre para la tabla
+    Long        categoriaId,      
+    String      categoriaNombre  
 ) {}
