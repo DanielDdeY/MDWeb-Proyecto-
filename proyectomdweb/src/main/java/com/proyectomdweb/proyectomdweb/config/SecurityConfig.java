@@ -31,11 +31,12 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
             )
             .formLogin(form -> form
-                // Spring Boot generará una página de login automática
+                //.loginPage("/login")
                 .defaultSuccessUrl("/admin/productos", true)
                 .permitAll()
             )
             .logout(logout -> logout
+                //.logoutSuccessUrl("/")
                 .permitAll()
             );
 

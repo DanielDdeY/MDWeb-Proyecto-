@@ -15,48 +15,70 @@ public class ProductoService {
     
     private final ProductoRepository productoRepository;
     
-    //* Se usa "readOnly = true" para optimizar consultas de solo lectura *//
     @Transactional(readOnly = true)
     public List<Producto> listarTodos() {
-        
         return productoRepository.findAllConCategoria();
     }
     
     @Transactional(readOnly = true)
     public Optional<Producto> buscarPorId(Long id) {
-        
         return productoRepository.findByIdConCategoria(id);
     }
     
-    //! Este NO lleva "readOnly = true" porque SÍ modifica la base de datos (escribe) !//
     @Transactional
-    public Producto guardar(Producto producto) {
+    public Producto guardar(Producto productoInput) {
+        // Validaciones básicas
+        if (productoInput.getNombre() == null || productoInput.getNombre().isBlank()) {
+            throw new IllegalArgumentException("El nombre del producto es obligatorio.");
+        }
+        if (productoInput.getPrecioBase() == null || productoInput.getPrecioBase().compareTo(java.math.BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("El precio debe ser mayor a cero.");
+        }
 
-        return productoRepository.save(producto);
+        // Si es un producto nuevo (sin ID), simplemente guardamos
+        if (productoInput.getId() == null) {
+            return productoRepository.save(productoInput);
+        }
+
+        // Si es una actualización, cargamos el existente y solo copiamos los campos permitidos
+        Producto existente = productoRepository.findById(productoInput.getId())
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con id: " + productoInput.getId()));
+
+        // Actualizar solo los campos que vienen del formulario (NO la lista de variantes)
+        existente.setNombre(productoInput.getNombre());
+        existente.setGenero(productoInput.getGenero());
+        existente.setImagenUrl(productoInput.getImagenUrl());
+        existente.setPrecioBase(productoInput.getPrecioBase());
+        existente.setDisponibilidad(productoInput.getDisponibilidad());
+        if (productoInput.getCategoria() != null) {
+            existente.setCategoria(productoInput.getCategoria());
+        }
+
+        // Guardamos sin tocar las variantes
+        return productoRepository.save(existente);
     }
     
     @Transactional
     public void eliminar(Long id) {
+        if (!productoRepository.existsById(id)) {
+            throw new RuntimeException("No se puede eliminar: el producto no existe.");
+        }
         productoRepository.deleteById(id);
     }
     
     @Transactional(readOnly = true)
     public List<Producto> buscarPorCategoriaId(Long categoriaId) {
-
         return productoRepository.findByCategoriaId(categoriaId);
     }
     
     @Transactional(readOnly = true)
     public List<Producto> buscarPorNombre(String nombre) {
-        
         return productoRepository.findByNombreContainingIgnoreCase(nombre);
     }
 
     @Transactional(readOnly = true)
     public List<Producto> filtrar(String genero, Long categoriaId) {
-        // Si el id de categoría es 0 o null, se trata como nulo para que el Repo traiga todas
         Long idBusqueda = (categoriaId == null || categoriaId == 0) ? null : categoriaId;
-        
         return productoRepository.filtrarPorGeneroYCategoria(genero, idBusqueda);
     }
 }

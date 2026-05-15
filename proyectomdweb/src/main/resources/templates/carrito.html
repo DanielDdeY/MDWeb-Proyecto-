@@ -95,21 +95,28 @@
          =================== -->    
     <main class="py-5">
       <div class="container">
-        <div class="anim-1 mb-4 text-center">
-          <h1 class="display-font">
-            Tu <em style="color: var(--brand)">Bolsa</em>
+
+        <div class="anim-1 mb-5 text-center checkout-hero">
+          <h1 class="display-font checkout-title">
+            Tu <em>Bolsa</em>
           </h1>
-          <p class="text-muted-1">
+
+          <p class="checkout-subtitle">
             Revisa tus artículos antes de finalizar la compra.
           </p>
         </div>
 
         <div class="row g-5">
-          <div class="col-lg-8">
-            <div class="carrito-full-container">
-              <div
-                class="carrito-full-header d-none d-md-flex fw-bold border-bottom pb-2 mb-3"
-              >
+
+          <!-- =========================
+              LISTA PRODUCTOS
+              ========================= -->
+
+          <div class="col-lg-8 anim-2">
+
+            <div class="carrito-full-container cart-main-panel">
+
+              <div class="carrito-full-header d-none d-md-flex">
                 <div class="col-6">Producto</div>
                 <div class="col-2 text-center">Precio</div>
                 <div class="col-2 text-center">Cantidad</div>
@@ -117,43 +124,67 @@
               </div>
 
               <div id="cart-items-list"></div>
+
             </div>
+
           </div>
 
-          <div class="col-lg-4">
-            <div class="card-oferta border p-4 bg-light">
-              <h3 class="mb-4 display-font">Resumen del pedido</h3>
-              <div class="d-flex justify-content-between mb-3">
-                <span>Subtotal</span>
-                <span id="resumen-subtotal">S/ 0.00</span>
+          <!-- =========================
+              RESUMEN
+              ========================= -->
+
+          <div class="col-lg-4 anim-3">
+
+            <div class="checkout-resumen-card sticky-summary">
+
+              <div class="checkout-resumen-header">
+                <h3 class="display-font">
+                  Resumen del pedido
+                </h3>
               </div>
-              <div class="d-flex justify-content-between mb-4">
-                <span>Descuentos</span>
-                <span class="text-brand">- S/ 0.00</span>
-              </div>
-              <hr class="divider" />
-              <div
-                class="d-flex justify-content-between align-items-end mt-2 mb-4"
-              >
-                <span style="font-size: 1.2rem">Total</span>
-                <span
-                  class="display-font text-dark"
-                  style="font-size: 2.2rem; font-weight: 600"
+
+              <div class="checkout-resumen-content">
+
+                <div class="checkout-line">
+                  <span>Subtotal</span>
+                  <span id="resumen-subtotal">S/ 0.00</span>
+                </div>
+
+                <div class="checkout-line">
+                  <span>Descuentos</span>
+                  <span class="text-brand">- S/ 0.00</span>
+                </div>
+
+                <div class="checkout-divider"></div>
+
+                <div class="checkout-total-box">
+                  <span class="checkout-total-label">
+                    Total
+                  </span>
+
+                  <span class="checkout-total-price display-font">
+                    S/ <span id="resumen-total">0.00</span>
+                  </span>
+                </div>
+
+                <!-- ================================
+                    BOTON QUE LLAMA A PAGO
+                    ================================ -->
+
+                <a
+                  th:href="@{/pago}"
+                  id="btn-proceder-pago"
+                  class="btn-lmll btn-primary-lmll checkout-btn-main btn-glow"
                 >
-                  S/ <span id="resumen-total">0.00</span>
-                </span>
+                  Proceder al Pago
+                </a>
+
               </div>
-              <!-- ================================
-                   BOTON QUE LLAMA A LA PAGINA PAGO
-                   ================================ -->
-              <a
-                th:href="@{/pago}"
-                id="btn-proceder-pago"
-                class="btn btn-dark w-100 py-3 text-uppercase fw-bold letter-spacing-1"
-                >Proceder al Pago</a
-              >
+
             </div>
+
           </div>
+
         </div>
       </div>
     </main>

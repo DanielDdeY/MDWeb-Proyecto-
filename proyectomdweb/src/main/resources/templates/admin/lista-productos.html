@@ -67,6 +67,16 @@
 </head>
 <body>
 
+<!-- Justo después de abrir <body> y antes del container -->
+<div th:if="${exito}" class="alert alert-success alert-dismissible fade show m-3" role="alert">
+    <span th:text="${exito}"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+<div th:if="${error}" class="alert alert-danger alert-dismissible fade show m-3" role="alert">
+    <span th:text="${error}"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+
 <div class="container admin-container">
     <div class="header-flex">
         <h1 class="m-0" style="font-size: 1.5rem;">Gestión de Inventario</h1>
@@ -119,4 +129,7 @@
 </div>
 
 </body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </html>
