@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const actualizarProductos = () => {
         const genero = generoSelect.value;
-        const url = `/productos/ajax?genero=${genero}&categoriaId=${categoriaActual}`;
+        const url    = `/productos/ajax?genero=${genero}&categoriaId=${categoriaActual}`;
 
         fetch(url)
             .then(response => response.text())

@@ -43,4 +43,3 @@ public class Producto {
     @ToString.Exclude
     private List<ProductoDetalle> variantes;
 }
-

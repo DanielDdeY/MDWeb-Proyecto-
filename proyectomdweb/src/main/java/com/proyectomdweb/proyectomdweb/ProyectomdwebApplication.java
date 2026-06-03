@@ -10,6 +10,7 @@ public class ProyectomdwebApplication {
 	//* Asegurarse que este activo el contenedor */
 
 	public static void main(String[] args) {
-		SpringApplication.run(ProyectomdwebApplication.class, args);
+		SpringApplication.run(ProyectomdwebApplication.class, args);	
 	}
+
 }

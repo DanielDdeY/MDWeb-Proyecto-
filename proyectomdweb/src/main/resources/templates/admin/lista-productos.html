@@ -79,10 +79,15 @@
 
 <div class="container admin-container">
     <div class="header-flex">
-        <h1 class="m-0" style="font-size: 1.5rem;">Gestión de Inventario</h1>
-        <a th:href="@{/admin/productos/nuevo}" class="btn-new">
-            <i class="bi bi-plus-lg"></i> Nueva Prenda
-        </a>
+
+            <a th:href="@{/admin/dashboard}" class="btn btn-lmll">
+              <i class="bi bi-box-arrow-left me-2"></i> Volver a Dashboard
+            </a>
+
+            <h1 class="m-0" style="font-size: 1.5rem;">Gestión de Inventario</h1>
+                <a th:href="@{/admin/productos/nuevo}" class="btn-new">
+                <i class="bi bi-plus-lg"></i> Nueva Prenda
+                </a>
     </div>
 
     <table class="table">

@@ -1,84 +1,25 @@
 package com.proyectomdweb.proyectomdweb.service;
 
+import com.proyectomdweb.proyectomdweb.dtos.ProductoDTO;
 import com.proyectomdweb.proyectomdweb.model.Producto;
-import com.proyectomdweb.proyectomdweb.repository.ProductoRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
-public class ProductoService {
+public interface ProductoService {
     
-    private final ProductoRepository productoRepository;
+    // Métodos de lectura que devuelven DTOs (Listos para la vista)
+    List<ProductoDTO> listarTodos();
+    Optional<ProductoDTO> buscarPorId(Long id);
+    List<ProductoDTO> buscarPorCategoriaId(Long categoriaId);
+    List<ProductoDTO> buscarPorNombre(String nombre);
+    List<ProductoDTO> filtrar(String genero, Long categoriaId);
     
-    @Transactional(readOnly = true)
-    public List<Producto> listarTodos() {
-        return productoRepository.findAllConCategoria();
-    }
+    // Métodos de escritura
+    // Nota: Por ahora recibe la Entidad, pero a futuro lo ideal es que reciba un DTO de entrada.
+    ProductoDTO guardar(ProductoDTO productoDto);
+    void eliminar(Long id);
     
-    @Transactional(readOnly = true)
-    public Optional<Producto> buscarPorId(Long id) {
-        return productoRepository.findByIdConCategoria(id);
-    }
-    
-    @Transactional
-    public Producto guardar(Producto productoInput) {
-        // Validaciones básicas
-        if (productoInput.getNombre() == null || productoInput.getNombre().isBlank()) {
-            throw new IllegalArgumentException("El nombre del producto es obligatorio.");
-        }
-        if (productoInput.getPrecioBase() == null || productoInput.getPrecioBase().compareTo(java.math.BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("El precio debe ser mayor a cero.");
-        }
-
-        // Si es un producto nuevo (sin ID), simplemente guardamos
-        if (productoInput.getId() == null) {
-            return productoRepository.save(productoInput);
-        }
-
-        // Si es una actualización, cargamos el existente y solo copiamos los campos permitidos
-        Producto existente = productoRepository.findById(productoInput.getId())
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado con id: " + productoInput.getId()));
-
-        // Actualizar solo los campos que vienen del formulario (NO la lista de variantes)
-        existente.setNombre(productoInput.getNombre());
-        existente.setGenero(productoInput.getGenero());
-        existente.setImagenUrl(productoInput.getImagenUrl());
-        existente.setPrecioBase(productoInput.getPrecioBase());
-        existente.setDisponibilidad(productoInput.getDisponibilidad());
-        if (productoInput.getCategoria() != null) {
-            existente.setCategoria(productoInput.getCategoria());
-        }
-
-        // Guardamos sin tocar las variantes
-        return productoRepository.save(existente);
-    }
-    
-    @Transactional
-    public void eliminar(Long id) {
-        if (!productoRepository.existsById(id)) {
-            throw new RuntimeException("No se puede eliminar: el producto no existe.");
-        }
-        productoRepository.deleteById(id);
-    }
-    
-    @Transactional(readOnly = true)
-    public List<Producto> buscarPorCategoriaId(Long categoriaId) {
-        return productoRepository.findByCategoriaId(categoriaId);
-    }
-    
-    @Transactional(readOnly = true)
-    public List<Producto> buscarPorNombre(String nombre) {
-        return productoRepository.findByNombreContainingIgnoreCase(nombre);
-    }
-
-    @Transactional(readOnly = true)
-    public List<Producto> filtrar(String genero, Long categoriaId) {
-        Long idBusqueda = (categoriaId == null || categoriaId == 0) ? null : categoriaId;
-        return productoRepository.filtrarPorGeneroYCategoria(genero, idBusqueda);
-    }
+    // Método interno para otras capas (ej. Ventas) que necesiten la Entidad real
+    Producto obtenerEntidadPorId(Long id);
 }

@@ -67,197 +67,77 @@
     <!-- ===================
          CONTENIDO PRINCIPAL
          =================== -->
-    <main class="py-5">
-      <div class="container">
-        <div class="anim-1 mb-4">
-          <h1
-            class="display-font"
-            style="font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 600"
-          >
-            Finalizar <em style="color: #666; font-style: normal">Compra</em>
-          </h1>
-        </div>
+  <main class="py-5">
+  <div class="container">
+    <div class="mb-4">
+      <h1 class="display-font" style="font-size: 2.5rem; font-weight: 600;">Finalizar <em style="font-style: normal; color: #666;">Compra</em></h1>
+    </div>
 
-        <div class="row g-5 align-items-start">
-          <!-- ===================
-               FORMULARIO DE DATOS 
-               =================== -->
-          <div class="col-lg-7 anim-2">
-            <form id="checkout-form" class="needs-validation" novalidate>
-              <div class="card-lmll mb-4 p-4 border form-section">
-                <h2 class="sidebar-title mb-3" style="font-size: 1.1rem">
-                  <i class="bi bi-geo-alt me-2"></i>Datos de Envío
-                </h2>
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <label class="form-label-lmll">Nombre completo</label>
-                    <input
-                      type="text"
-                      class="form-control form-input-lmll"
-                      placeholder="Ej: Joseph Arnold..."
-                      required
-                    />
-                  </div>
-                  <div class="col-md-6">
-                    <label class="form-label-lmll">Teléfono (9 dígitos)</label>
-                    <input
-                      type="tel"
-                      class="form-control form-input-lmll"
-                      placeholder="999888777"
-                      maxlength="9"
-                      required
-                      pattern="[0-9]{9}"
-                      oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                    />
-                  </div>
-                  <div class="col-12">
-                    <label class="form-label-lmll">Dirección exacta</label>
-                    <input
-                      type="text"
-                      class="form-control form-input-lmll"
-                      placeholder="Ej: Av. Los Frutales 123, Ate"
-                      required
-                    />
-                  </div>
+    <form id="checkout-form" th:action="@{/pago/procesar-local}" method="POST" class="needs-validation" novalidate>
+      <div class="row g-5 align-items-start">
+        
+        <div class="col-lg-7">
+          <div class="mb-4 p-4 border">
+            <h2 class="h5 mb-3"><i class="bi bi-geo-alt me-2"></i>Datos de Envío</h2>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Nombre completo</label>
+                <input type="text" name="clienteNombre" class="form-control form-input-lmll" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Teléfono (9 dígitos)</label>
+                <input type="tel" name="clienteTelefono" class="form-control form-input-lmll" maxlength="9" pattern="[0-9]{9}" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Correo Electrónico</label>
+                <input type="email" name="clienteEmail" class="form-control form-input-lmll" placeholder="ejemplo@correo.com" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-4 p-4 border">
+            <h2 class="h5 mb-3"><i class="bi bi-file-earmark-text me-2"></i>Tipo de Comprobante</h2>
+            <div class="d-flex gap-3">
+              <label class="comprobante-card flex-fill style-pointer" style="cursor: pointer;">
+                <input type="radio" name="tipoComprobante" value="BOLETA" checked>
+                <div class="comprobante-content p-3 border text-center">
+                  <i class="bi bi-person mb-1 d-block h4"></i>
+                  <span>Boleta de Venta</span>
                 </div>
-              </div>
-
-              <div class="card-lmll mb-4 p-4 border form-section">
-                <h2 class="sidebar-title mb-3" style="font-size: 1.1rem">
-                  <i class="bi bi-credit-card me-2"></i>Método de Pago
-                </h2>
-
-                <div
-                  class="payment-methods-grid mb-4"
-                  style="display: flex; gap: 15px"
-                >
-                  <label class="payment-card flex-fill cursor-pointer">
-                    <input
-                      type="radio"
-                      name="payment_method"
-                      value="card"
-                      checked
-                    />
-                    <div
-                      class="payment-card-content p-3 border text-center"
-                      style="cursor: pointer"
-                    >
-                      <i
-                        class="bi bi-credit-card-2-front display-6 mb-2 d-block"
-                      ></i>
-                      <span>Tarjeta</span>
-                    </div>
-                  </label>
-                  <label class="payment-card flex-fill cursor-pointer">
-                    <input type="radio" name="payment_method" value="wallet" />
-                    <div
-                      class="payment-card-content p-3 border text-center"
-                      style="cursor: pointer"
-                    >
-                      <i class="bi bi-phone-vibrate display-6 mb-2 d-block"></i>
-                      <span>Yape / Plin</span>
-                    </div>
-                  </label>
+              </label>
+              <label class="comprobante-card flex-fill style-pointer" style="cursor: pointer;">
+                <input type="radio" name="tipoComprobante" value="FACTURA">
+                <div class="comprobante-content p-3 border text-center">
+                  <i class="bi bi-building mb-1 d-block h4"></i>
+                  <span>Factura (Requiere RUC)</span>
                 </div>
-
-                <div id="card-details" class="row g-3">
-                  <div class="col-12">
-                    <label class="form-label-lmll">Número de Tarjeta</label>
-                    <div class="position-relative">
-                      <input
-                        type="text"
-                        class="form-control form-input-lmll pe-5"
-                        placeholder="0000 0000 0000 0000"
-                        maxlength="16"
-                        required
-                        pattern="[0-9]{16}"
-                      />
-                      <i
-                        class="bi bi-credit-card position-absolute top-50 end-0 translate-middle-y me-3 text-muted"
-                      ></i>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <label class="form-label-lmll">Vencimiento (MM/YY)</label>
-                    <input
-                      type="text"
-                      class="form-control form-input-lmll"
-                      placeholder="MM/YY"
-                      maxlength="5"
-                      required
-                    />
-                  </div>
-                  <div class="col-6">
-                    <label class="form-label-lmll">CVV</label>
-                    <input
-                      type="password"
-                      class="form-control form-input-lmll"
-                      placeholder="123"
-                      maxlength="3"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div id="wallet-details" class="mt-3 d-none">
-                  <div class="alert alert-light border text-center py-4">
-                    <i
-                      class="bi bi-qr-code-scan display-4 mb-3 d-block text-muted"
-                    ></i>
-                    Al finalizar, se mostrará un código QR para completar tu
-                    pago.
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div> <!--Aqui termina el FORMULARIO-->
-
-          <!-- ================= 
-               RESUMEN DE COMPRA
-               ================= -->
-          <div class="col-lg-5 anim-3">
-            <div class="checkout-summary-card sticky-summary">
-
-              <div class="checkout-summary-header">
-                <h3 class="checkout-summary-title">
-                  Resumen de tu bolsa
-                </h3>
-              </div>
-
-              <div id="pago-productos-lista" class="checkout-products-list">
-                <!-- Inyectado por JS -->
-              </div>
-
-              <div class="checkout-divider"></div>
-
-              <div class="checkout-total-section">
-                <span class="checkout-total-label">
-                  Total a pagar
-                </span>
-
-                <span class="checkout-total-price display-font">
-                  S/ <span id="pago-total">0.00</span>
-                </span>
-              </div>
-
-              <!-- ==================================
-                  BOTON DE ENVIO DE DATOS PARA LA BD
-                  ================================== -->
-
-              <button
-                type="submit"
-                form="checkout-form"
-                class="btn-lmll checkout-pay-btn"
-              >
-                <i class="bi bi-lock-fill me-2"></i>
-                Pagar Pedido Seguro
-              </button>
-
+              </label>
             </div>
           </div>
         </div>
+
+        <div class="col-lg-5">
+          <div class="p-4 border" style="background-color: #fafafa;">
+            <h3 class="h5 mb-4" style="border-bottom: 2px solid #000; padding-bottom: 10px;">Resumen de tu bolsa</h3>
+            <div id="pago-productos-lista" class="mb-4">
+               </div>
+            <div class="d-flex justify-content-between align-items-end mb-4">
+              <span class="fw-bold">Total a pagar</span>
+              <span class="h3 display-font mb-0">S/ <span id="pago-total">0.00</span></span>
+            </div>
+
+            <input type="hidden" id="input-total-hidden" name="total">
+
+            <button type="submit" class="btn-lmll w-100 py-3">
+              <i class="bi bi-credit-card-2-front-fill me-2"></i> Ir a la pasarela segura
+            </button>
+          </div>
+        </div>
+
       </div>
-    </main>
+    </form>
+  </div>
+</main>
 
     <!-- =============
          PIE DE PAGINA
@@ -274,5 +154,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Script propio -->
     <script th:src="@{/js/pago.js}"></script>
+
   </body>
 </html>

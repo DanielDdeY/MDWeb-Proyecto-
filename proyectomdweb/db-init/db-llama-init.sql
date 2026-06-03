@@ -96,7 +96,8 @@ CREATE TABLE ventas_detalles (
 
 -- 1. Insertar Usuario
 INSERT INTO usuarios (nombre, email, password, telefono, direccion) 
-VALUES ('Usuario1', 'usuario1@email.com', 'contra_123', '919191919', 'Av. ubicacion, Lima');
+VALUES ('Usuario1', 'usuario1@email.com', 'contra_123', '919191919', 'Av. ubicacion, Lima'),
+('Admin', 'admin@email.com', 'admin_123', '919191919', 'Av. ubicacion, Lima');
 
 -- 2. Insertar Categoría
 INSERT INTO categorias (nombre) 
@@ -153,7 +154,7 @@ VALUES
     'Sudadera de algodón premium oversize', 
     10, 
     89.90, 
-    15.00 -- Cuesta 15 soles más
+    15.00 
 ),
 
 -- Variante 3: Cambia la Marca y el Color (Versión Gris de Adidas)
@@ -168,7 +169,7 @@ VALUES
     'Sudadera deportiva ligera', 
     5, 
     89.90, 
-    25.00 -- Cuesta 25 soles más por la marca
+    25.00 
 );
 
 -- 5. Insertar Pedido

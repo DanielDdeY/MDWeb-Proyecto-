@@ -34,4 +34,3 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
             @Param("genero") String genero, 
             @Param("categoriaId") Long categoriaId);
 }
-

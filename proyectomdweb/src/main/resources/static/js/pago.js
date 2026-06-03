@@ -78,13 +78,19 @@ document.addEventListener("DOMContentLoaded", function() {
     //-- 4. MANEJO DEL ENVIO DEL FORMULARIO --//
 
     checkoutForm.addEventListener("submit", function(e) {
-        e.preventDefault(); // Evita que la página se recargue
+        // A. Captura el total del texto y lo mete en el input oculto para el controlador
+        const totalTexto = totalSpan.textContent;
+        document.getElementById('input-total-hidden').value = totalTexto;
 
+        // B. Valida que los campos obligatorios no estén vacíos
         if (!checkoutForm.checkValidity()) {
+            e.preventDefault(); // SÓLO bloquea el envío si el formulario es INVÁLIDO
             e.stopPropagation();
-            checkoutForm.classList.add("was-validated");
-            return; //! Si faltan datos (como el nombre), detiene todo aquí
-        } 
+        }
+        
+        // C. Agrega las clases visuales de Bootstrap (bordes rojos/verdes)
+        checkoutForm.classList.add("was-validated");
+        // SI TODO ES VÁLIDO: El formulario continuará su curso natural hacia /pago/procesar-local
         
         //-- 5. RECOLECTAR DATOS DEL FORMULARIO --//
 

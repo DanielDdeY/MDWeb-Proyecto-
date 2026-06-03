@@ -23,5 +23,5 @@ public class CategoriaService {
     public Categoria buscarPorId(Long id) {
         return categoriaRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Error: La categoría con ID " + id + " no existe."));
-}
+    }
 }

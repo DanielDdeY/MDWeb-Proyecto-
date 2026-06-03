@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/pedidos")
 @RequiredArgsConstructor 
 public class PedidoController {
-
+    /* 
     private final VentaPresentacionService ventaService;
 
     @PostMapping("/procesar")
@@ -24,5 +24,5 @@ public class PedidoController {
             e.printStackTrace();
             return ResponseEntity.badRequest().body("Error al procesar: " + e.getMessage());
         }
-    }
+    } */
 }

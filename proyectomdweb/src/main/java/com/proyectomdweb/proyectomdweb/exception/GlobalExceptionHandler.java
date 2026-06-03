@@ -13,7 +13,7 @@ public class GlobalExceptionHandler {
     public String manejarErrorGenerico(Exception ex, Model model) {
         model.addAttribute("errorTitulo", "Algo no salió como esperábamos");
         model.addAttribute("errorMensaje", "Estamos trabajando para solucionarlo. Por favor, intenta de nuevo más tarde.");
-        // Log del error para el desarrollador
+        // Log del error
         System.err.println("Error interno: " + ex.getMessage());
         return "error"; 
     }

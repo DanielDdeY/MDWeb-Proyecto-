@@ -2,8 +2,6 @@ package com.proyectomdweb.proyectomdweb.controller;
 
 import com.proyectomdweb.proyectomdweb.model.Producto;
 import com.proyectomdweb.proyectomdweb.dtos.ProductoDTO;
-import com.proyectomdweb.proyectomdweb.mapper.ProductoMapper;
-import com.proyectomdweb.proyectomdweb.model.Categoria;
 import com.proyectomdweb.proyectomdweb.service.ProductoService;
 import com.proyectomdweb.proyectomdweb.service.CategoriaService;
 import lombok.RequiredArgsConstructor;
@@ -19,16 +17,11 @@ public class AdminProductoController {
 
     private final ProductoService   productoService;
     private final CategoriaService  categoriaService;
-    private final ProductoMapper    productoMapper;
 
     // --- (R) LEER: Muestra una tabla estilo Excel para el administrador --- //
     @GetMapping
     public String listarProductosAdmin(Model model) {
-        var listaDtos = productoService.listarTodos()
-                .stream()
-                .map(productoMapper::toDto)
-                .toList();
-        model.addAttribute("productos", listaDtos);
+        model.addAttribute("productos", productoService.listarTodos());
         return "admin/lista-productos";
     }
 
@@ -45,19 +38,9 @@ public class AdminProductoController {
     public String guardarProducto(@ModelAttribute ProductoDTO productoDto,
                                   RedirectAttributes redirectAttributes) {
         try {
-            // Validar que la categoría exista
-            Categoria categoria = null;
-            if (productoDto.categoriaId() != null) {
-                categoria = categoriaService.buscarPorId(productoDto.categoriaId());
-            } else {
-                redirectAttributes.addFlashAttribute("error", "Debe seleccionar una categoría.");
-                return "redirect:/admin/productos/nuevo";
-            }
-            
-            // Convertir DTO a Entidad y guardar
-            Producto producto = productoMapper.toEntity(productoDto, categoria);
-            productoService.guardar(producto);
-            redirectAttributes.addFlashAttribute("exito", "Producto guardado correctamente.");
+            // El controlador delega todo al servicio.
+            productoService.guardar(productoDto);
+            redirectAttributes.addFlashAttribute("exito", "Prenda guardada correctamente en el catálogo.");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error al guardar: " + e.getMessage());
             return "redirect:/admin/productos/nuevo";
@@ -70,12 +53,13 @@ public class AdminProductoController {
     public String mostrarFormularioDeEditar(@PathVariable Long id, Model model,
                                             RedirectAttributes redirectAttributes) {
         var productoOpt = productoService.buscarPorId(id);
+        
         if (productoOpt.isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "El producto con ID " + id + " no existe.");
+            redirectAttributes.addFlashAttribute("error", "La prenda con ID " + id + " no existe.");
             return "redirect:/admin/productos";
         }
-        Producto productoExistente = productoOpt.get();
-        model.addAttribute("producto", productoMapper.toDto(productoExistente));
+        
+        model.addAttribute("producto", productoOpt.get());
         model.addAttribute("categorias", categoriaService.listarTodas());
         return "admin/formulario-producto";
     }

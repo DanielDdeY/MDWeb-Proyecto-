@@ -1,14 +1,115 @@
 package com.proyectomdweb.proyectomdweb.controller;
 
+import com.proyectomdweb.proyectomdweb.model.*;
+import com.proyectomdweb.proyectomdweb.service.UsuarioService;
+import com.proyectomdweb.proyectomdweb.service.VentaPresentacionService;
+import com.proyectomdweb.proyectomdweb.repository.VentaRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.Principal;
 
 @Controller
+@RequestMapping("/pago")
+@RequiredArgsConstructor
 public class CheckoutController {
 
-    @GetMapping("/pago")
+    private final VentaPresentacionService  ventaService;
+    private final VentaRepository           ventaRepository;
+    private final UsuarioService            usuarioService; 
+
+    // Datos estáticos del Sandbox de prueba de PayU Latam
+    private final String MERCHANT_ID = "508029";
+    private final String API_KEY     = "4Vj8eK4rloUd272L48hsrarnUA";
+    private final String ACCOUNT_ID  = "512323"; // <--- ID de pruebas para PERÚ
+    private final String PAYU_URL    = "https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/"; // <--- URL de la pasarela p
+
+    @GetMapping
     public String mostrarPaginaPago() {
-        // Le dice a Spring que devuelva el archivo "pago.html" ubicado en templates
-        return "pago"; 
+        return "pago";
+    }
+
+@PostMapping("/procesar-local")
+    public String procesarLocalYPrepararPayU(
+            @RequestParam("total")           BigDecimal total, 
+            @RequestParam("tipoComprobante") String tipoComprobante,
+            Principal principal,
+            Model model) {
+
+        // 1. Extraer el email del token JWT e ir a buscar al usuario real a MySQL
+        // 2. Se solicita la entidad real a través del UsuarioService
+        // 3. Se crea el registro intermedio en la BD con estado PENDIENTE
+        // 4. Parámetros requeridos por el WebCheckout de PayU
+        // 5. Generar la Firma Digital de Seguridad (Fórmula de PayU)
+        String  emailLogueado   = principal.getName(); //*<-- 1
+        Usuario usuarioLogueado = usuarioService.obtenerUsuarioEntidadPorEmail(emailLogueado); //*<-- 2
+        Venta   ventaPendiente  = ventaService.crearVentaInicialPendiente(total, tipoComprobante, usuarioLogueado); //*<-- 3
+        String  referenceCode   = "LMLL-VENTA-" + ventaPendiente.getId(); //*<--*4
+        String  currency        = "PEN";                                 //*<--*4
+        String  cadenaParaFirma = API_KEY + "~" + MERCHANT_ID + "~" + referenceCode + "~" + total + "~" + currency; //*<--*5
+        String  signature       = generarHashMD5(cadenaParaFirma);                                                 //*<--*5
+
+        // 6. Inyectar datos en el modelo para la página de redirección
+        model.addAttribute("payuUrl", PAYU_URL);
+        model.addAttribute("merchantId", MERCHANT_ID);
+        model.addAttribute("accountId", ACCOUNT_ID);
+        model.addAttribute("description", "Compra de ropa exclusiva en La Moda te LLama");
+        model.addAttribute("referenceCode", referenceCode);
+        model.addAttribute("amount", total);
+        model.addAttribute("tax", "0"); 
+        model.addAttribute("taxReturnBase", "0");
+        model.addAttribute("currency", currency);
+        model.addAttribute("signature", signature);
+        model.addAttribute("buyerEmail", usuarioLogueado.getEmail());      
+        model.addAttribute("buyerFullName", usuarioLogueado.getNombre());
+        model.addAttribute("test", "1"); 
+        model.addAttribute("responseUrl", "http://localhost:8080/pago/respuesta");
+
+        return "payu-redirect"; 
+    }
+
+    @GetMapping("/respuesta")
+    public String capturarRespuestaPayU(
+            @RequestParam("transactionState")     int transactionState,
+            @RequestParam("referenceCode")        String referenceCode,
+            @RequestParam("polPaymentMethodType") String metodoUsado,
+            Model model) {
+
+        // Extraemos el ID de la venta desde el código de referencia (LMLL-VENTA-XX)
+        Long ventaId = Long.parseLong(referenceCode.replace("LMLL-VENTA-", ""));
+        Venta venta  = ventaRepository.findById(ventaId).orElseThrow();
+
+        // Estados de PayU: 4 = Aprobado, 6 = Declarado Rechazado, 7 = Pendiente
+        if (transactionState == 4) {
+            // Actualizamos base de datos a PAGADO
+            ventaService.completarVentaExitosa(venta, metodoUsado);
+                model.addAttribute("status", "EXITOSO");
+                model.addAttribute("mensaje", "Tu pago fue procesado con éxito. ¡Gracias por tu compra!");
+        } else {
+                model.addAttribute("status", "RECHAZADO");
+                model.addAttribute("mensaje", "La transacción fue rechazada o se encuentra en estado pendiente.");
+        }
+
+        model.addAttribute("venta", venta);
+        return "pago-resultado"; // Muestra el fin del flujo al cliente
+    }
+
+    // Utilidad estándar de Java para cálculo de firmas de seguridad hash
+    private String generarHashMD5(String cadena) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(cadena.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : array) {
+                sb.append(Integer.toHexString((b & 0xFF) | 0x100).substring(1, 3));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            return null;
+        }
     }
 }

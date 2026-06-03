@@ -3,7 +3,6 @@ package com.proyectomdweb.proyectomdweb.controller;
 import com.proyectomdweb.proyectomdweb.model.Producto;
 import com.proyectomdweb.proyectomdweb.service.ProductoService;
 import com.proyectomdweb.proyectomdweb.dtos.ProductoDTO;
-import com.proyectomdweb.proyectomdweb.mapper.ProductoMapper;
 import com.proyectomdweb.proyectomdweb.service.CategoriaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -21,16 +20,12 @@ public class ProductoController {
 
     private final ProductoService  productoService;
     private final CategoriaService categoriaService;
-    private final ProductoMapper   productoMapper;
 
     // Cuando el usuario entre a http://localhost:8080/productos
     @GetMapping
     public String listarTodosLosProductos(Model model) {
         
-        List<ProductoDTO> listaProductos = productoService.listarTodos()
-            .stream()
-            .map(productoMapper::toDto) 
-            .toList();
+        List<ProductoDTO> listaProductos = productoService.listarTodos();
 
         // Se traen todas las categorías para llenar el sidebar de productos.html
         model.addAttribute("categorias", categoriaService.listarTodas());
@@ -45,12 +40,9 @@ public class ProductoController {
         @RequestParam(required = false) Long categoriaId,
         Model model) {
     
-        var productos = productoService.filtrar(genero, categoriaId)
-            .stream()
-            .map(productoMapper::toDto)
-            .toList();
+        List<ProductoDTO> productosFiltrados = productoService.filtrar(genero, categoriaId);
             
-        model.addAttribute("productos", productos);
+        model.addAttribute("productos", productosFiltrados);
     
         // Thymeleaf buscará el fragmento "lista-productos" dentro de productos.html
         return "productos :: lista-productos";

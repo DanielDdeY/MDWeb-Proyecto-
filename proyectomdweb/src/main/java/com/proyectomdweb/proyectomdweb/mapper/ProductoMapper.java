@@ -21,7 +21,6 @@ public class ProductoMapper {
             producto.getCategoria() != null ? producto.getCategoria().getNombre() : "Sin categoría"
         );
     }
-
     //* Convertir de DTO a Entidad (Para guardar en BD) *//
     public Producto toEntity(ProductoDTO dto, Categoria categoria) {
         Producto producto = new Producto();
