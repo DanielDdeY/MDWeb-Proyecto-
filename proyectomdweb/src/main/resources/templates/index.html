@@ -41,7 +41,6 @@
           <img
             th:src="@{/img/logo.png}"
             alt="La Moda te LLama"
-            style="height: 63px; width: auto"
           />
         </a>
 
@@ -72,29 +71,32 @@
             </li>
           </ul>
 
-          <!-- Botón carrito -->
-          <div class="d-flex align-items-center mt-2 mt-md-0">
+          <!-- Acciones de cuenta y bolsa -->
+          <div class="nav-actions mt-2 mt-md-0" aria-label="Acciones de usuario">
             <button
               id="carrito-toggle"
               class="cart-btn"
               aria-label="Abrir carrito lateral"
             >
-              <i class="bi bi-bag" style="font-size: 0.95rem"></i>
+              <i class="bi bi-bag"></i>
               <span>Bolsa</span>
-              <span class="cart-badge" id="cart-count" style="display: none"
+              <span class="cart-badge" id="cart-count" hidden
                 >0</span>
             </button>
-              <a sec:authorize="isAnonymous()" th:href="@{/auth/login}" class="btn btn-outline-dark" style="border-radius: 0;">
-                <i class="bi bi-person me-1"></i> Iniciar Sesión
-              </a>
 
-              <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/dashboard}" class="btn btn-dark" style="border-radius: 0;">
-                <i class="bi bi-gear me-1"></i> Panel Admin
-              </a>
+            <a sec:authorize="isAnonymous()" th:href="@{/auth/login}" class="btn btn-outline-dark login-action">
+              <i class="bi bi-person"></i>
+              <span>Ingresar</span>
+            </a>
 
-            <div sec:authorize="isAuthenticated()" class="d-flex align-items-center gap-2">
-            <span class="text-muted small">Hola, <span sec:authentication="name"></span></span>
-              <a th:href="@{/auth/logout}" class="btn btn-sm btn-outline-danger" title="Cerrar Sesión" style="border-radius: 0;">
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/dashboard}" class="btn btn-outline-lmll admin-action">
+              <i class="bi bi-gear"></i>
+              <span>Admin</span>
+            </a>
+
+            <div sec:authorize="isAuthenticated()" class="nav-user">
+              <span>Hola, <span sec:authentication="name"></span></span>
+              <a th:href="@{/auth/logout}" class="btn btn-outline-lmll logout-action" title="Cerrar sesión" aria-label="Cerrar sesión">
                 <i class="bi bi-box-arrow-right"></i>
               </a>
             </div>
@@ -125,25 +127,10 @@
             <div class="anim-1 mb-1">
               <span class="pill-tag pill-nuevo">Colección 2026</span>
             </div>
-            <h1
-              class="display-font anim-1"
-              style="
-                font-size: clamp(1.8rem, 4vw, 2.6rem);
-                font-weight: 600;
-                line-height: 1.2;
-                margin-bottom: 0.35rem;
-              "
-            >
-              Cultura &amp; Moda <em style="color: var(--brand)">peruana</em>
+            <h1 class="display-font anim-1 home-title">
+              Cultura &amp; Moda <em class="text-brand">peruana</em>
             </h1>
-            <p
-              class="text-muted-1 anim-2"
-              style="
-                font-size: 0.93rem;
-                margin-bottom: 1.6rem;
-                max-width: 480px;
-              "
-            >
+            <p class="home-subtitle anim-2">
               Prendas esenciales con identidad, cortes limpios y materiales
               premium para tu día a día.
             </p>
@@ -212,13 +199,13 @@
                   >Edición limitada</span
                 >
                 <h3 class="mb-1">Nuestra colección</h3>
-                <p class="text-muted-1" style="font-size: 0.88rem; margin: 0">
+                <p class="card-oferta-copy">
                   Explora prendas esenciales, cortes limpios y materiales
                   premium pensados para durar.
                 </p>
               </div>
               <a
-                href="productos.html"
+                th:href="@{/productos}"
                 class="btn-lmll btn-outline-lmll flex-shrink-0"
               >
                 Ver productos &nbsp;<i class="bi bi-chevron-right"></i>
@@ -242,49 +229,20 @@
             </div>
 
             <!-- Card mini-promo -->
-            <div
-              class="card-lmll"
-              style="
-                background: linear-gradient(
-                  135deg,
-                  rgba(212, 200, 122, 0.1),
-                  var(--panel)
-                );
-                border-color: rgba(212, 200, 122, 0.2);
-              "
-            >
+            <div class="card-lmll daily-offer-card">
               <p class="pill-tag pill-limitado mb-2">Oferta del día</p>
-              <p
-                style="
-                  font-size: 0.85rem;
-                  color: var(--txt-2);
-                  margin-bottom: 0.5rem;
-                "
-              >
+              <p class="daily-offer-copy">
                 Compra dos productos y llévate el segundo a
               </p>
-              <p
-                class="text-gold display-font"
-                style="font-size: 1.6rem; font-weight: 600; line-height: 1"
-              >
+              <p class="daily-offer-price">
                 S/ 449
               </p>
-              <p
-                style="
-                  font-size: 0.75rem;
-                  color: var(--txt-3);
-                  margin-top: 0.25rem;
-                "
-              >
+              <p class="daily-offer-note">
                 Precio regular S/ 499
               </p>
               <a
-                href="productos.html"
+                th:href="@{/productos}"
                 class="btn-lmll btn-outline-lmll mt-3 w-100 justify-content-center"
-                style="
-                  border-color: rgba(212, 200, 122, 0.4);
-                  color: var(--accent-2);
-                "
               >
                 Aprovechar oferta
               </a>
@@ -294,26 +252,17 @@
             <div class="card-lmll mt-3">
               <h2 class="sidebar-title">En números</h2>
               <div class="d-flex flex-column gap-2 mt-1">
-                <div
-                  class="d-flex justify-content-between align-items-center"
-                  style="font-size: 0.84rem"
-                >
+                <div class="stat-row">
                   <span class="text-muted-1">Productos</span>
                   <span id="stat-productos" class="text-brand fw-600">—</span>
                 </div>
                 <hr class="divider my-1" />
-                <div
-                  class="d-flex justify-content-between align-items-center"
-                  style="font-size: 0.84rem"
-                >
+                <div class="stat-row">
                   <span class="text-muted-1">Clientes felices</span>
                   <span class="text-brand fw-600">+1,200</span>
                 </div>
                 <hr class="divider my-1" />
-                <div
-                  class="d-flex justify-content-between align-items-center"
-                  style="font-size: 0.84rem"
-                >
+                <div class="stat-row">
                   <span class="text-muted-1">Colecciones</span>
                   <span class="text-brand fw-600">8</span>
                 </div>
@@ -332,7 +281,6 @@
     <aside
       id="carrito-panel"
       class="carrito-panel"
-      style="right: -320px; transition: 0.3s"
       aria-label="Carrito de compras"
       role="complementary"
     >
@@ -348,14 +296,7 @@
       </div>
 
       <div class="carrito-items" id="carrito-items">
-        <p
-          style="
-            font-size: 0.82rem;
-            color: var(--txt-4);
-            text-align: center;
-            padding: 1.5rem 0;
-          "
-        >
+        <p class="carrito-empty">
           Tu bolsa está vacía.<br />¡Añade algo especial!
         </p>
       </div>
@@ -368,12 +309,6 @@
         <button
           id="carrito-ver"
           class="btn-lmll btn-primary-lmll w-100 justify-content-center"
-          style="
-            cursor: pointer;
-            border: none;
-            display: flex;
-            align-items: center;
-          "
         >
           Ver carrito completo &nbsp;<i class="bi bi-arrow-right"></i>
         </button>
@@ -386,9 +321,9 @@
     <div
       id="promo-modal"
       class="popupmodal"
-      style="display: none"
       role="dialog"
       aria-modal="true"
+      aria-hidden="true"
       aria-labelledby="modal-titulo"
     >
       <div class="modal-content">
@@ -403,12 +338,12 @@
           toda la tienda.
         </p>
         <a
-          href="productos.html"
+          th:href="@{/productos}"
           class="btn-lmll btn-primary-lmll w-100 justify-content-center"
         >
           Explorar ahora &nbsp;<i class="bi bi-arrow-right"></i>
         </a>
-        <p style="font-size: 0.72rem; color: var(--txt-3); margin-top: 0.85rem">
+        <p class="checkout-help">
           *Válido solo en primera compra. Hasta agotar stock.
         </p>
       </div>

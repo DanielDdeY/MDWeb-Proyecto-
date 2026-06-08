@@ -31,13 +31,12 @@
     <!-- =============================
          NAVBAR — Bootstrap responsive
          ============================= -->
-    <header class="site-header border-bottom">
+    <header class="site-header">
       <nav class="navbar navbar-expand-md w-100 px-3 py-2">
         <a class="navbar-brand" th:href="@{/}">
           <img
             th:src="@{/img/logo.png}"
             alt="La Moda te LLama"
-            style="height: 63px; width: auto"
           />
         </a>
         <button
@@ -67,77 +66,170 @@
     <!-- ===================
          CONTENIDO PRINCIPAL
          =================== -->
-  <main class="py-5">
-  <div class="container">
-    <div class="mb-4">
-      <h1 class="display-font" style="font-size: 2.5rem; font-weight: 600;">Finalizar <em style="font-style: normal; color: #666;">Compra</em></h1>
-    </div>
-
-    <form id="checkout-form" th:action="@{/pago/procesar-local}" method="POST" class="needs-validation" novalidate>
-      <div class="row g-5 align-items-start">
-        
-        <div class="col-lg-7">
-          <div class="mb-4 p-4 border">
-            <h2 class="h5 mb-3"><i class="bi bi-geo-alt me-2"></i>Datos de Envío</h2>
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label class="form-label">Nombre completo</label>
-                <input type="text" name="clienteNombre" class="form-control form-input-lmll" required>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Teléfono (9 dígitos)</label>
-                <input type="tel" name="clienteTelefono" class="form-control form-input-lmll" maxlength="9" pattern="[0-9]{9}" required>
-              </div>
-              <div class="col-12">
-                <label class="form-label">Correo Electrónico</label>
-                <input type="email" name="clienteEmail" class="form-control form-input-lmll" placeholder="ejemplo@correo.com" required>
-              </div>
-            </div>
-          </div>
-
-          <div class="mb-4 p-4 border">
-            <h2 class="h5 mb-3"><i class="bi bi-file-earmark-text me-2"></i>Tipo de Comprobante</h2>
-            <div class="d-flex gap-3">
-              <label class="comprobante-card flex-fill style-pointer" style="cursor: pointer;">
-                <input type="radio" name="tipoComprobante" value="BOLETA" checked>
-                <div class="comprobante-content p-3 border text-center">
-                  <i class="bi bi-person mb-1 d-block h4"></i>
-                  <span>Boleta de Venta</span>
-                </div>
-              </label>
-              <label class="comprobante-card flex-fill style-pointer" style="cursor: pointer;">
-                <input type="radio" name="tipoComprobante" value="FACTURA">
-                <div class="comprobante-content p-3 border text-center">
-                  <i class="bi bi-building mb-1 d-block h4"></i>
-                  <span>Factura (Requiere RUC)</span>
-                </div>
-              </label>
-            </div>
-          </div>
+    <main class="py-5">
+      <div class="container">
+        <div class="checkout-hero">
+          <h1 class="display-font checkout-title">
+            Finalizar <em>Compra</em>
+          </h1>
+          <p class="checkout-subtitle">
+            Confirma tus datos y revisa el resumen antes de ir a la pasarela segura.
+          </p>
         </div>
 
-        <div class="col-lg-5">
-          <div class="p-4 border" style="background-color: #fafafa;">
-            <h3 class="h5 mb-4" style="border-bottom: 2px solid #000; padding-bottom: 10px;">Resumen de tu bolsa</h3>
-            <div id="pago-productos-lista" class="mb-4">
-               </div>
-            <div class="d-flex justify-content-between align-items-end mb-4">
-              <span class="fw-bold">Total a pagar</span>
-              <span class="h3 display-font mb-0">S/ <span id="pago-total">0.00</span></span>
+        <form id="checkout-form" th:action="@{/pago/procesar-local}" method="POST" class="needs-validation" novalidate>
+          <div class="row g-5 checkout-grid">
+            <div class="col-lg-7">
+              <section class="checkout-panel checkout-section anim-1" aria-labelledby="datos-envio-title">
+                <h2 id="datos-envio-title" class="checkout-section-title">
+                  <i class="bi bi-geo-alt"></i>
+                  Datos de envío
+                </h2>
+
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label" for="clienteNombre">Nombre completo</label>
+                    <input id="clienteNombre" type="text" name="clienteNombre" class="form-control form-input-lmll" autocomplete="name" required>
+                    <div class="invalid-feedback">Ingresa tu nombre completo.</div>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="clienteTelefono">Teléfono</label>
+                    <input id="clienteTelefono" type="tel" name="clienteTelefono" class="form-control form-input-lmll" maxlength="9" pattern="[0-9]{9}" autocomplete="tel" required>
+                    <div class="invalid-feedback">Ingresa un teléfono válido de 9 dígitos.</div>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label" for="clienteEmail">Correo electrónico</label>
+                    <input id="clienteEmail" type="email" name="clienteEmail" class="form-control form-input-lmll" placeholder="ejemplo@correo.com" autocomplete="email" required>
+                    <div class="invalid-feedback">Ingresa un correo válido.</div>
+                  </div>
+                </div>
+
+                <div class="mt-4">
+                  <p class="form-label-lmll">Tipo de entrega</p>
+                  <div class="choice-grid" role="radiogroup" aria-label="Tipo de entrega">
+                    <label class="choice-card">
+                      <input type="radio" name="tipoEntrega" value="DELIVERY" checked>
+                      <span class="choice-card-content">
+                        <i class="bi bi-truck"></i>
+                        <span class="choice-card-title">Envío a domicilio</span>
+                        <span class="choice-card-caption">Recibe tu pedido en la dirección indicada.</span>
+                      </span>
+                    </label>
+                    <label class="choice-card">
+                      <input type="radio" name="tipoEntrega" value="PICKUP">
+                      <span class="choice-card-content">
+                        <i class="bi bi-shop"></i>
+                        <span class="choice-card-title">Recojo en tienda</span>
+                        <span class="choice-card-caption">Te esperamos con tu compra preparada.</span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+
+                <div id="direccion-entrega" class="checkout-address-fields mt-4">
+                  <div class="row g-3">
+                    <div class="col-12">
+                      <label class="form-label" for="clienteDireccion">Dirección de entrega</label>
+                      <input id="clienteDireccion" type="text" name="clienteDireccion" class="form-control form-input-lmll delivery-field" placeholder="Av. ejemplo 123, departamento, interior" autocomplete="street-address" required>
+                      <div class="invalid-feedback">Ingresa la dirección donde entregaremos tu pedido.</div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label" for="clienteDistrito">Distrito</label>
+                      <input id="clienteDistrito" type="text" name="clienteDistrito" class="form-control form-input-lmll delivery-field" autocomplete="address-level2" required>
+                      <div class="invalid-feedback">Indica tu distrito.</div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label" for="clienteReferencia">Referencia</label>
+                      <input id="clienteReferencia" type="text" name="clienteReferencia" class="form-control form-input-lmll delivery-field" placeholder="Opcional, pero recomendado">
+                    </div>
+                  </div>
+                  <p class="checkout-help">Si eliges recojo en tienda, estos datos no serán necesarios.</p>
+                </div>
+              </section>
+
+              <section class="checkout-panel checkout-section anim-2" aria-labelledby="comprobante-title">
+                <h2 id="comprobante-title" class="checkout-section-title">
+                  <i class="bi bi-file-earmark-text"></i>
+                  Tipo de comprobante
+                </h2>
+                <div class="choice-grid" role="radiogroup" aria-label="Tipo de comprobante">
+                  <label class="choice-card">
+                    <input type="radio" name="tipoComprobante" value="BOLETA" checked>
+                    <span class="choice-card-content">
+                      <i class="bi bi-person-vcard"></i>
+                      <span class="choice-card-title">Boleta</span>
+                      <span class="choice-card-caption">Ideal para compras personales.</span>
+                    </span>
+                  </label>
+                  <label class="choice-card">
+                    <input type="radio" name="tipoComprobante" value="FACTURA">
+                    <span class="choice-card-content">
+                      <i class="bi bi-building"></i>
+                      <span class="choice-card-title">Factura</span>
+                      <span class="choice-card-caption">Para compras con RUC.</span>
+                    </span>
+                  </label>
+                </div>
+                <div id="factura-fields" class="checkout-address-fields is-hidden mt-4">
+                  <div class="row g-3">
+                    <div class="col-md-5">
+                      <label class="form-label" for="clienteRuc">RUC</label>
+                      <input id="clienteRuc" type="text" name="clienteRuc" class="form-control form-input-lmll invoice-field" maxlength="11" pattern="[0-9]{11}" inputmode="numeric">
+                      <div class="invalid-feedback">Ingresa un RUC válido de 11 dígitos.</div>
+                    </div>
+                    <div class="col-md-7">
+                      <label class="form-label" for="clienteRazonSocial">Razón social</label>
+                      <input id="clienteRazonSocial" type="text" name="clienteRazonSocial" class="form-control form-input-lmll invoice-field">
+                      <div class="invalid-feedback">Ingresa la razón social.</div>
+                    </div>
+                  </div>
+                </div>
+              </section>
             </div>
 
-            <input type="hidden" id="input-total-hidden" name="total">
+            <div class="col-lg-5">
+              <aside class="checkout-summary-card sticky-summary anim-3" aria-labelledby="resumen-bolsa-title">
+                <div class="checkout-summary-header">
+                  <p class="checkout-summary-kicker">Pedido seguro</p>
+                  <h3 id="resumen-bolsa-title" class="checkout-summary-title display-font">Resumen de tu bolsa</h3>
+                </div>
+                <div class="checkout-summary-body">
+                  <div id="pago-productos-lista" class="checkout-products-list"></div>
 
-            <button type="submit" class="btn-lmll w-100 py-3">
-              <i class="bi bi-credit-card-2-front-fill me-2"></i> Ir a la pasarela segura
-            </button>
+                  <div class="checkout-divider"></div>
+
+                  <div class="checkout-total-section">
+                    <span class="checkout-total-label">Total a pagar</span>
+                    <span class="checkout-total-price display-font">S/ <span id="pago-total">0.00</span></span>
+                  </div>
+
+                  <input type="hidden" id="input-total-hidden" name="total">
+
+                  <button type="submit" class="btn-lmll btn-primary-lmll checkout-btn-main btn-pay-pulse">
+                    <i class="bi bi-credit-card-2-front-fill"></i>
+                    Ir a la pasarela segura
+                  </button>
+                </div>
+              </aside>
+            </div>
           </div>
-        </div>
-
+        </form>
       </div>
-    </form>
-  </div>
-</main>
+    </main>
+
+    <div id="checkout-feedback-modal" class="app-modal is-hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="checkout-feedback-title">
+      <div class="app-modal-content">
+        <button type="button" class="app-modal-close" data-modal-close aria-label="Cerrar mensaje">
+          <i class="bi bi-x-lg"></i>
+        </button>
+        <span class="app-modal-badge">LMLL</span>
+        <h3 id="checkout-feedback-title" class="app-modal-title">Revisa tu bolsa</h3>
+        <p id="checkout-feedback-message" class="app-modal-text">Necesitas agregar productos antes de continuar.</p>
+        <button type="button" class="btn-lmll btn-primary-lmll w-100" data-modal-close>
+          Entendido
+        </button>
+      </div>
+    </div>
 
     <!-- =============
          PIE DE PAGINA

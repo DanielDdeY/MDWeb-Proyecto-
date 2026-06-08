@@ -1,174 +1,215 @@
-/* ==============
-   LÓGICA DE PAGO 
-   ============== */
+document.addEventListener("DOMContentLoaded", () => {
+    const CART_KEY = "carritoLlama";
 
-document.addEventListener("DOMContentLoaded", function() {
     const contenedorResumen = document.getElementById("pago-productos-lista");
-    const totalSpan         = document.getElementById("pago-total");
-    const checkoutForm      = document.getElementById("checkout-form");
-    const cardDetails       = document.getElementById("card-details");
-    const walletDetails     = document.getElementById("wallet-details");
-    const radioMetodos      = document.querySelectorAll('input[name="payment_method"]');
+    const totalSpan = document.getElementById("pago-total");
+    const totalHidden = document.getElementById("input-total-hidden");
+    const checkoutForm = document.getElementById("checkout-form");
+    const direccionEntrega = document.getElementById("direccion-entrega");
+    const facturaFields = document.getElementById("factura-fields");
+    const deliveryFields = document.querySelectorAll(".delivery-field");
+    const invoiceFields = document.querySelectorAll(".invoice-field");
+    const tipoEntregaRadios = document.querySelectorAll('input[name="tipoEntrega"]');
+    const tipoComprobanteRadios = document.querySelectorAll('input[name="tipoComprobante"]');
+    const submitButton = checkoutForm?.querySelector('button[type="submit"]');
 
     let carrito = [];
+    let redirectOnModalClose = "";
 
-    //-- 1. CARGA DATOS DEL LOCAL STORAGE --//
+    initModal();
+    cargarResumen();
+    initDeliveryToggle();
+    initInvoiceToggle();
+    initSubmitValidation();
 
     function cargarResumen() {
-        const data = localStorage.getItem("carritoLlama");
-        if (data) {
-            carrito = JSON.parse(data);
+        try {
+            carrito = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+        } catch (error) {
+            carrito = [];
         }
 
-        if (carrito.length === 0) {
-            contenedorResumen.innerHTML = "<p>No hay productos en tu bolsa.</p>";
-            // Redirigir si intentan entrar a pagar con carrito vacío
-            setTimeout(() => { window.location.href = "productos.html"; }, 2000);
+        if (!carrito.length) {
+            if (contenedorResumen) {
+                contenedorResumen.innerHTML = `
+                    <p class="checkout-empty-message">
+                        No hay productos en tu bolsa.
+                    </p>`;
+            }
+            if (submitButton) submitButton.disabled = true;
+            setTotal(0);
+            showCheckoutModal(
+                "Tu bolsa está vacía",
+                "Agrega productos antes de continuar con el pago.",
+                "/productos"
+            );
             return;
         }
 
         renderizarItems();
     }
 
-    //-- 2. MUESTRA PRODUCTOS EN EL LATERAL --//
-
     function renderizarItems() {
+        if (!contenedorResumen) return;
+
         contenedorResumen.innerHTML = "";
         let total = 0;
 
-        carrito.forEach(item => {
-            const subtotal = item.precio * item.cantidad;
+        carrito.forEach((item) => {
+            const cantidad = Number(item.cantidad || 0);
+            const precio = Number(item.precio || 0);
+            const subtotal = precio * cantidad;
+            const nombre = escapeHTML(item.nombre || "Producto");
+            const imagen = escapeHTML(item.imagen || "");
             total += subtotal;
 
             const div = document.createElement("div");
-            div.className = "d-flex justify-content-between align-items-center mb-3";
+            div.className = "checkout-summary-item";
             div.innerHTML = `
-                <div class="d-flex align-items-center">
-                    <img src="${item.imagen}" alt="${item.nombre}" style="width: 45px; height: 45px; object-fit: cover; border-radius: 5px;" class="me-2">
+                <div class="checkout-summary-item-media">
+                    <img src="${imagen}" alt="${nombre}">
                     <div>
-                        <h6 class="mb-0" style="font-size: 0.9rem;">${item.nombre}</h6>
-                        <small class="text-muted">Cant: ${item.cantidad}</small>
+                        <h4>${nombre}</h4>
+                        <small>Cantidad: ${cantidad}</small>
                     </div>
                 </div>
-                <span class="fw-bold">S/ ${subtotal.toFixed(2)}</span>
+                <span class="checkout-summary-price">S/ ${subtotal.toFixed(2)}</span>
             `;
             contenedorResumen.appendChild(div);
         });
 
-        totalSpan.textContent = total.toFixed(2);
+        setTotal(total);
     }
 
-    //-- 3. ALTERNA LA VISIBILIDAD DE LOS METODOS DE PAGO --//
+    function setTotal(total) {
+        const formatted = Number(total || 0).toFixed(2);
+        if (totalSpan) totalSpan.textContent = formatted;
+        if (totalHidden) totalHidden.value = formatted;
+    }
 
-    radioMetodos.forEach(radio => {
-        radio.addEventListener("change", function() {
-            if (this.value === "wallet") {
-                cardDetails.classList.add("d-none");
-                walletDetails.classList.remove("d-none");
-                // Quitar 'required' de los inputs de tarjeta para que el form sea válido
-                cardDetails.querySelectorAll('input').forEach(i => i.required = false);
-            } else {
-                cardDetails.classList.remove("d-none");
-                walletDetails.classList.add("d-none");
-                cardDetails.querySelectorAll('input').forEach(i => i.required = true);
-            }
-        });
-    });
+    function initDeliveryToggle() {
+        if (!tipoEntregaRadios.length || !direccionEntrega) return;
 
-    //-- 4. MANEJO DEL ENVIO DEL FORMULARIO --//
+        function updateDeliveryState() {
+            const selected = document.querySelector('input[name="tipoEntrega"]:checked')?.value;
+            const isPickup = selected === "PICKUP";
 
-    checkoutForm.addEventListener("submit", function(e) {
-        // A. Captura el total del texto y lo mete en el input oculto para el controlador
-        const totalTexto = totalSpan.textContent;
-        document.getElementById('input-total-hidden').value = totalTexto;
-
-        // B. Valida que los campos obligatorios no estén vacíos
-        if (!checkoutForm.checkValidity()) {
-            e.preventDefault(); // SÓLO bloquea el envío si el formulario es INVÁLIDO
-            e.stopPropagation();
+            direccionEntrega.classList.toggle("is-hidden", isPickup);
+            direccionEntrega.setAttribute("aria-hidden", String(isPickup));
+            deliveryFields.forEach((field) => {
+                field.required = !isPickup && field.id !== "clienteReferencia";
+                if (isPickup) field.value = "";
+            });
         }
-        
-        // C. Agrega las clases visuales de Bootstrap (bordes rojos/verdes)
-        checkoutForm.classList.add("was-validated");
-        // SI TODO ES VÁLIDO: El formulario continuará su curso natural hacia /pago/procesar-local
-        
-        //-- 5. RECOLECTAR DATOS DEL FORMULARIO --//
 
-        // Se buscan los inputs de la sección de "Datos de Envío"
-        const inputsEnvio = document.querySelectorAll('.form-section:first-of-type input');
-        const nombre    = inputsEnvio[0].value;
-        const telefono  = inputsEnvio[1].value;
-        const direccion = inputsEnvio[2].value;
+        tipoEntregaRadios.forEach((radio) => radio.addEventListener("change", updateDeliveryState));
+        updateDeliveryState();
+    }
 
-        const metodoPago  = document.querySelector('input[name="payment_method"]:checked').value;
+    function initInvoiceToggle() {
+        if (!tipoComprobanteRadios.length || !facturaFields) return;
 
-        // Calcula el total usando el carrito actual
-        const totalPagar = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+        function updateInvoiceState() {
+            const selected = document.querySelector('input[name="tipoComprobante"]:checked')?.value;
+            const needsInvoice = selected === "FACTURA";
 
-        // -- 6. ARMAR EL PAQUETE JSON --//
+            facturaFields.classList.toggle("is-hidden", !needsInvoice);
+            facturaFields.setAttribute("aria-hidden", String(!needsInvoice));
+            invoiceFields.forEach((field) => {
+                field.required = needsInvoice;
+                if (!needsInvoice) field.value = "";
+            });
+        }
 
-        // Los nombres coincidir EXACTAMENTE con el CheckoutRequestDTO en Java
-        const payload = {
-            clienteNombre: nombre,
-            clienteTelefono: telefono,
-            clienteDireccion: direccion,
-            metodoPago: metodoPago,
-            total: parseFloat(totalPagar.toFixed(2)),
-            items: carrito.map(item => ({
-                nombre: item.nombre,
-                precio: parseFloat(item.precio),
-                cantidad: parseInt(item.cantidad)
-            }))
-        };
+        tipoComprobanteRadios.forEach((radio) => radio.addEventListener("change", updateInvoiceState));
+        updateInvoiceState();
+    }
 
-        // -- 7. EFECTOS VISUALES (Desactiva el botón para evitar doble click) --//
+    function initSubmitValidation() {
+        if (!checkoutForm) return;
 
-        const btnSubmit     = document.querySelector("button[type='submit']");
-        const textoOriginal = btnSubmit.innerHTML;
-        btnSubmit.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Procesando...`;
-        btnSubmit.disabled = true;
+        checkoutForm.addEventListener("submit", (event) => {
+            setTotal(totalSpan?.textContent || 0);
 
-        // -- 8. ENVIAR A SPRING BOOT VÍA AJAX --//
-
-        fetch('/pedidos/procesar', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        })
-        .then(response => {
-            if (response.ok) {
-                //* Si el servidor de Java respondió "OK", la venta se guarda en MySQL
-                localStorage.removeItem("carritoLlama");
-                window.location.href = "/"; // Lleva al inicio de la tienda
-            } else {
-                //! Si Java detecta un error (ej: falta un dato), lanza error
-                throw new Error('El servidor rechazó la operación');
+            if (!carrito.length) {
+                event.preventDefault();
+                showCheckoutModal(
+                    "Tu bolsa está vacía",
+                    "Agrega productos antes de continuar con el pago.",
+                    "/productos"
+                );
+                return;
             }
-        })
-        .catch(error => {
-            // Si el servidor está apagado o hubo un error en Java
-            console.error("Detalle del error:", error);
-            // Muestra el motivo en pantalla
-            alert("Error del servidor: \n" + error.message);
-            // Restaura el botón a su estado normal
-            btnSubmit.innerHTML = textoOriginal;
-            btnSubmit.disabled = false;
-        });
 
-        checkoutForm.classList.add("was-validated");
-    });
+            if (!checkoutForm.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+                checkoutForm.classList.add("was-validated");
+                showCheckoutModal(
+                    "Faltan algunos datos",
+                    "Revisa los campos marcados para completar tu compra."
+                );
+                return;
+            }
 
-    // Formateador de fecha de vencimiento (MM/YY)
-    const inputVenc = document.getElementById("input-venc");
-    if(inputVenc) {
-        inputVenc.addEventListener("input", function(e) {
-            let v = this.value.replace(/\D/g, ''); 
-            if (v.length > 2) v = v.substring(0,2) + '/' + v.substring(2,4); 
-            this.value = v;
+            checkoutForm.classList.add("was-validated");
+            if (submitButton) {
+                submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span> Procesando pago';
+                submitButton.disabled = true;
+            }
         });
     }
 
-    cargarResumen();
+    function initModal() {
+        const modal = document.getElementById("checkout-feedback-modal");
+        if (!modal) return;
+
+        modal.querySelectorAll("[data-modal-close]").forEach((button) => {
+            button.addEventListener("click", closeCheckoutModal);
+        });
+
+        modal.addEventListener("click", (event) => {
+            if (event.target === modal) closeCheckoutModal();
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && !modal.classList.contains("is-hidden")) {
+                closeCheckoutModal();
+            }
+        });
+    }
+
+    function showCheckoutModal(title, message, redirectUrl = "") {
+        const modal = document.getElementById("checkout-feedback-modal");
+        const titleEl = document.getElementById("checkout-feedback-title");
+        const messageEl = document.getElementById("checkout-feedback-message");
+        if (!modal || !titleEl || !messageEl) return;
+
+        redirectOnModalClose = redirectUrl;
+        titleEl.textContent = title;
+        messageEl.textContent = message;
+        modal.classList.remove("is-hidden");
+        modal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeCheckoutModal() {
+        const modal = document.getElementById("checkout-feedback-modal");
+        if (!modal) return;
+
+        modal.classList.add("is-hidden");
+        modal.setAttribute("aria-hidden", "true");
+
+        if (redirectOnModalClose) {
+            window.location.href = redirectOnModalClose;
+        }
+    }
+
+    function escapeHTML(value) {
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
 });

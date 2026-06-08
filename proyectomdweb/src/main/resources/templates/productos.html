@@ -73,19 +73,23 @@
           </ul>
 
           <!-- Botón carrito -->
-          <div class="d-flex align-items-center mt-2 mt-md-0">
+          <div class="nav-actions mt-2 mt-md-0" aria-label="Acciones de usuario">
             <button
               id="carrito-toggle"
               class="cart-btn"
               aria-label="Abrir carrito lateral"
             >
-              <i class="bi bi-bag" style="font-size: 0.95rem"></i>
+              <i class="bi bi-bag"></i>
               <span>Bolsa</span>
-              <span class="cart-badge" id="cart-count" style="display: none"
-                >0</span
-              >
+              <span class="cart-badge" id="cart-count" hidden
+                >0</span>
             </button>
-          </div>
+            <div sec:authorize="isAuthenticated()" class="nav-user">
+              <span>Hola, <span sec:authentication="name"></span></span>
+              <a th:href="@{/auth/logout}" class="btn btn-outline-lmll logout-action" title="Cerrar sesión" aria-label="Cerrar sesión">
+                <i class="bi bi-box-arrow-right"></i>
+              </a>
+            </div>
         </div>
       </nav>
     </header>

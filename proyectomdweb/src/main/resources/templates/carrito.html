@@ -73,18 +73,18 @@
           </ul>
 
           <!-- Botón carrito -->
-          <div class="d-flex align-items-center mt-2 mt-md-0">
-            <button
-              id="carrito-toggle"
-              class="cart-btn"
-              aria-label="Abrir carrito lateral"
-            >
-              <i class="bi bi-bag" style="font-size: 0.95rem"></i>
-              <span>Bolsa</span>
-              <span class="cart-badge" id="cart-count" style="display: none"
-                >0</span
+          <div class="d-flex align-items-center mt-2 mt-md-0 carrito-disabled">
+              <button
+                  id="carrito-toggle"
+                  class="cart-btn"
+                  aria-label="Abrir carrito lateral"
               >
-            </button>
+                  <i class="bi bi-bag" style="font-size: 0.95rem"></i>
+                  <span>Bolsa</span>
+                  <span class="cart-badge" id="cart-count" style="display: none">
+                      0
+                  </span>
+              </button>
           </div>
         </div>
       </nav>
@@ -96,14 +96,14 @@
     <main class="py-5">
       <div class="container">
 
-        <div class="anim-1 mb-5 text-center checkout-hero">
-          <h1 class="display-font checkout-title">
-            Tu <em>Bolsa</em>
-          </h1>
+        <div class="checkout-hero-disabled mb-5 text-center">
+            <h1 class="display-font checkout-title">
+                Tu <em>Bolsa</em>
+            </h1>
 
-          <p class="checkout-subtitle">
-            Revisa tus artículos antes de finalizar la compra.
-          </p>
+            <p class="checkout-subtitle">
+                Revisa tus artículos antes de finalizar la compra.
+            </p>
         </div>
 
         <div class="row g-5">

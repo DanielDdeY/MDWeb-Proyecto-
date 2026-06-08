@@ -25,17 +25,22 @@ public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
 
     @Bean
+    public org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/css/**", "/js/**", "/img/**", "/favicon.ico");
+}
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
 
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                // 1. Las rutas de administración son estrictamente para el rol ADMIN
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                // 2. Rutas públicas: Cualquiera puede entrar a ver la tienda y los recursos (CSS, JS, Imágenes)
-                .requestMatchers("/","/productos","/productos/**", "/carrito","/pago/**","/pedidos**" ,"/auth/**","/css/**", "/img/**", "/js/**").permitAll()
                 
-                // 3. Todo lo demás (ej: todo lo que se va a agregar y testar) permitida
+                .requestMatchers("/css/**", "/js/**", "/img/**", "/favicon.ico").permitAll()
+                
+                .requestMatchers("/", "/productos", "/productos/**", "/carrito", "/pago/**", "/pedidos/**", "/auth/**").permitAll()
+                
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+
                 .anyRequest().authenticated() //(Puede que vuelva).permitAll()
             )
             // CORRECCIÓN 3: Apagamos las sesiones de servidor nativas. Esto es OBLIGATORIO para usar JWT.

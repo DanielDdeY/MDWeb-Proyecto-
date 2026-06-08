@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="text-center py-5">
                     <i class="bi bi-cart-x display-1 text-muted"></i>
                     <p class="mt-3">Tu bolsa está vacía.</p>
-                    <a href="productos.html" class="btn btn-outline-dark mt-2">Ir a comprar</a>
+                    <a href="productos" class="btn btn-outline-dark mt-2">Ir a comprar</a>
                 </div>`;
             subtotalElt.textContent = "S/ 0.00";
             totalElt.textContent = "0.00";
