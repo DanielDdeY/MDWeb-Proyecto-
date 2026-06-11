@@ -10,7 +10,6 @@ public class CarritoController {
 
     @GetMapping
     public String verCarrito() {
-        // Le dice a Spring Boot que busque el archivo "carrito.html"
         return "carrito"; 
     }
 }

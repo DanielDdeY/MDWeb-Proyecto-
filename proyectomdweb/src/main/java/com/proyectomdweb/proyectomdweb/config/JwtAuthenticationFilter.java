@@ -38,6 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         }
+        
         if (token == null) {
             filterChain.doFilter(request, response);
             return;
@@ -59,5 +60,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
         filterChain.doFilter(request, response);
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getServletPath(); 
+        
+        // El filtro NO se ejecuta para recursos estáticos puros
+        return path.startsWith("/css/") || 
+            path.startsWith("/js/") || 
+            path.startsWith("/img/") ;
     }
 }

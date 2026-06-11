@@ -20,8 +20,8 @@ public class Categoria {
     @Column(nullable = false, length = 20)
     private String nombre;
 
-    // Relación Bidireccional: Una categoría tiene MUCHOS productos
+    // Una categoría tiene MUCHOS productos
     @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY) 
-    @ToString.Exclude // Evita el bucle infinito al imprimir la clase
+    @ToString.Exclude 
     private List<Producto> productos;
 }

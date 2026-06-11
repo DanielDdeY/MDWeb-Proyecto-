@@ -10,7 +10,6 @@ public interface VentaPresentacionService {
     
     void completarVentaExitosa(Venta venta, String metodoUsadoPayU);
     
-    // NUEVOS MÉTODOS REQUERIDOS PARA EL DASHBOARD REAL
     BigDecimal obtenerTotalIngresosReales();
     
     long obtenerCantidadPedidosPendientes();

@@ -92,110 +92,165 @@ CREATE TABLE ventas_detalles (
 );
 
 
--- INSERCIONES (1 por tabla)
+-- INSERCIONES 
 
--- 1. Insertar Usuario
-INSERT INTO usuarios (nombre, email, password, telefono, direccion) 
-VALUES ('Usuario1', 'usuario1@email.com', 'contra_123', '919191919', 'Av. ubicacion, Lima'),
-('Admin', 'admin@email.com', 'admin_123', '919191919', 'Av. ubicacion, Lima');
+-INSERT INTO usuarios (id, nombre, email, password, telefono, direccion, fecha_registro) 
+VALUES (1, 'Admin', 'admin@email.com', '$2a$10$HUqJ0zRrUSPqtKiLpEDe3.FJEQjvnbTomkp1TPvYZSA8Pw5eTZmvy', '919191919', 'Av. ubicacion, Lima', '2025-01-10 08:00:00');
 
--- 2. Insertar Categoría
-INSERT INTO categorias (nombre) 
-VALUES ('Sudaderas');
+--Categorías 
+INSERT INTO categorias (id, nombre) VALUES 
+(1, 'Superiores'),
+(2, 'Polos'),
+(3, 'Pantalones'),
+(4, 'Calzado'),
+(5, 'Accesorios'),
+(6, 'Abrigos'),
+(7, 'Gorras y Chullos'),
+(8, 'Medias'),
+(9, 'Joyería y Pines');
 
--- 3. Insertar Producto
-INSERT INTO productos (categoria_id, nombre, genero, imagen_url, precio_base, disponibilidad) 
-VALUES (
-    1, 
-    'Sudadera con Cappucha', 
-    'Unisex', 
-    'https://images.pexels.com/photos/23522986/pexels-photo-23522986.jpeg',
-    89.90, 
-    TRUE
-),
-(
-    1, 
-    'Camisa Prueba', 
-    'Unisex', 
-    'https://images.pexels.com/photos/9637777/pexels-photo-9637777.jpeg',
-    51.50, 
-    TRUE
-);
+--Catálogo
+INSERT INTO productos (id, categoria_id, nombre, genero, imagen_url, precio_base, disponibilidad) VALUES 
+(1, 1, 'Sudadera con Cappucha', 'Unisex', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZsD55MPh_Liz6sRG7MWs3iRR_R09tpw2NGQ&s', 89.90, 1),
+(2, 1, 'Camisa de lino', 'Hombre', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGrK3YkiHdKqY5WMn5pYK_tEGyzU8VPs6rPinhHcjxhA&s', 51.50, 1),
+(3, 2, 'Polo Oversize', 'Unisex', 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y2FtaXNldGF8ZW58MHx8MHx8fDA%3D', 49.90, 1),
+(4, 2, 'Polo Básico Premium', 'Unisex', 'https://www.basisperu.com/cdn/shop/files/polos_basicos_hombre_denim_basis.png?v=1741728393&width=1445', 39.90, 0),
+(5, 3, 'Jean Recto Clásico', 'Mujer', 'https://sydney.pe/wp-content/uploads/2025/02/jeans-clasico-celeste.jpg', 99.90, 1),
+(6, 3, 'Jean Skinny Ajustado', 'Hombre', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT6vrQJzqb16V0y3Kb8lMVdWALT9ZZAk1YTg&s', 109.90, 1),
+(7, 4, 'Zapatilla Urbana', 'Unisex', 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg', 149.90, 1),
+(8, 4, 'Zapatilla Running', 'Unisex', 'https://images.pexels.com/photos/1598505/pexels-photo-1598505.jpeg', 169.90, 1),
+(9, 5, 'Mochila Minimal', 'Unisex', 'https://images.pexels.com/photos/2905238/pexels-photo-2905238.jpeg', 79.90, 1),
+(10, 6, 'Casaca Impermeable', 'Unisex', 'https://images.unsplash.com/photo-1706765779494-2705542ebe74?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y2FzYWNhfGVufDB8fDB8fHww', 139.90, 1),
+(11, 1, 'chompa con diseño', 'Mujer', 'https://media.falabella.com/tottusPE/43575253_2/w=1500,h=1500,fit=cover', 50.00, 1),
+(12, 5, 'Cangurera Streetwear', 'Unisex', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSGitrghWoteaqPgukD4X3IU6ICCRahx5GZ53xNkxUN4JXJjgVx', 69.90, 1),
+(13, 6, 'Casaca Denim Oversize', 'Unisex', 'https://images.pexels.com/photos/1566412/pexels-photo-15166412.jpeg?auto=compress&cs=tinysrgb&w=600', 149.90, 1),
+(14, 7, 'Gorra Trucker LMTL', 'Unisex', 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=600&auto=format&fit=crop&q=60', 39.90, 1),
+(15, 2, 'Polo Graphic Anime', 'Unisex', 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&auto=format&fit=crop&q=60', 55.00, 1),
+(16, 3, 'Pantalón Cargo Black', 'Hombre', 'https://images.pexels.com/photos/16894086/pexels-photo-16894086.jpeg?auto=compress&cs=tinysrgb&w=600', 119.90, 1),
+(17, 8, 'Medias Altas Flame', 'Unisex', 'https://images.unsplash.com/photo-1582966772680-860e372bb558?w=600&auto=format&fit=crop&q=60', 19.90, 1),
+(18, 9, 'Cadena de Acero Cubana', 'Unisex', 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&auto=format&fit=crop&q=60', 45.00, 1);
 
--- 4. Insertar variantes del Producto (apuntando al producto_id = 1)
-INSERT INTO producto_detalles (
-    producto_id, nombre_completo, codigo, imagen_url, marca, talla, color, descripcion, stock, precio_base, precio_adicional
-) 
-VALUES 
--- Variante 1: La original (Talla M, Color Negro, Marca de la tienda)
-(
-    1, 
-    'Sudadera Negra Capucha M - La Moda te Llama', 
-    'SUD-NEG-M-LMLL', 
-    'https://images.pexels.com/photos/23522986/pexels-photo-23522986.jpeg', 
-    'La Moda te Llama', 
-    'M', 
-    'Negro', 
-    'Sudadera de algodón premium corte regular', 
-    20, 
-    89.90, 
-    0.00
-),
+-- 4. detalles
+INSERT INTO producto_detalles (id, producto_id, nombre_completo, codigo, imagen_url, marca, talla, color, descripcion, stock, precio_base, precio_adicional) VALUES 
+(1, 1, 'Sudadera con Capucha Estándar', 'SUD-CAP-01', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZsD55MPh_Liz6sRG7MWs3iRR_R09tpw2NGQ&s', 'Generico', 'M', 'Negro', 'Algodón con capucha', 50, 89.90, 0.00),
+(2, 2, 'Camisa de lino Slim', 'CAM-LIN-02', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGrK3YkiHdKqY5WMn5pYK_tEGyzU8VPs6rPinhHcjxhA&s', 'Generico', 'L', 'Blanco', 'Lino fresco de temporada', 40, 51.50, 0.00),
+(3, 3, 'Polo Oversize Algodón', 'POL-OVE-03', 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y2FtaXNldGF8ZW58MHx8MHx8fDA%3D', 'Generico', 'XL', 'Negro', 'Corte suelto urbano', 35, 49.90, 0.00),
+(4, 5, 'Jean Recto Celeste', 'JEA-REC-05', 'https://sydney.pe/wp-content/uploads/2025/02/jeans-clasico-celeste.jpg', 'Generico', '30', 'Celeste', 'Denim clásico resistente', 25, 99.90, 0.00),
+(5, 7, 'Zapatilla Urbana Blanca', 'ZAP-URB-07', 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg', 'Generico', '41', 'Blanco', 'Suela de caucho confortable', 15, 149.90, 0.00),
+(6, 10, 'Casaca Impermeable Outdoor', 'CAS-IMP-10', 'https://images.unsplash.com/photo-1706765779494-2705542ebe74?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y2FzYWNhfGVufDB8fDB8fHww', 'Generico', 'L', 'Verde', 'Cortavientos impermeable', 20, 139.90, 0.00),
+(7, 12, 'Cangurera Negra Reflectiva', 'CAN-NEG-ST', 'https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=600&auto=format&fit=crop&q=60', 'La Moda te Llama', 'Estándar', 'Negro', 'Cangurera con correas ajustables y detalles reflectivos', 15, 69.90, 0.00),
+(8, 13, 'Casaca Denim Azul Claro L', 'CAS-DEN-AZL', 'https://images.pexels.com/photos/1566412/pexels-photo-15166412.jpeg?auto=compress&cs=tinysrgb&w=600', 'La Moda te Llama', 'L', 'Azul Claro', 'Casaca jean rígida corte oversize retro', 20, 149.90, 0.00),
+(9, 13, 'Casaca Denim Azul Claro XL', 'CAS-DEN-AZXL', 'https://images.pexels.com/photos/1566412/pexels-photo-15166412.jpeg?auto=compress&cs=tinysrgb&w=600', 'La Moda te Llama', 'XL', 'Azul Claro', 'Casaca jean rígida corte oversize retro extra grande', 12, 149.90, 10.00),
+(10, 14, 'Gorra Trucker Vintage Negra', 'GOR-TRU-NEG', 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=600&auto=format&fit=crop&q=60', 'La Moda te Llama', 'Estándar', 'Negro', 'Gorra con malla trasera y regulador de presión', 30, 39.90, 0.00),
+(11, 15, 'Polo Graphic White M', 'POL-GRA-BWM', 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&auto=format&fit=crop&q=60', 'La Moda te Llama', 'M', 'Blanco', 'Polo de algodón 20/1 con estampado en serigrafía', 25, 55.00, 0.00),
+(12, 16, 'Pantalón Cargo Black Talla 32', 'CAR-BLK-32', 'https://images.pexels.com/photos/16894086/pexels-photo-16894086.jpeg?auto=compress&cs=tinysrgb&w=600', 'La Moda te Llama', '32', 'Negro', 'Pantalón cargo de gabardina con 6 bolsillos', 18, 119.90, 0.00),
+(13, 17, 'Medias Altas Flame White', 'MED-FLA-WH', 'https://images.unsplash.com/photo-1582966772680-860e372bb558?w=600&auto=format&fit=crop&q=60', 'La Moda te Llama', 'M', 'Blanco/Fuego', 'Medias urbanas caña alta tejido grueso', 40, 19.90, 0.00),
+(14, 18, 'Cadena Acero Cubana 55cm', 'JOY-CUB-55', 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&auto=format&fit=crop&q=60', 'Generico', '55 cm', 'Plata', 'Cadena de eslabones cubanos acero quirúrgico 316L', 15, 45.00, 0.00);
 
--- Variante 2: Cambia la Talla (Talla XL) y tiene un precio adicional por mas tela
-(
-    1, 
-    'Sudadera Negra Capucha XL - La Moda te Llama', 
-    'SUD-NEG-XL-LMLL', 
-    'https://thumbs.dreamstime.com/b/sudadera-negra-con-capucha-vista-plana-rodeada-de-rocas-oscuras-presentaci%C3%B3n-ropa-408719254.jpg', 
-    'La Moda te Llama', 
-    'XL', 
-    'Negro', 
-    'Sudadera de algodón premium oversize', 
-    10, 
-    89.90, 
-    15.00 
-),
+-- Ventas 2025
+INSERT INTO pedidos (id, usuario_id, total, estado) VALUES 
+(1, 1, 89.90, 'PAGADO'),   (2, 1, 51.50, 'PAGADO'),   (3, 1, 49.90, 'PAGADO'),
+(4, 1, 99.90, 'PAGADO'),   (5, 1, 149.90, 'PAGADO'),  (6, 1, 139.90, 'PAGADO'),
+(7, 1, 179.80, 'PAGADO'),  (8, 1, 103.00, 'PAGADO'),  (9, 1, 49.90, 'PAGADO'),
+(10, 1, 99.90, 'PAGADO'),  (11, 1, 149.90, 'PAGADO'), (12, 1, 139.90, 'PAGADO'),
+(13, 1, 89.90, 'PAGADO'),  (14, 1, 51.50, 'PAGADO'),  (15, 1, 249.80, 'PAGADO'),
+(16, 1, 99.90, 'PAGADO'),  (17, 1, 149.90, 'PAGADO'), (18, 1, 139.90, 'PAGADO');
 
--- Variante 3: Cambia la Marca y el Color (Versión Gris de Adidas)
-(
-    1, 
-    'Sudadera Gris Capucha M - Adidas', 
-    'SUD-GRI-M-ADI', 
-    'https://thumbs.dreamstime.com/b/sudadera-negra-con-capucha-vista-plana-rodeada-de-rocas-oscuras-presentaci%C3%B3n-ropa-408719254.jpg', 
-    'Adidas', 
-    'M', 
-    'Gris', 
-    'Sudadera deportiva ligera', 
-    5, 
-    89.90, 
-    25.00 
-);
+-- Ventas 2026
+INSERT INTO pedidos (id, usuario_id, total, estado) VALUES 
+(19, 1, 89.90, 'PAGADO'),  (20, 1, 103.00, 'PAGADO'), (21, 1, 49.90, 'PAGADO'),
+(22, 1, 199.80, 'PAGADO'), (23, 1, 149.90, 'PAGADO'), (24, 1, 139.90, 'PAGADO'),
+(25, 1, 89.90, 'PAGADO'),  (26, 1, 51.50, 'PAGADO'),  (27, 1, 49.90, 'PAGADO'),
+(28, 1, 99.90, 'PAGADO'),  (29, 1, 289.80, 'PAGADO'), (30, 1, 139.90, 'PAGADO');
 
--- 5. Insertar Pedido
-INSERT INTO pedidos (usuario_id, total, estado) 
-VALUES (1, 150.00, 'PAGADO');
+INSERT INTO pedido_detalles (pedido_id, producto_detalle_id, cantidad, precio_unitario, fecha_pedido) VALUES 
+-- 2025
+(1, 1, 1, 89.90, '2025-01-15 10:30:00'),
+(2, 2, 1, 51.50, '2025-01-22 14:15:00'),
+(3, 3, 1, 49.90, '2025-02-05 16:45:00'),
+(4, 4, 1, 99.90, '2025-02-18 11:20:00'),
+(5, 5, 1, 149.90, '2025-03-12 09:10:00'),
+(6, 6, 1, 139.90, '2025-03-29 18:35:00'),
+(7, 1, 2, 89.90, '2025-04-14 15:22:00'),
+(8, 2, 2, 51.50, '2025-05-03 13:40:00'),
+(9, 3, 1, 49.90, '2025-06-21 20:15:00'),
+(10, 4, 1, 99.90, '2025-07-08 10:05:00'),
+(11, 5, 1, 149.90, '2025-08-19 17:50:00'),
+(12, 6, 1, 139.90, '2025-09-02 12:14:00'),
+(13, 1, 1, 89.90, '2025-10-10 14:30:00'),
+(14, 2, 1, 51.50, '2025-10-25 19:45:00'),
+(15, 4, 1, 99.90, '2025-11-15 11:00:00'),
+(15, 5, 1, 149.90, '2025-11-15 11:00:00'),
+(16, 4, 1, 99.90, '2025-11-28 16:20:00'),
+(17, 5, 1, 149.90, '2025-12-12 10:15:00'),
+(18, 6, 1, 139.90, '2025-12-23 21:00:00'),
+-- 2026
+(19, 1, 1, 89.90, '2026-01-10 11:15:00'),
+(20, 2, 2, 51.50, '2026-01-28 15:45:00'),
+(21, 3, 1, 49.90, '2026-02-14 18:20:00'),
+(22, 4, 2, 99.90, '2026-02-27 10:30:00'),
+(23, 5, 1, 149.90, '2026-03-16 14:10:00'),
+(24, 6, 1, 139.90, '2026-03-30 17:25:00'),
+(25, 1, 1, 89.90, '2026-04-12 09:40:00'),
+(26, 2, 1, 51.50, '2026-04-25 13:55:00'),
+(27, 3, 1, 49.90, '2026-05-08 16:15:00'),
+(28, 4, 1, 99.90, '2026-05-22 11:50:00'),
+(29, 5, 1, 149.90, '2026-06-02 15:20:00'),
+(29, 6, 1, 139.90, '2026-06-02 15:20:00'),
+(30, 6, 1, 139.90, '2026-06-05 19:10:00');
 
--- 6. Insertar Detalle de Pedido
-INSERT INTO pedido_detalles (pedido_id, producto_detalle_id, cantidad, precio_unitario) 
-VALUES (1, 1, 1, 150.00);
 
--- 7. Insertar Venta
-INSERT INTO ventas (pedido_id, tipo_comprobante, serie_correlativo, metodo_pago, subtotal, igv, total) 
-VALUES (1, 'BOLETA', 'B001-000045', 'YAPE', 127.12, 22.88, 150.00);
+-- COMPROBANTES
 
--- 8. Insertar Detalle de Venta
-INSERT INTO ventas_detalles (
-    venta_id, 
-    producto_detalle_id, 
-    cantidad, 
-    precio_unitario, 
-    subtotal
-) 
-VALUES (
-    1,          -- Corresponde al ID de la venta que acabamos de crear
-    1,          -- ID del producto variante (Ej: Sudadera Negra M)
-    1,          -- Llevó 1 unidad
-    127.12,     -- Precio unitario sin IGV
-    127.12      -- Subtotal de esta línea (1 x 127.12)
-);
+INSERT INTO ventas (pedido_id, tipo_comprobante, serie_correlativo, metodo_pago, fecha_emision, subtotal, igv, total) VALUES 
+-- 2025
+(1, 'BOLETA', 'B001-000001', 'YAPE', '2025-01-15 10:32:00', 76.19, 13.71, 89.90),
+(2, 'FACTURA', 'F001-000001', 'TARJETA_CREDITO', '2025-01-22 14:18:00', 43.64, 7.86, 51.50),
+(3, 'BOLETA', 'B001-000002', 'EFECTIVO', '2025-02-05 16:46:00', 42.29, 7.61, 49.90),
+(4, 'BOLETA', 'B001-000003', 'YAPE', '2025-02-18 11:22:00', 84.66, 15.24, 99.90),
+(5, 'FACTURA', 'F001-000002', 'TARJETA_DEBITO', '2025-03-12 09:15:00', 127.03, 22.87, 149.90),
+(6, 'BOLETA', 'B001-000004', 'YAPE', '2025-03-29 18:36:00', 118.56, 21.34, 139.90),
+(7, 'BOLETA', 'B001-000005', 'EFECTIVO', '2025-04-14 15:25:00', 152.37, 27.43, 179.80),
+(8, 'FACTURA', 'F001-000003', 'TARJETA_CREDITO', '2025-05-03 13:42:00', 87.29, 15.71, 103.00),
+(9, 'BOLETA', 'B001-000006', 'PAYPAL', '2025-06-21 20:18:00', 42.29, 7.61, 49.90),
+(10, 'BOLETA', 'B001-000007', 'YAPE', '2025-07-08 10:10:00', 84.66, 15.24, 99.90),
+(11, 'FACTURA', 'F001-000004', 'TARJETA_DEBITO', '2025-08-19 17:55:00', 127.03, 22.87, 149.90),
+(12, 'BOLETA', 'B001-000008', 'YAPE', '2025-09-02 12:18:00', 118.56, 21.34, 139.90),
+(13, 'BOLETA', 'B001-000009', 'EFECTIVO', '2025-10-10 14:35:00', 76.19, 13.71, 89.90),
+(14, 'FACTURA', 'F001-000005', 'TARJETA_CREDITO', '2025-10-25 19:46:00', 43.64, 7.86, 51.50),
+(15, 'FACTURA', 'F001-000006', 'TARJETA_DEBITO', '2025-11-15 11:05:00', 211.69, 38.11, 249.80),
+(16, 'BOLETA', 'B001-000010', 'YAPE', '2025-11-28 16:22:00', 84.66, 15.24, 99.90),
+(17, 'BOLETA', 'B001-000011', 'EFECTIVO', '2025-12-12 10:18:00', 127.03, 22.87, 149.90),
+(18, 'FACTURA', 'F001-000007', 'TARJETA_CREDITO', '2025-12-23 21:05:00', 118.56, 21.34, 139.90),
+-- 2026
+(19, 'BOLETA', 'B001-000012', 'YAPE', '2026-01-10 11:18:00', 76.19, 13.71, 89.90),
+(20, 'FACTURA', 'F001-000008', 'TARJETA_CREDITO', '2026-01-28 15:46:00', 87.29, 15.71, 103.00),
+(21, 'BOLETA', 'B001-000013', 'EFECTIVO', '2026-02-14 18:22:00', 42.29, 7.61, 49.90),
+(22, 'BOLETA', 'B001-000014', 'YAPE', '2026-02-27 10:35:00', 169.32, 30.48, 199.80),
+(23, 'FACTURA', 'F001-000009', 'TARJETA_DEBITO', '2026-03-16 14:15:00', 127.03, 22.87, 149.90),
+(24, 'BOLETA', 'B001-000015', 'YAPE', '2026-03-30 17:28:00', 118.56, 21.34, 139.90),
+(25, 'BOLETA', 'B001-000016', 'EFECTIVO', '2026-04-12 09:42:00', 76.19, 13.71, 89.90),
+(26, 'FACTURA', 'F001-000010', 'TARJETA_CREDITO', '2026-04-25 13:58:00', 43.64, 7.86, 51.50),
+(27, 'BOLETA', 'B001-000017', 'PAYPAL', '2026-05-08 16:18:00', 42.29, 7.61, 49.90),
+(28, 'BOLETA', 'B001-000018', 'YAPE', '2026-05-22 11:52:00', 84.66, 15.24, 99.90),
+(29, 'FACTURA', 'F001-000011', 'TARJETA_DEBITO', '2026-06-02 15:25:00', 245.59, 44.21, 289.80),
+(30, 'BOLETA', 'B001-000019', 'YAPE', '2026-06-05 19:12:00', 118.56, 21.34, 139.90);
+
+
+-- DETALLES DE VENTA
+
+INSERT INTO ventas_detalles (venta_id, producto_detalle_id, cantidad, precio_unitario, subtotal) VALUES 
+-- 2025
+(1, 1, 1, 76.19, 76.19),     (2, 2, 1, 43.64, 43.64),     (3, 3, 1, 42.29, 42.29),
+(4, 4, 1, 84.66, 84.66),     (5, 5, 1, 127.03, 127.03),   (6, 6, 1, 118.56, 118.56),
+(7, 1, 2, 76.19, 152.37),    (8, 2, 2, 43.64, 87.29),     (9, 3, 1, 42.29, 42.29),
+(10, 4, 1, 84.66, 84.66),    (11, 5, 1, 127.03, 127.03),  (12, 6, 1, 118.56, 118.56),
+(13, 1, 1, 76.19, 76.19),    (14, 2, 1, 43.64, 43.64),    (15, 4, 1, 84.66, 84.66),
+(15, 5, 1, 127.03, 127.03),  (16, 4, 1, 84.66, 84.66),    (17, 5, 1, 127.03, 127.03),
+(18, 6, 1, 118.56, 118.56),
+-- 2026
+(19, 1, 1, 76.19, 76.19),    (20, 2, 2, 43.64, 87.29),    (21, 3, 1, 42.29, 42.29),
+(22, 4, 2, 84.66, 169.32),   (23, 5, 1, 127.03, 127.03),  (24, 6, 1, 118.56, 118.56),
+(25, 1, 1, 76.19, 76.19),    (26, 2, 1, 43.64, 43.64),    (27, 3, 1, 42.29, 42.29),
+(28, 4, 1, 84.66, 84.66),    (29, 5, 1, 127.03, 127.03),  (29, 6, 1, 118.56, 118.56),
+(30, 6, 1, 118.56, 118.56);

@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/pago")
@@ -73,29 +74,50 @@ public class CheckoutController {
     }
 
     @GetMapping("/respuesta")
-    public String capturarRespuestaPayU(
-            @RequestParam("transactionState")     int transactionState,
-            @RequestParam("referenceCode")        String referenceCode,
-            @RequestParam("polPaymentMethodType") String metodoUsado,
-            Model model) {
+    public String capturarRespuestaPayU(@RequestParam Map<String, String> parametrosPayU, Model model) {
+        try {
+            // 1. Extrae los datos clave del diccionario de PayU
+            String referenceCode = parametrosPayU.get("referenceCode");
+            String transactionState = parametrosPayU.get("transactionState");
+            
+            // Prioriza leer el nombre legible de la tarjeta, si no viene, se lee el genérico
+            String metodoUsado = parametrosPayU.getOrDefault("lapPaymentMethod", 
+                                 parametrosPayU.getOrDefault("polPaymentMethodType", "Desconocido"));
 
-        // Extraemos el ID de la venta desde el código de referencia (LMLL-VENTA-XX)
-        Long ventaId = Long.parseLong(referenceCode.replace("LMLL-VENTA-", ""));
-        Venta venta  = ventaRepository.findById(ventaId).orElseThrow();
+            if (referenceCode == null) {
+                return "redirect:/"; // Seguridad: Si alguien entra a la URL manualmente, lo bota a inicio
+            }
 
-        // Estados de PayU: 4 = Aprobado, 6 = Declarado Rechazado, 7 = Pendiente
-        if (transactionState == 4) {
-            // Actualizamos base de datos a PAGADO
-            ventaService.completarVentaExitosa(venta, metodoUsado);
+            // 2. Limpia el ID y buscar la venta
+            Long ventaId = Long.parseLong(referenceCode.replace("LMLL-VENTA-", "").trim());
+            Venta venta = ventaRepository.findById(ventaId)
+                    .orElseThrow(() -> new RuntimeException("No se encontró la venta en la base de datos"));
+
+            // 3. Procesa el estado (PayU envía "4" cuando la tarjeta fue Aprobada)
+            if ("4".equals(transactionState)) {
+                
+                // Evita actualizar doble si el usuario recarga la página
+                if (venta.getPedido().getEstado() != EstadoPedido.PAGADO) {
+                    ventaService.completarVentaExitosa(venta, metodoUsado);
+                }
+                
                 model.addAttribute("status", "EXITOSO");
                 model.addAttribute("mensaje", "Tu pago fue procesado con éxito. ¡Gracias por tu compra!");
-        } else {
+            } else {
                 model.addAttribute("status", "RECHAZADO");
-                model.addAttribute("mensaje", "La transacción fue rechazada o se encuentra en estado pendiente.");
-        }
+                model.addAttribute("mensaje", "La transacción fue rechazada o se encuentra pendiente.");
+            }
 
-        model.addAttribute("venta", venta);
-        return "pago-resultado"; // Muestra el fin del flujo al cliente
+            model.addAttribute("venta", venta);
+            return "pago-resultado";
+
+        } catch (Exception e) {
+            // Si cualquier cosa falla (ej. el ID fue manipulado), atrapa el error 
+            System.out.println("Error procesando callback de PayU: " + e.getMessage());
+            model.addAttribute("status", "ERROR");
+            model.addAttribute("mensaje", "Hubo un problema verificando tu pago, pero no te preocupes. Si se hizo un cobro, contáctanos.");
+            return "pago-resultado";
+        }
     }
 
     // Utilidad estándar de Java para cálculo de firmas de seguridad hash

@@ -3,10 +3,41 @@
    ================================== */
 document.addEventListener("DOMContentLoaded", () => {
     // -- POPUP PROMO --//
-    const popupmodal = document.getElementById("promo-modal");
-    if (popupmodal) {
-        setTimeout(() => { popupmodal.style.display = "flex"; }, 1000);
-        document.getElementById("close-modal")?.addEventListener("click", () => popupmodal.style.display = "none");
+    const PROMO_KEY = "lmllPromoSeenAt";
+    const PROMO_INTERVAL_DAYS = 14;
+
+    function initPromoModal() {
+        const popup = document.getElementById("promo-modal");
+        if (!popup) return;
+
+        const closeButtons = popup.querySelectorAll("#close-modal, .close-btn, .btn-lmll");
+        const lastShown = Number(localStorage.getItem(PROMO_KEY) || 0);
+        const daysSinceShown = (Date.now() - lastShown) / (1000 * 60 * 60 * 24);
+        const shouldShow = !lastShown || daysSinceShown >= PROMO_INTERVAL_DAYS;
+
+        function closePromo() {
+            popup.style.display = "none";
+            popup.setAttribute("aria-hidden", "true");
+            localStorage.setItem(PROMO_KEY, String(Date.now()));
+        }
+
+        if (shouldShow) {
+            window.setTimeout(() => {
+                popup.style.display = "flex";
+                popup.setAttribute("aria-hidden", "false");
+            }, 900);
+        } else {
+            popup.style.display = "none";
+            popup.setAttribute("aria-hidden", "true");
+        }
+
+        closeButtons.forEach((button) => button.addEventListener("click", closePromo));
+        popup.addEventListener("click", (event) => {
+            if (event.target === popup) closePromo();
+        });
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && popup.style.display === "flex") closePromo();
+        });
     }
 
     //-- BANNER CARRUSEL  --//
@@ -117,9 +148,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (carrito.length === 0) {
             contenedorItems.innerHTML = `
-      <p style="font-size:.82rem; color:#888; text-align:center; padding:1.5rem 0;">
-        Tu bolsa está vacía.<br>¡Añade algo especial!
-      </p>`;
+            <p style="font-size:.82rem; color:#888; text-align:center; padding:1.5rem 0;">
+                Tu bolsa está vacía.<br>¡Añade algo especial!
+            </p>`;
         }
 
         carrito.forEach(function (item, index) {
@@ -133,22 +164,22 @@ document.addEventListener("DOMContentLoaded", () => {
             div.dataset.index = index;
 
             div.innerHTML = `
-      <div style="display:flex; gap:10px; align-items:center;">
-        <img src="${item.imagen}" style="width:50px; height:50px; object-fit:cover; border-radius:4px;">
-        <div style="flex-grow:1;">
-          <strong style="display:block; font-size:0.9rem;">${item.nombre}</strong>
-          <small>S/ ${item.precio.toFixed(2)}</small>
-        </div>
-      </div>
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
-        <div class="cant-controls">
-          <button class="btn-restar btn btn-sm btn-light">-</button>
-          <span class="mx-2">${item.cantidad}</span>
-          <button class="btn-sumar btn btn-sm btn-light">+</button>
-        </div>
-        <button class="btn-eliminar text-danger" style="background:none; border:none; font-size:0.8rem;">Eliminar</button>
-      </div>
-    `;
+                <div style="display:flex; gap:10px; align-items:center;">
+                    <img src="${item.imagen}" style="width:50px; height:50px; object-fit:cover; border-radius:4px;">
+                        <div style="flex-grow:1;">
+                            <strong style="display:block; font-size:0.9rem;">${item.nombre}</strong>
+                            <small>S/ ${item.precio.toFixed(2)}</small>
+                        </div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <div class="cant-controls">
+                        <button class="btn-restar btn btn-sm btn-light">-</button>
+                            <span class="mx-2">${item.cantidad}</span>
+                        <button class="btn-sumar btn btn-sm btn-light">+</button>
+                    </div>
+                        <button class="btn-eliminar text-danger" style="background:none; border:none; font-size:0.8rem;">Eliminar</button>
+                </div>
+            `;
             contenedorItems.appendChild(div);
         });
 
@@ -224,5 +255,6 @@ document.addEventListener("DOMContentLoaded", () => {
     //-- Inicialización --//
     cargarCarrito();
     actualizarCarrito();
+    initPromoModal();
 
 });

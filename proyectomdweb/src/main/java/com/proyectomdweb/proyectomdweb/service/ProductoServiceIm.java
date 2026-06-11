@@ -58,7 +58,7 @@ public class ProductoServiceIm implements ProductoService {
         }
         Producto productoGuardado;
 
-        // 3. Lógica de Creación vs Actualización
+        // 3. Lógica de Creacion y Actualización
         if (productoDto.id() == null) {
             // Si es NUEVO: Usa el mapper para convertir el DTO a Entidad
             Producto nuevoProducto = productoMapper.toEntity(productoDto, categoria);
@@ -74,7 +74,7 @@ public class ProductoServiceIm implements ProductoService {
             existente.setImagenUrl(productoDto.imagenUrl());
             existente.setPrecioBase(productoDto.precioBase());
             existente.setDisponibilidad(productoDto.disponibilidad());
-            existente.setCategoria(categoria); // Asignamos la categoría real que buscamos arriba
+            existente.setCategoria(categoria); 
 
             productoGuardado = productoRepository.save(existente);
         }
@@ -114,7 +114,6 @@ public class ProductoServiceIm implements ProductoService {
                 .stream().map(productoMapper::toDto).toList();
     }
     
-    // Método auxiliar por si necesitas enlazar el producto real a una tabla de Pedidos/Ventas
     @Override
     @Transactional(readOnly = true)
     public Producto obtenerEntidadPorId(Long id) {

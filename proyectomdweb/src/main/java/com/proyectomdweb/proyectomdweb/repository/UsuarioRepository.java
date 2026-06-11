@@ -9,6 +9,5 @@ import java.util.Optional;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     
-    // Método clave para buscar por email durante el inicio de sesión
     Optional<Usuario> findByEmail(String email);
 }

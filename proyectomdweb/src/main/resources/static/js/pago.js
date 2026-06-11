@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (carrito.length === 0) {
             contenedorResumen.innerHTML = "<p>No hay productos en tu bolsa.</p>";
-            // Redirigir si intentan entrar a pagar con carrito vacío
+            // Redirige a productos si intentan entrar a pagar con carrito vacío
             setTimeout(() => { window.location.href = "productos.html"; }, 2000);
             return;
         }
@@ -43,14 +43,16 @@ document.addEventListener("DOMContentLoaded", function() {
             const div = document.createElement("div");
             div.className = "d-flex justify-content-between align-items-center mb-3";
             div.innerHTML = `
-                <div class="d-flex align-items-center">
-                    <img src="${item.imagen}" alt="${item.nombre}" style="width: 45px; height: 45px; object-fit: cover; border-radius: 5px;" class="me-2">
+                <div class="d-flex align-items-center gap-3">
+                    <img src="${item.imagen}" alt="${item.nombre}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-2);">
                     <div>
-                        <h6 class="mb-0" style="font-size: 0.9rem;">${item.nombre}</h6>
-                        <small class="text-muted">Cant: ${item.cantidad}</small>
+                        <h6 class="mb-0" style="font-family: 'Batang', serif; font-size: 0.95rem; color: var(--txt);">${item.nombre}</h6>
+                            <small class="text-muted-1" style="font-size: 0.8rem;">Cant: ${item.cantidad}</small>
                     </div>
                 </div>
-                <span class="fw-bold">S/ ${subtotal.toFixed(2)}</span>
+                <span class="fw-bold text-brand" style="font-family: 'Batang', serif; font-size: 1rem;">
+                    S/ ${subtotal.toFixed(2)}
+                </span>
             `;
             contenedorResumen.appendChild(div);
         });
@@ -65,7 +67,6 @@ document.addEventListener("DOMContentLoaded", function() {
             if (this.value === "wallet") {
                 cardDetails.classList.add("d-none");
                 walletDetails.classList.remove("d-none");
-                // Quitar 'required' de los inputs de tarjeta para que el form sea válido
                 cardDetails.querySelectorAll('input').forEach(i => i.required = false);
             } else {
                 cardDetails.classList.remove("d-none");
@@ -84,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // B. Valida que los campos obligatorios no estén vacíos
         if (!checkoutForm.checkValidity()) {
-            e.preventDefault(); // SÓLO bloquea el envío si el formulario es INVÁLIDO
+            e.preventDefault(); 
             e.stopPropagation();
         }
         
@@ -94,20 +95,17 @@ document.addEventListener("DOMContentLoaded", function() {
         
         //-- 5. RECOLECTAR DATOS DEL FORMULARIO --//
 
-        // Se buscan los inputs de la sección de "Datos de Envío"
         const inputsEnvio = document.querySelectorAll('.form-section:first-of-type input');
         const nombre    = inputsEnvio[0].value;
         const telefono  = inputsEnvio[1].value;
         const direccion = inputsEnvio[2].value;
-
         const metodoPago  = document.querySelector('input[name="payment_method"]:checked').value;
 
-        // Calcula el total usando el carrito actual
         const totalPagar = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
 
         // -- 6. ARMAR EL PAQUETE JSON --//
 
-        // Los nombres coincidir EXACTAMENTE con el CheckoutRequestDTO en Java
+        // Los nombres deben coincidir EXACTAMENTE con el CheckoutRequestDTO en Java
         const payload = {
             clienteNombre: nombre,
             clienteTelefono: telefono,

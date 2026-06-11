@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // 1. Seleccionar automáticamente el mes actual
     filtroMes.value = mesActual;
 
-    // 2. Generar los años dinámicamente (Desde que abriste la tienda hasta el presente)
+    // 2. Generar los años dinámicamente
     const anioAperturaTienda = 2025; 
     
     filtroAnio.innerHTML = '';
@@ -120,6 +120,5 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Dibujar la gráfica automáticamente al cargar la página
     cargarDatosGrafica();
 });

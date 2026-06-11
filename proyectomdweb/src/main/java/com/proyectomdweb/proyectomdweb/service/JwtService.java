@@ -14,8 +14,8 @@ import java.util.function.Function;
 public class JwtService {
 
     // Llave secreta segura generada para firmar los tokens
-    private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private static final long EXPIRATION_TIME = 900000; // 15 min en milisegundos
+    private static final Key SECRET_KEY       = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private static final long EXPIRATION_TIME = 1800000; // 15 min en milisegundos
 
     public String generarToken(UserDetails userDetails) {
         return Jwts.builder()

@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface ProductoService {
     
-    // Métodos de lectura que devuelven DTOs (Listos para la vista)
+    // Metodos de lectura que devuelven DTOs (Listos para la vista)
     List<ProductoDTO> listarTodos();
     Optional<ProductoDTO> buscarPorId(Long id);
     List<ProductoDTO> buscarPorCategoriaId(Long categoriaId);
@@ -16,7 +16,6 @@ public interface ProductoService {
     List<ProductoDTO> filtrar(String genero, Long categoriaId);
     
     // Métodos de escritura
-    // Nota: Por ahora recibe la Entidad, pero a futuro lo ideal es que reciba un DTO de entrada.
     ProductoDTO guardar(ProductoDTO productoDto);
     void eliminar(Long id);
     

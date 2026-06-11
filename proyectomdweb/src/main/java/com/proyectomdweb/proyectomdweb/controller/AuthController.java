@@ -35,32 +35,32 @@ public class AuthController {
                                 @RequestParam("password") String password, 
                                 HttpServletResponse response) {
         try {
-            // 1. Autenticar al usuario
+            // 1. Autentica al usuario
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             
-            // 2. Crear Token JWT
+            // 2. Crea Token JWT
             String token = jwtService.generarToken(userDetails);
             
-            // 3. Almacenar en una Cookie Segura
+            // 3. Almacena en una Cookie Segura
             Cookie cookie = new Cookie("jwt_token", token);
             cookie.setHttpOnly(true);  // Protege contra ataques XSS (JS no puede leerla)
-            cookie.setSecure(false);    // Cambiar a true si se usa HTTPS en producción
+            cookie.setSecure(false);    // Cambiar a true para producciones reales
             cookie.setPath("/");          // Disponible en toda la aplicación
             cookie.setMaxAge(86400);  // Duración de 1 día
             response.addCookie(cookie);
             
-            //  4. Verificar si es administrador
+            //  4. Verifica si es administrador
             boolean isAdmin = userDetails.getAuthorities().stream()
                     .anyMatch(rol -> rol.getAuthority().equals("ROLE_ADMIN"));
             
             if (isAdmin) {
                 return "redirect:/admin/dashboard"; // Ruta al panel de control de admin
             } 
-            // 5. Mandar clientes normales al index.html de la tienda
+            // 5. Manda clientes normales al index.html de la tienda
             return "redirect:/"; 
         } catch (Exception e) {
-            return "redirect:/auth/login?error=true"; // Error de credenciales
+            return "redirect:/auth/login?error=true"; 
         }
     }
     // Metodo para cerrar sesión destruyendo la cookie
@@ -69,7 +69,7 @@ public class AuthController {
         Cookie cookie = new Cookie("jwt_token", null);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
-        cookie.setMaxAge(0); // Esto le dice al navegador: "Borra la cookie inmediatamente"
+        cookie.setMaxAge(0); // Esto borra la cookie inmediatamente
         response.addCookie(cookie);
         return "redirect:/";
     }
@@ -84,14 +84,14 @@ public class AuthController {
     @PostMapping("/registro")
     public String procesarRegistro(@Valid @ModelAttribute UsuarioRegistroDTO registroDTO) {
 
-        // 1. Verificar si el correo ya está registrado
+        // 1. Verifica si el correo ya está registrado
         if (usuarioService.existePorEmail(registroDTO.getEmail())) {
             return "redirect:/auth/registro?error=email";
         }
         // 2. El UsuarioService se encarga de mapear, encriptar y guardar internamente
         usuarioService.registrarNuevoUsuario(registroDTO);
 
-        // 3. Redirigir al login con un mensaje de éxito
+        // 3. Redirige al login con un mensaje de éxito
         return "redirect:/auth/login?exito=registro";
     }
 

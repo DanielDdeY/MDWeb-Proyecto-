@@ -60,7 +60,7 @@
 
         <!-- Links + acciones -->
         <div class="collapse navbar-collapse" id="navMenu">
-          <ul class="site-nav navbar-nav mx-auto gap-1">
+          <ul class="site-nav navbar-nav me-auto ms-4 gap-2">
             <li class="nav-item">
               <a class="nav-link active" th:href="@{/}">Inicio</a>
             </li>
@@ -72,8 +72,8 @@
             </li>
           </ul>
 
-          <!-- Botón carrito -->
-          <div class="d-flex align-items-center mt-2 mt-md-0">
+          <div class="d-flex align-items-center mt-2 mt-md-0 gap-3">
+            
             <button
               id="carrito-toggle"
               class="cart-btn"
@@ -81,21 +81,24 @@
             >
               <i class="bi bi-bag" style="font-size: 0.95rem"></i>
               <span>Bolsa</span>
-              <span class="cart-badge" id="cart-count" style="display: none"
-                >0</span>
+              <span class="cart-badge" id="cart-count" style="display: none"></span>
             </button>
-              <a sec:authorize="isAnonymous()" th:href="@{/auth/login}" class="btn btn-outline-dark" style="border-radius: 0;">
-                <i class="bi bi-person me-1"></i> Iniciar Sesión
-              </a>
+            
+            <a sec:authorize="isAnonymous()" th:href="@{/auth/login}" class="btn-lmll btn-outline-lmll">
+              <i class="bi bi-person me-1"></i> Entrar
+            </a>
 
-              <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/dashboard}" class="btn btn-dark" style="border-radius: 0;">
-                <i class="bi bi-gear me-1"></i> Panel Admin
-              </a>
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/dashboard}" class="btn-lmll btn-primary-lmll">
+              <i class="bi bi-gear-fill me-1"></i> Admin
+            </a>
 
-            <div sec:authorize="isAuthenticated()" class="d-flex align-items-center gap-2">
-            <span class="text-muted small">Hola, <span sec:authentication="name"></span></span>
-              <a th:href="@{/auth/logout}" class="btn btn-sm btn-outline-danger" title="Cerrar Sesión" style="border-radius: 0;">
-                <i class="bi bi-box-arrow-right"></i>
+            <div sec:authorize="isAuthenticated()" class="d-flex align-items-center gap-3">
+              <span class="text-muted-1 display-font" style="font-size: 0.95rem; letter-spacing: 0.5px;">
+                Hola, <strong style="color: var(--txt);" sec:authentication="name"></strong>
+              </span>
+              
+              <a th:href="@{/auth/logout}" class="btn-lmll" style="background-color: #ffffff; color: #000000; border: none; padding: 0.45rem 0.8rem;" title="Cerrar Sesión">
+                <i class="bi bi-box-arrow-right m-0" style="font-size: 1.1rem;"></i>
               </a>
             </div>
 

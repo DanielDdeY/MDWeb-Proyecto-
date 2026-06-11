@@ -49,7 +49,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navMenu">
-          <ul class="site-nav navbar-nav mx-auto gap-1">
+          <ul class="site-nav navbar-nav me-auto ms-4 gap-2">
             <li class="nav-item">
               <a class="nav-link" th:href="@{/}">Inicio</a>
             </li>
@@ -67,70 +67,83 @@
     <!-- ===================
          CONTENIDO PRINCIPAL
          =================== -->
-  <main class="py-5">
+<main class="py-4">
   <div class="container">
-    <div class="mb-4">
-      <h1 class="display-font" style="font-size: 2.5rem; font-weight: 600;">Finalizar <em style="font-style: normal; color: #666;">Compra</em></h1>
+    
+    <div class="mb-5 text-center checkout-hero">
+      <h1 class="display-font checkout-title">
+        Finalizar <em style="color: var(--brand);">Compra</em>
+      </h1>
+      <p class="checkout-subtitle">Completa tus datos para procesar tu pedido de forma segura.</p>
     </div>
 
     <form id="checkout-form" th:action="@{/pago/procesar-local}" method="POST" class="needs-validation" novalidate>
-      <div class="row g-5 align-items-start">
+      <div class="row g-4 align-items-start">
         
         <div class="col-lg-7">
-          <div class="mb-4 p-4 border">
-            <h2 class="h5 mb-3"><i class="bi bi-geo-alt me-2"></i>Datos de Envío</h2>
-            <div class="row g-3">
+          <div class="card-lmll mb-4">
+            <h2 class="display-font h4 mb-4 text-gold"><i class="bi bi-geo-alt me-2"></i>Datos de Envío</h2>
+            <div class="row g-4">
               <div class="col-md-6">
-                <label class="form-label">Nombre completo</label>
+                <label class="form-label-lmll">Nombre completo</label>
                 <input type="text" name="clienteNombre" class="form-control form-input-lmll" required>
               </div>
               <div class="col-md-6">
-                <label class="form-label">Teléfono (9 dígitos)</label>
+                <label class="form-label-lmll">Teléfono (9 dígitos)</label>
                 <input type="tel" name="clienteTelefono" class="form-control form-input-lmll" maxlength="9" pattern="[0-9]{9}" required>
               </div>
               <div class="col-12">
-                <label class="form-label">Correo Electrónico</label>
+                <label class="form-label-lmll">Correo Electrónico</label>
                 <input type="email" name="clienteEmail" class="form-control form-input-lmll" placeholder="ejemplo@correo.com" required>
               </div>
             </div>
           </div>
 
-          <div class="mb-4 p-4 border">
-            <h2 class="h5 mb-3"><i class="bi bi-file-earmark-text me-2"></i>Tipo de Comprobante</h2>
-            <div class="d-flex gap-3">
-              <label class="comprobante-card flex-fill style-pointer" style="cursor: pointer;">
-                <input type="radio" name="tipoComprobante" value="BOLETA" checked>
-                <div class="comprobante-content p-3 border text-center">
-                  <i class="bi bi-person mb-1 d-block h4"></i>
-                  <span>Boleta de Venta</span>
+          <div class="choice-grid" role="radiogroup" aria-label="Tipo de comprobante">
+                  <label class="choice-card">
+                    <input type="radio" name="tipoComprobante" value="BOLETA" checked>
+                    <span class="choice-card-content">
+                      <i class="bi bi-person-vcard"></i>
+                      <span class="choice-card-title">Boleta</span>
+                      <span class="choice-card-caption">Ideal para compras personales.</span>
+                    </span>
+                  </label>
+                  <label class="choice-card">
+                    <input type="radio" name="tipoComprobante" value="FACTURA">
+                    <span class="choice-card-content">
+                      <i class="bi bi-building"></i>
+                      <span class="choice-card-title">Factura</span>
+                      <span class="choice-card-caption">Para compras con RUC.</span>
+                    </span>
+                  </label>
                 </div>
-              </label>
-              <label class="comprobante-card flex-fill style-pointer" style="cursor: pointer;">
-                <input type="radio" name="tipoComprobante" value="FACTURA">
-                <div class="comprobante-content p-3 border text-center">
-                  <i class="bi bi-building mb-1 d-block h4"></i>
-                  <span>Factura (Requiere RUC)</span>
-                </div>
-              </label>
-            </div>
-          </div>
         </div>
 
         <div class="col-lg-5">
-          <div class="p-4 border" style="background-color: #fafafa;">
-            <h3 class="h5 mb-4" style="border-bottom: 2px solid #000; padding-bottom: 10px;">Resumen de tu bolsa</h3>
-            <div id="pago-productos-lista" class="mb-4">
-               </div>
-            <div class="d-flex justify-content-between align-items-end mb-4">
-              <span class="fw-bold">Total a pagar</span>
-              <span class="h3 display-font mb-0">S/ <span id="pago-total">0.00</span></span>
+          <div class="checkout-resumen-card sticky-summary">
+            
+            <div class="checkout-resumen-header">
+              <h3 class="display-font mb-0 text-white">Resumen de tu bolsa</h3>
+            </div>
+            
+            <div class="checkout-resumen-content">
+              <div id="pago-productos-lista" class="mb-4">
+                  </div>
+              
+              <div class="checkout-divider"></div>
+              
+              <div class="checkout-total-box mt-0 mb-4">
+                <span class="checkout-total-label">Total a pagar</span>
+                <span class="checkout-total-price display-font">S/ <span id="pago-total">0.00</span></span>
+              </div>
+
+              <input type="hidden" id="input-total-hidden" name="total">
+
+              <button type="submit" class="btn-lmll btn-primary-lmll checkout-btn-main w-100 py-3">
+                <i class="bi bi-credit-card-2-front-fill me-2"></i> Ir a la pasarela segura
+              </button>
             </div>
 
-            <input type="hidden" id="input-total-hidden" name="total">
-
-            <button type="submit" class="btn-lmll w-100 py-3">
-              <i class="bi bi-credit-card-2-front-fill me-2"></i> Ir a la pasarela segura
-            </button>
           </div>
         </div>
 

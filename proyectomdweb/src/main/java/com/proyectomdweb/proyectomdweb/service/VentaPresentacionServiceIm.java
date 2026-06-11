@@ -18,7 +18,7 @@ import java.util.Random;
 public class VentaPresentacionServiceIm implements VentaPresentacionService {
 
     private final PedidoRepository pedidoRepository;
-    private final VentaRepository ventaRepository;
+    private final VentaRepository  ventaRepository;
 
     @Override
     @Transactional
