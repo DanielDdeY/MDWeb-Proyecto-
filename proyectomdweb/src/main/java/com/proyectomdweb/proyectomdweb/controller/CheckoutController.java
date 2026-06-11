@@ -34,7 +34,7 @@ public class CheckoutController {
         return "pago";
     }
 
-@PostMapping("/procesar-local")
+    @PostMapping("/procesar-local")
     public String procesarLocalYPrepararPayU(
             @RequestParam("total")           BigDecimal total, 
             @RequestParam("tipoComprobante") String tipoComprobante,

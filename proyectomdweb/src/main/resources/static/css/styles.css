@@ -60,7 +60,7 @@ a {
 
 /* ── 3. COMPONENTES GLOBALES (Cards, Botones, Inputs) ──────── */
 /* Consolidación de todas las tarjetas y paneles del sistema */
-.card-lmll, .card-oferta, .product-card-lmll, .cart-main-panel, 
+.card-lmll, .card-oferta, .cart-main-panel, 
 .checkout-resumen-card, .carrito-full-container {
   background: var(--panel);
   border: 1px solid var(--border);
@@ -69,7 +69,7 @@ a {
   transition: transform var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
 
-.card-lmll:hover, .product-card-lmll:hover {
+.card-lmll:hover {
   transform: translateY(-4px);
   border-color: var(--border-2);
 }
@@ -166,17 +166,12 @@ a {
   margin-bottom: 2rem; 
   background: var(--panel); 
 }
-
-.banner-image { 
-  position: absolute; 
-  inset: 0; width: 100%; 
-  height: 100%; 
-  object-fit: cover; 
-  opacity: 0; 
-  transition: opacity 1s; 
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(13, 9, 9, 0.95) 0%, rgba(13, 9, 9, 0.3) 50%, transparent 100%);
+  z-index: 1;
 }
-
-.banner-image.active { opacity: 1; }
 .hero-body { 
   position: relative; 
   z-index: 2; 
@@ -192,10 +187,46 @@ a {
   font-size: clamp(2rem, 5vw, 3.5rem); 
   color: #fff; margin-bottom: 1rem; 
 }
-
 .hero-title em { 
   color: var(--brand); 
   font-style: italic; 
+}
+
+.banner-image { 
+  position: absolute; 
+  inset: 0; width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  opacity: 0; 
+  transition: opacity 1s; 
+}
+
+.banner-image.active { opacity: 1; }
+.banner-dots {
+  position: absolute;
+  bottom: 2.5rem; 
+  right: 3rem;
+  z-index: 3;
+  display: flex; 
+  gap: 10px;
+}
+.banner-dot {
+  width: 8px; 
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+}
+.banner-dot:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+.banner-dot.active {
+  background: var(--brand);
+  transform: scale(1.5);
+  box-shadow: 0 0 12px rgba(200, 16, 46, 0.6);
 }
 /* ── 6. UTILIDADES & LAYOUT ────────────────────────────────── */
 .blog-grid { 
@@ -292,12 +323,30 @@ a {
 }
 
 /* ── 8. PRODUCTOS & CHECKOUT ───────────────────────────────── */
+.product-card-lmll {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: all 0.4s var(--ease);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer; /* Hace que el usuario sepa que puede clickear toda la tarjeta */
+  position: relative;
+}
+.product-card-lmll:hover {
+  transform: translateY(-6px);
+  border-color: rgba(200, 16, 46, 0.4); /* Resalte rojo corporativo */
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4), 0 0 15px rgba(200, 16, 46, 0.1);
+}
 .product-img-wrap { 
   width: 100%; 
   aspect-ratio: 4/5; 
   background: var(--panel-2); 
   overflow: hidden; 
   border-radius: var(--radius-sm); 
+  position: relative; 
 }
 .product-img-wrap img { 
   width: 100%; 
@@ -314,6 +363,38 @@ a {
   font-size: 1.1rem; 
   font-weight: 600; 
   color: var(--brand); 
+}
+/* El contenedor del botón oculto */
+.product-overlay {
+  position: absolute;
+  bottom: 0; left: 0; width: 100%;
+  padding: 1.5rem;
+  background: linear-gradient(to top, rgba(13, 9, 9, 0.95), transparent);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s var(--ease);
+  display: flex;
+  align-items: flex-end;
+  pointer-events: none; /* Deja que el click pase a la tarjeta padre */
+}
+
+/* AQUÍ ESTÁ LA MAGIA: Aparece al hacer hover en la tarjeta */
+.product-card-lmll:hover .product-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mejora visual del botón Añadir a Bolsa */
+.product-overlay .btn-primary-lmll {
+  background: rgba(200, 16, 46, 0.95);
+  backdrop-filter: blur(4px); /* Efecto cristal */
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 4px 15px rgba(200, 16, 46, 0.3);
+  pointer-events: auto; /* El botón en sí es clickeable */
+}
+
+.product-overlay .btn-primary-lmll:hover {
+  background: #e8213f;
 }
 
 .payment-methods-grid { 
